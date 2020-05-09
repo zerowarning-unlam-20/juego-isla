@@ -6,7 +6,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		//puto el q lee loco
 		int probando;
-		
+		int probando2;
 	}
 
 }
