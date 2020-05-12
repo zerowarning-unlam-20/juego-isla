@@ -2,18 +2,18 @@ package entidades;
 
 import java.util.LinkedList;
 
+import ObjetosJuego.Item;
+import ObjetosJuego.Ubicacion;
 import estados.Estado;
 import estados.Normal;
-import items.Item;
-import locaciones.Locacion;
 
 public class Personaje {
 	private String nombre;
-	private Locacion locacion;
+	private Ubicacion locacion;
 	private Estado estado;
 	private LinkedList<Item> inventario;
 
-	public Personaje(Locacion locacion) {
+	public Personaje(Ubicacion locacion) {
 		this.nombre = "Test";
 		this.estado = new Normal();
 		inventario = new LinkedList<Item>();
@@ -30,10 +30,8 @@ public class Personaje {
 				+ inventario;
 	}
 
-	public void cambiarLocacion(Locacion destino) {
-		if(!this.locacion.estaBloqueada(destino))
-			this.locacion = destino;
-		else System.out.println("No se puede pasar");
+	public void cambiarLocacion(Ubicacion destino) {
+		
 	}
 
 	public void ver() {
@@ -44,7 +42,7 @@ public class Personaje {
 
 	}
 
-	public Locacion getLocacion() {
+	public Ubicacion getLocacion() {
 		return locacion;
 	}
 }

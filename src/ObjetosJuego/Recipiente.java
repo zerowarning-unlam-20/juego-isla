@@ -1,10 +1,14 @@
-package items;
+package ObjetosJuego;
 
 public class Recipiente extends Item {
 	private Item liquido;
 
-	public Recipiente(String nombre, String descripcion) {
-		super(nombre, descripcion);
+	public Recipiente(int id, String nombre, String descripcion, boolean visible) {
+		super(id, nombre, descripcion, visible);
+	}
+	
+	public Recipiente(int id, String nombre, String descripcion) {
+		super(id, nombre, descripcion);
 	}
 
 	public Item getLiquido() {

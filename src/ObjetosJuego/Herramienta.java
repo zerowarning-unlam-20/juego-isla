@@ -1,12 +1,16 @@
-package items;
+package ObjetosJuego;
 
 import interfaces.Remable;
 import interfaces.Tirable;
 
 public class Herramienta extends Item implements Tirable, Remable {
 
-	public Herramienta(String nombre, String descripcion) {
-		super(nombre, descripcion);
+	public Herramienta(int id, String nombre, String descripcion, boolean visible) {
+		super(id, nombre, descripcion, visible);
+	}
+	
+	public Herramienta(int id, String nombre, String descripcion) {
+		super(id, nombre, descripcion);
 	}
 
 	@Override

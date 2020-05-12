@@ -1,6 +1,7 @@
 package interfaces;
 
 public interface Apertura {
-	public void abrir();
+	public boolean abrir();
+	public boolean desbloquear();
 	public void cerrar();
 }

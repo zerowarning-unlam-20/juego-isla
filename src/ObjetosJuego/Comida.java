@@ -1,14 +1,18 @@
-package items;
+package ObjetosJuego;
 
 import interfaces.Comible;
 
 public class Comida extends Item implements Comible {
 
-	public Comida(String nombre, String descripcion) {
-		super(nombre, descripcion);
-		// TODO Auto-generated constructor stub
+	public Comida(int id, String nombre, String descripcion, boolean visible) {
+		super(id, nombre, descripcion, visible);
 	}
 
+	public Comida(int id, String nombre, String descripcion) {
+		super(id, nombre, descripcion);
+	}
+
+	
 	@Override
 	public void comer() {
 		// TODO Auto-generated method stub

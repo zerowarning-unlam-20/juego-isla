@@ -1,4 +1,4 @@
-package items;
+package ObjetosJuego;
 
 import estados.Estado;
 import estados.Normal;
@@ -6,8 +6,12 @@ import interfaces.Tomable;
 
 public class Liquido extends Item implements Tomable {
 
-	public Liquido(String nombre, String descripcion) {
-		super(nombre, descripcion);
+	public Liquido(int id, String nombre, String descripcion, boolean visible) {
+		super(id, nombre, descripcion, visible);
+	}
+	
+	public Liquido(int id, String nombre, String descripcion) {
+		super(id, nombre, descripcion);
 	}
 
 	@Override
