@@ -17,31 +17,6 @@ public class Acceso extends Item implements Apertura {
 		this.idLlave = idLlave;
 	}
 
-	public Acceso(int id, String nombre, String descripcion, boolean bloqueado, boolean abierto, Ubicacion destino,
-			int idLlave) {
-		super(id, nombre, descripcion);
-		this.bloqueado = bloqueado;
-		this.abierto = abierto;
-		this.destino = destino;
-		this.idLlave = idLlave;
-	}
-
-	public Acceso(int id, String nombre, String descripcion, boolean visible, boolean bloqueado, boolean abierto,
-			Ubicacion destino) {
-		super(id, nombre, descripcion, visible);
-		this.bloqueado = bloqueado;
-		this.abierto = abierto;
-		this.destino = destino;
-		this.idLlave = 0;
-	}
-
-	public Acceso(int id, String nombre, String descripcion, boolean bloqueado, boolean abierto, Ubicacion destino) {
-		super(id, nombre, descripcion);
-		this.bloqueado = bloqueado;
-		this.abierto = abierto;
-		this.destino = destino;
-		this.idLlave = 0;
-	}
 
 	@Override
 	public void usar(Item objetivo) {

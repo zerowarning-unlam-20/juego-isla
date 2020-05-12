@@ -2,23 +2,23 @@ package ObjetosJuego;
 
 import java.util.List;
 
-public class Ubicacion extends ObjetoJuego{
-	private List<Ubicacion> locaciones;
+public class Ubicacion extends ObjetoJuego {
+	private List<Ubicacion> ubicaciones;
 	private List<Item> items;
 	private List<Acceso> accesos;
 	private boolean bloqueado;
 
-	public Ubicacion(int id, String nombre, String descripcion, boolean visible, List<Ubicacion> locaciones, List<Item> items,
-			List<Acceso> accesos, boolean bloqueada) {
+	public Ubicacion(int id, String nombre, String descripcion, boolean visible, List<Ubicacion> ubicaciones,
+			List<Item> items, List<Acceso> accesos, boolean bloqueado) {
 		super(id, nombre, descripcion, visible);
-		this.locaciones = locaciones;
+		this.setUbicaciones(ubicaciones);
 		this.items = items;
-		this.accesos = accesos;
-		this.bloqueado = bloqueada;
+		this.setAccesos(accesos);
+		this.bloqueado = bloqueado;
 	}
 
-	public List<Ubicacion> getLocaciones() {
-		return locaciones;
+	public List<Ubicacion> getUbicaciones() {
+		return ubicaciones;
 	}
 
 	public String getDescripcion() {
@@ -44,6 +44,14 @@ public class Ubicacion extends ObjetoJuego{
 
 	public void setBloqueado(boolean bloqueada) {
 		this.bloqueado = bloqueada;
+	}
+
+	public void setAccesos(List<Acceso> accesos) {
+		this.accesos = accesos;
+	}
+
+	public void setUbicaciones(List<Ubicacion> ubicaciones) {
+		this.ubicaciones = ubicaciones;
 	}
 
 }

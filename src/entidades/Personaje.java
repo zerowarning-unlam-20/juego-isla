@@ -20,21 +20,26 @@ public class Personaje {
 		this.ubicacion = locacion;
 	}
 
-	public void verAlrededor() {
-		ubicacion.getLocaciones();
+	public String verAlrededor() {
+		return ubicacion.getDescripcion();
+	}
+
+	public String verInventario() {
+		return inventario.isEmpty() ? "Inventario vacio" : "En el inventario hay " + inventario.toString();
 	}
 
 	@Override
 	public String toString() {
-		return "Nombre=" + nombre + "\n Locacion=" + ubicacion + "\n Estado=" + estado + "\n Inventario="
-				+ inventario;
+		return "Nombre=" + nombre + "\n Locacion=" + ubicacion + "\n Estado=" + estado + "\n Inventario=" + inventario;
 	}
 
 	public void cambiarUbicacion(Ubicacion destino) {
-        if(!destino.estaBloqueado()) {
-            this.ubicacion = destino;
-        }
-    }
+		if (ubicacion.getUbicaciones().contains(destino)) {
+			if (!destino.estaBloqueado()) {
+				this.ubicacion = destino;
+			}
+		}
+	}
 
 	public void ver() {
 
