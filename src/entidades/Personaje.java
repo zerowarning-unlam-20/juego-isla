@@ -9,7 +9,7 @@ import estados.Normal;
 
 public class Personaje {
 	private String nombre;
-	private Ubicacion locacion;
+	private Ubicacion ubicacion;
 	private Estado estado;
 	private LinkedList<Item> inventario;
 
@@ -17,22 +17,24 @@ public class Personaje {
 		this.nombre = "Test";
 		this.estado = new Normal();
 		inventario = new LinkedList<Item>();
-		this.locacion = locacion;
+		this.ubicacion = locacion;
 	}
 
 	public void verAlrededor() {
-		getLocacion().getLocaciones();
+		ubicacion.getLocaciones();
 	}
 
 	@Override
 	public String toString() {
-		return "Nombre=" + nombre + "\n Locacion=" + getLocacion() + "\n Estado=" + estado + "\n Inventario="
+		return "Nombre=" + nombre + "\n Locacion=" + ubicacion + "\n Estado=" + estado + "\n Inventario="
 				+ inventario;
 	}
 
-	public void cambiarLocacion(Ubicacion destino) {
-		
-	}
+	public void cambiarUbicacion(Ubicacion destino) {
+        if(!destino.estaBloqueado()) {
+            this.ubicacion = destino;
+        }
+    }
 
 	public void ver() {
 
@@ -42,7 +44,7 @@ public class Personaje {
 
 	}
 
-	public Ubicacion getLocacion() {
-		return locacion;
+	public Ubicacion getUbicacion() {
+		return ubicacion;
 	}
 }
