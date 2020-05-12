@@ -34,7 +34,7 @@ public class Acceso extends Item implements Apertura {
 		this.destino = destino;
 		this.idLlave = 0;
 	}
-	
+
 	public Acceso(int id, String nombre, String descripcion, boolean bloqueado, boolean abierto, Ubicacion destino) {
 		super(id, nombre, descripcion);
 		this.bloqueado = bloqueado;
@@ -61,7 +61,7 @@ public class Acceso extends Item implements Apertura {
 			bloqueado = false;
 		for (Acceso c : destino.getAccesos()) {
 			if (c.getId() == this.id) {
-				c.desbloquear();
+				c.bloqueado = false;
 				return true;
 			}
 		}
@@ -82,7 +82,7 @@ public class Acceso extends Item implements Apertura {
 			destino.setBloqueado(false);
 			for (Acceso c : destino.getAccesos()) {
 				if (c.getId() == this.id) {
-					c.abrir();
+					c.abierto = true;
 					posible = true;
 					break;
 				}
@@ -98,7 +98,7 @@ public class Acceso extends Item implements Apertura {
 			destino.setBloqueado(true);
 			for (Acceso c : destino.getAccesos()) {
 				if (c.getId() == this.id) {
-					c.cerrar();
+					c.abierto = false;
 					break;
 				}
 			}
