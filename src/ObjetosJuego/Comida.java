@@ -8,10 +8,8 @@ public class Comida extends Item implements Comible {
 		super(id, nombre, descripcion, visible);
 	}
 
-	public Comida(int id, String nombre, String descripcion) {
-		super(id, nombre, descripcion);
+	public Comida() {
 	}
-
 	
 	@Override
 	public void comer() {

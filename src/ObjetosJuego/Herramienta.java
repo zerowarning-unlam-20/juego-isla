@@ -9,8 +9,8 @@ public class Herramienta extends Item implements Tirable, Remable {
 		super(id, nombre, descripcion, visible);
 	}
 	
-	public Herramienta(int id, String nombre, String descripcion) {
-		super(id, nombre, descripcion);
+	public Herramienta() {
+		
 	}
 
 	@Override

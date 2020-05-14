@@ -37,8 +37,11 @@ public class Personaje {
 		if (ubicacion.getUbicaciones().contains(destino)) {
 			if (!destino.estaBloqueado()) {
 				this.ubicacion = destino;
+				System.out.println("Ubicacion cambiada");
+				return;
 			}
 		}
+		System.out.println("Ubicacion no cambiada");
 	}
 
 	public void ver() {

@@ -6,10 +6,6 @@ public class Recipiente extends Item {
 	public Recipiente(int id, String nombre, String descripcion, boolean visible) {
 		super(id, nombre, descripcion, visible);
 	}
-	
-	public Recipiente(int id, String nombre, String descripcion) {
-		super(id, nombre, descripcion);
-	}
 
 	public Item getLiquido() {
 		return liquido;

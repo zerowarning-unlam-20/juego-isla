@@ -7,6 +7,7 @@ public class Acceso extends Item implements Apertura {
 	private boolean bloqueado;
 	private int idLlave;
 	private Ubicacion destino;
+	private int idDestino;
 
 	public Acceso(int id, String nombre, String descripcion, boolean visible, boolean bloqueado, boolean abierto,
 			Ubicacion destino, int idLlave) {
@@ -14,9 +15,21 @@ public class Acceso extends Item implements Apertura {
 		this.bloqueado = bloqueado;
 		this.abierto = abierto;
 		this.destino = destino;
+		this.idDestino = destino.getId();
 		this.idLlave = idLlave;
 	}
 
+	public Acceso(int id, String nombre, String descripcion, boolean visible, boolean bloqueado, boolean abierto,
+			int idDestino, int idLlave) {
+		super(id, nombre, descripcion, visible);
+		this.bloqueado = bloqueado;
+		this.abierto = abierto;
+		this.idDestino = idDestino;
+		this.idLlave = idLlave;
+	}
+
+	public Acceso() {
+	}
 
 	@Override
 	public void usar(Item objetivo) {
@@ -45,8 +58,7 @@ public class Acceso extends Item implements Apertura {
 
 	@Override
 	public String toString() {
-		return "[" + this.nombre + " destino1=" + " destino2= " + ", abierto=" + abierto + ", bloqueado=" + bloqueado
-				+ "]";
+		return "[" + this.id + " - " + this.nombre + " destino=" + this.idDestino + "]";
 	}
 
 	@Override
@@ -90,6 +102,14 @@ public class Acceso extends Item implements Apertura {
 
 	public Ubicacion getDestino() {
 		return destino;
+	}
+
+	public void setDestino(Ubicacion otro) {
+		this.destino = otro;
+	}
+
+	public int getIdDestino() {
+		return idDestino;
 	}
 
 }

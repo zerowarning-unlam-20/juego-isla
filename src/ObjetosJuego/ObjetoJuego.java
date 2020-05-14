@@ -13,11 +13,9 @@ public abstract class ObjetoJuego {
 		this.visible = visible;
 	}
 	
-	public ObjetoJuego(int id, String nombre, String descripcion) {
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.visible = true;
+	public ObjetoJuego() {
+		nombre = "";
+		descripcion = "";
 	}
 
 	public int getId() {

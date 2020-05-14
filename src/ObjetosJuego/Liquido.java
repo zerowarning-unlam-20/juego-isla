@@ -9,10 +9,6 @@ public class Liquido extends Item implements Tomable {
 	public Liquido(int id, String nombre, String descripcion, boolean visible) {
 		super(id, nombre, descripcion, visible);
 	}
-	
-	public Liquido(int id, String nombre, String descripcion) {
-		super(id, nombre, descripcion);
-	}
 
 	@Override
 	public void usar(Item objetivo) {
