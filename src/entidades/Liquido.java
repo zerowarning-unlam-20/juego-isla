@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 import estados.Estado;
 import estados.Normal;
@@ -20,5 +20,11 @@ public class Liquido extends Item implements Tomable {
 	public Estado tomar() {
 		// TODO Auto-generated method stub
 		return new Normal();
+	}
+
+	@Override
+	public void recibirObjeto(ObjetoJuego recibido) {
+		// TODO Auto-generated method stub
+		
 	}
 }

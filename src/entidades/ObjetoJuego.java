@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 public abstract class ObjetoJuego {
 	protected int id;
@@ -30,8 +30,10 @@ public abstract class ObjetoJuego {
 		return descripcion;
 	}
 	
+	public abstract void recibirObjeto(ObjetoJuego objeto);
+	
 	@Override
 	public String toString() {
-		return "ObjetoJuego [nombre=" + nombre + "\n -" + descripcion + "]";
+		return descripcion;
 	}
 }

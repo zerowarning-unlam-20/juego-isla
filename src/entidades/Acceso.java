@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 import interfaces.Apertura;
 
@@ -40,7 +40,7 @@ public class Acceso extends Item implements Apertura {
 	}
 
 	public boolean necesitaLlave() {
-		return idLlave != 0;
+		return getIdLlave() != 0;
 	}
 
 	@Override
@@ -110,6 +110,18 @@ public class Acceso extends Item implements Apertura {
 
 	public int getIdDestino() {
 		return idDestino;
+	}
+
+	@Override
+	public void recibirObjeto(ObjetoJuego objeto) {
+		Item recibido = (Item) objeto;
+		if (recibido.getId() == getIdLlave()) {
+			bloqueado = false;
+		}
+	}
+
+	public int getIdLlave() {
+		return idLlave;
 	}
 
 }

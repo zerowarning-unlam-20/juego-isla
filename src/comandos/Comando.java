@@ -1,8 +1,9 @@
 package comandos;
 
-public enum Comando {
-	VER, IR, ENTRAR, GOLPEAR, ABRIR, CERRAR, DESBLOQUEAR, REMAR, AGARRAR, PEGAR
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Comando {
+	String value();
 }
-
-
-// Verb [[preposition1] object1 [[preposition2] object2]] 

@@ -1,63 +1,72 @@
 package isla;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-import ObjetosJuego.Acceso;
-import ObjetosJuego.Ubicacion;
+import entidades.Acceso;
+import entidades.Herramienta;
+import entidades.IdManager;
+import entidades.Item;
+import entidades.Liquido;
 import entidades.Personaje;
+import entidades.Recipiente;
+import entidades.Ubicacion;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Ubicacion s1 = new Ubicacion(1, "s1", "Inicio", true, false);
-		s1.agregarAcceso(new Acceso(7, "Puerta", "Puerta azul", true, false, true, 2, 0));
+		IdManager idManager = new IdManager();
+		Item llave = new Herramienta(idManager.getSiguiente(), "llave", "Llave de bronce", true);
+		ArrayList<Item> itemsHabitacion = new ArrayList<>();
+		itemsHabitacion.add(llave);
 		
-		Ubicacion s2 = new Ubicacion(2, "s2", "Segundo lugar", true, false);
-		s2.agregarAcceso(new Acceso(8, "Puerta", "Puerta azul", true, false, true, 1, 0));
-		s2.agregarAcceso(new Acceso(9, "Puerta", "Puerta azul", true, false, true, 3, 0));
-		s2.agregarAcceso(new Acceso(16, "Puerta", "Puerta azul", true, false, true, 5, 0));
-		s2.agregarAcceso(new Acceso(17, "Puerta", "Puerta azul", true, false, true, 6, 0));
+		Recipiente botella = new Recipiente(idManager.getSiguiente(), "botella", "Botella de vidrio", true);
+		Liquido cerveza = new Liquido(idManager.getSiguiente(), "cerveza", "No es light", true);
+		botella.setContenido(cerveza);
+		ArrayList<Item> itemsSalida = new ArrayList<>();
+		itemsSalida.add(botella);
 		
-		Ubicacion s3 = new Ubicacion(3, "s3", "Tercer lugar", true, false);
-		s3.agregarAcceso(new Acceso(10, "Puerta", "Puerta azul", true, false, true, 2, 0));
-		s3.agregarAcceso(new Acceso(11, "Puerta", "Puerta azul", true, false, true, 4, 0));
-		s3.agregarAcceso(new Acceso(7, "Puerta", "Puerta azul", true, false, true, 2, 0));
+		Ubicacion habitacion = new Ubicacion(idManager.getSiguiente(), "habitacion",
+				"Habitacion chica, con una llave en el suelo", true, false, itemsHabitacion);
+		Ubicacion salida = new Ubicacion(idManager.getSiguiente(), "salida", "Una birra nomas", true, false, itemsSalida);
+		Acceso a1p2 = new Acceso(idManager.getSiguiente(), "puerta", "puerta de madera", true, true, false,
+				salida.getId(), llave.getId());
+		ArrayList<Acceso> accesosHabitacion = new ArrayList<>();
+		accesosHabitacion.add(a1p2);
+		Acceso a2p1 = new Acceso(idManager.getSiguiente(), "puerta", "puerta de madera", true, true, false,
+				habitacion.getId(), llave.getId());
+		ArrayList<Acceso> accesosSalida = new ArrayList<>();
+		accesosSalida.add(a2p1);
+
+		habitacion.setAccesos(accesosHabitacion);
+		salida.setAccesos(accesosSalida);
 		
-		Ubicacion s4 = new Ubicacion(4, "s4", "Cuarto lugar", true, false);
-		s4.agregarAcceso(new Acceso(12, "Puerta", "Puerta azul", true, false, true, 3, 0));
-		s4.agregarAcceso(new Acceso(13, "Puerta", "Puerta azul", true, false, true, 5, 0));
-		
-		Ubicacion s5 = new Ubicacion(5, "s5", "Quinto lugar", true, false);
-		s5.agregarAcceso(new Acceso(14, "Puerta", "Puerta azul", true, false, true, 4, 0));
-		s5.agregarAcceso(new Acceso(15, "Puerta", "Puerta azul", true, false, true, 2, 0));
-		
-		Ubicacion s6 = new Ubicacion(6, "s6", "Sexto lugar", true, false);
-		s6.agregarAcceso(new Acceso(18, "Puerta", "Puerta azul", true, false, true, 6, 0));
-		
-		ArrayList<Ubicacion> ubicaciones = new ArrayList<>();
-		ubicaciones.add(s1);
-		ubicaciones.add(s2);
-		ubicaciones.add(s3);
-		ubicaciones.add(s4);
-		ubicaciones.add(s5);
-		ubicaciones.add(s5);
-		ubicaciones.add(s6);
-		
-		for(Ubicacion ubicacion : ubicaciones) {
-			for(Ubicacion otro : ubicaciones) {
-				if(!ubicacion.equals(otro)) {
-					ubicacion.agregarVinculo(otro);
-				}
+		habitacion.agregarVinculo(salida);
+		salida.agregarUbicacion(habitacion);
+
+		/*
+		 * for(Ubicacion ubicacion : ubicaciones) { for(Ubicacion otro : ubicaciones) {
+		 * if(!ubicacion.equals(otro)) { ubicacion.agregarVinculo(otro); } } }
+		 */
+
+		Personaje p = new Personaje(habitacion);
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+		String comando = "";
+
+		while (comando != "-") {
+			try {
+				comando = reader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			Scanner cmdScanner = new Scanner(comando);
+			System.out.println(p.hacer(cmdScanner));
 		}
-		
-		Personaje p = new Personaje(s1);
-		System.out.println(p.verAlrededor());
-		p.cambiarUbicacion(s2);
-		System.out.println(p.verAlrededor());
-		p.cambiarUbicacion(s5);
-		p.cambiarUbicacion(s4);
-		System.out.println(p.verAlrededor());
 	}
 
 }

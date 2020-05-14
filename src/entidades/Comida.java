@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 import interfaces.Comible;
 
@@ -21,6 +21,12 @@ public class Comida extends Item implements Comible {
 	public void usar(Item objetivo) {
 		// TODO Auto-generated method stub
 		System.out.println("Usar con" + objetivo);
+	}
+
+	@Override
+	public void recibirObjeto(ObjetoJuego objeto) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

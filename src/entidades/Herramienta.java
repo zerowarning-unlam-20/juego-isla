@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 import interfaces.Remable;
 import interfaces.Tirable;
@@ -15,8 +15,7 @@ public class Herramienta extends Item implements Tirable, Remable {
 
 	@Override
 	public void usar(Item objetivo) {
-		// TODO Auto-generated method stub
-		System.out.println("Usar con que");
+		objetivo.recibirObjeto(this);
 	}
 
 	@Override
@@ -29,6 +28,12 @@ public class Herramienta extends Item implements Tirable, Remable {
 	public void tirar() {
 		// TODO Auto-generated method stub
 		System.out.println("Para maestro");
+	}
+
+	@Override
+	public void recibirObjeto(ObjetoJuego objeto) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

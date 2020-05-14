@@ -1,4 +1,4 @@
-package ObjetosJuego;
+package entidades;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,15 @@ public class Ubicacion extends ObjetoJuego {
 		this.setUbicaciones(ubicaciones);
 		this.items = items;
 		this.setAccesos(accesos);
+		this.bloqueado = bloqueado;
+	}
+	
+	public Ubicacion(int id, String nombre, String descripcion, boolean visible, boolean bloqueado, List<Item> items) {
+		super(id, nombre, descripcion, visible);
+		ubicaciones = new ArrayList<Ubicacion>();
+		this.items = new ArrayList<Item>();
+		this.accesos = new ArrayList<Acceso>();
+		this.items = items;
 		this.bloqueado = bloqueado;
 	}
 
@@ -87,6 +96,16 @@ public class Ubicacion extends ObjetoJuego {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void recibirObjeto(ObjetoJuego objeto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void eliminarItem(Item i) {
+		items.remove(i);
 	}
 
 }
