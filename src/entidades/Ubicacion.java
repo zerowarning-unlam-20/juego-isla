@@ -8,13 +8,25 @@ public class Ubicacion extends ObjetoJuego {
 	private List<Item> items;
 	private List<Acceso> accesos;
 	private boolean bloqueado;
+	
+	public Ubicacion() {
+	}
 
 	public Ubicacion(int id, String nombre, String descripcion, boolean visible, List<Ubicacion> ubicaciones,
 			List<Item> items, List<Acceso> accesos, boolean bloqueado) {
 		super(id, nombre, descripcion, visible);
-		this.setUbicaciones(ubicaciones);
+		this.ubicaciones = ubicaciones;
 		this.items = items;
-		this.setAccesos(accesos);
+		this.accesos= accesos;
+		this.bloqueado = bloqueado;
+	}
+
+	public Ubicacion(int id, String nombre, String descripcion, boolean visible,
+			List<Item> items, List<Acceso> accesos, boolean bloqueado) {
+		super(id, nombre, descripcion, visible);
+		this.items = items;
+		this.ubicaciones = new ArrayList<Ubicacion>();
+		this.accesos = accesos;
 		this.bloqueado = bloqueado;
 	}
 	
@@ -83,7 +95,12 @@ public class Ubicacion extends ObjetoJuego {
 	public boolean agregarVinculo(Ubicacion otro) {
 		if (otro == null)
 			return false;
-
+		if(this.ubicaciones == null) {
+			this.ubicaciones = new ArrayList<Ubicacion>();
+		}
+		if(otro.ubicaciones == null) {
+			otro.ubicaciones = new ArrayList<Ubicacion>();
+		}
 		for (Acceso a : accesos) {
 			for (Acceso b : otro.accesos) {
 				if (this.id == b.getIdDestino()) {

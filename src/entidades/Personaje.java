@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import comandos.Accion;
-import comandos.Agarrar;
+import comandos.ComandoAgarrar;
 import comandos.Comando;
-import comandos.Desbloquear;
-import comandos.Ir;
-import comandos.Tomar;
-import comandos.Ver;
+import comandos.ComandoAbrir;
+import comandos.ComandoDesbloquear;
+import comandos.ComandoIr;
+import comandos.ComandoTomar;
+import comandos.ComandoVer;
 import estados.Estado;
 import estados.Normal;
 
@@ -27,7 +28,8 @@ public class Personaje extends ObjetoJuego {
 		this.estado = new Normal();
 		setInventario(new LinkedList<Item>());
 		this.ubicacion = locacion;
-		acciones = Arrays.asList(new Accion[] { new Tomar(this), new Ver(this), new Ir(this), new Agarrar(this), new Desbloquear(this)});
+		acciones = Arrays.asList(new Accion[] { new ComandoTomar(this), new ComandoVer(this), new ComandoIr(this),
+				new ComandoAgarrar(this), new ComandoDesbloquear(this), new ComandoAbrir(this) });
 	}
 
 	public String hacer(Scanner comando) {

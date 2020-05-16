@@ -6,9 +6,9 @@ import entidades.Personaje;
 import entidades.Ubicacion;
 
 @Comando("ir")
-public class Ir implements Accion{
+public class ComandoIr implements Accion{
 	Personaje personaje;
-	public Ir(Personaje personaje) {
+	public ComandoIr(Personaje personaje) {
 		this.personaje = personaje;
 	}
 

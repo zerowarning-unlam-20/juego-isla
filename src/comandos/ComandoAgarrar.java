@@ -7,10 +7,10 @@ import entidades.Item;
 import entidades.Personaje;
 
 @Comando("agarrar")
-public class Agarrar implements Accion {
+public class ComandoAgarrar implements Accion {
 	private Personaje personaje;
 
-	public Agarrar(Personaje personaje) {
+	public ComandoAgarrar(Personaje personaje) {
 		this.personaje = personaje;
 	}
 
