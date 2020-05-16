@@ -1,32 +1,32 @@
 package entities;
 
 public class Container extends Item {
-	private Item contenido;
+	private Item content;
 
-	public Container(int id, String nombre, String descripcion, boolean visible) {
-		super(id, nombre, descripcion, visible);
+	public Container(int id, String name, String description, boolean visible) {
+		super(id, name, description, visible);
 	}
 
-	public Container(int id, String nombre, String descripcion, boolean visible, Item contenido) {
-		super(id, nombre, descripcion, visible);
-		this.contenido = contenido;
-		descripcion = nombre + " con " + contenido.name;
+	public Container(int id, String name, String description, boolean visible, Item content) {
+		super(id, name, description, visible);
+		this.content = content;
+		description = name + " con " + content.name;
 	}
 
 	public Item getContent() {
-		return contenido;
+		return content;
 	}
 
-	public void setContenido(Item contenido) {
-		this.contenido = contenido;
-		description = name + " con " + contenido.name;
+	public void setContent(Item content) {
+		this.content = content;
+		description = name + " con " + content.name;
 	}
 
 	@Override
 	public String toString() {
 		String result;
-		if (contenido != null)
-			result = super.toString() + "\n tiene: " + contenido;
+		if (content != null)
+			result = super.toString() + "\n tiene: " + content;
 		else
 			result = super.toString() + "\n vacio";
 		return result;
@@ -34,17 +34,17 @@ public class Container extends Item {
 	}
 
 	@Override
-	public void use(Item objetivo) {
-		objetivo.recieveObject(contenido);
+	public void use(Item objective) {
+		objective.recieveObject(content);
 	}
 
 	@Override
-	public void recieveObject(GameObject objeto) {
-		contenido = (Item) objeto;
-		description = name + " con " + objeto.name;
+	public void recieveObject(GameObject object) {
+		content = (Item) object;
+		description = name + " con " + object.name;
 	}
 
-	public void vaciar() {
-		contenido = null;
+	public void empty() {
+		content = null;
 	}
 }

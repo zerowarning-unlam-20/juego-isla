@@ -4,8 +4,8 @@ import interfaces.Edible;
 
 public class Food extends Item implements Edible {
 
-	public Food(int id, String nombre, String descripcion, boolean visible) {
-		super(id, nombre, descripcion, visible);
+	public Food(int id, String name, String description, boolean visible) {
+		super(id, name, description, visible);
 	}
 
 	public Food() {
@@ -18,13 +18,13 @@ public class Food extends Item implements Edible {
 	}
 
 	@Override
-	public void use(Item objetivo) {
+	public void use(Item objective) {
 		// TODO Auto-generated method stub
-		System.out.println("Usar con" + objetivo);
+		System.out.println("Usar con" + objective);
 	}
 
 	@Override
-	public void recieveObject(GameObject objeto) {
+	public void recieveObject(GameObject object) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -7,6 +7,7 @@ public class Location extends GameObject {
 	private List<Location> locations;
 	private List<Item> items;
 	private List<Access> accesses;
+	private List<Entity> npcs;
 	private boolean locked;
 
 	public Location() {
@@ -122,6 +123,14 @@ public class Location extends GameObject {
 
 	public void removeItem(Item i) {
 		items.remove(i);
+	}
+
+	public List<Entity> getNpcs() {
+		return npcs;
+	}
+
+	public void setNpcs(List<Entity> npcs) {
+		this.npcs = npcs;
 	}
 
 }

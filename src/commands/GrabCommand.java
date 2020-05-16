@@ -1,10 +1,8 @@
 package commands;
 
-import java.util.List;
 import java.util.Scanner;
 
 import entities.UserCharacter;
-import entities.Item;
 
 @Command("agarrar")
 public class GrabCommand implements ActionCommand {
@@ -22,7 +20,7 @@ public class GrabCommand implements ActionCommand {
 				nombreItem += args.next() + " ";
 			}
 			nombreItem = nombreItem.trim();
-			
+
 			return personaje.grab(nombreItem);
 		}
 		return "¿Qué querés agarrar?";

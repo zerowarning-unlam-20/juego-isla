@@ -15,6 +15,7 @@ import commands.GoCommand;
 import commands.GrabCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
+import commands.UnlockCommand;
 import entities.Access;
 import entities.UserCharacter;
 import entities.Container;
@@ -34,16 +35,40 @@ public class GameManager {
 		loadGame();
 	}
 
+	public GameManager(UserCharacter character, List<Location> locations) {
+		loadGame(character, locations);
+	}
+
 	private void loadGame() {
 		try {
 			loadExample();
 			character = new UserCharacter(map.get(0));
 			ActionCommand[] commands = { (ActionCommand) new DrinkCommand(character),
 					(ActionCommand) new GoCommand(character), (ActionCommand) new GrabCommand(character),
-					(ActionCommand) new LookCommand(character), (ActionCommand) new OpenCommand(character) };
+					(ActionCommand) new LookCommand(character), (ActionCommand) new OpenCommand(character),
+					new UnlockCommand(character) };
 			actionCommands = Arrays.asList(commands);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void loadGame(UserCharacter character, List<Location> locations) {
+		this.character = character;
+		map = locations;
+		for (Location location : locations) {
+			for (Location otherLocation : locations) {
+				if (location != otherLocation) {
+					location.addLink(otherLocation);
+				}
+			}
+		}
+	}
+
+	public void recieveCommand(String command) {
+		if (command != "-") {
+			Scanner cmdScanner = new Scanner(command);
+			System.out.println(processCommand(cmdScanner));
 		}
 	}
 
@@ -86,7 +111,7 @@ public class GameManager {
 
 		Container botella = new Container(idManager.getNext(), "botella", "Botella de vidrio", true);
 		Liquid cerveza = new Liquid(idManager.getNext(), "cerveza", "No es light", true);
-		botella.setContenido(cerveza);
+		botella.setContent(cerveza);
 		ArrayList<Item> itemsSalida = new ArrayList<>();
 		itemsSalida.add(botella);
 
@@ -110,5 +135,10 @@ public class GameManager {
 
 		map.add(habitacion);
 		map.add(salida);
+	}
+
+	public UserCharacter getCharacter() {
+		// TODO Auto-generated method stub
+		return character;
 	}
 }
