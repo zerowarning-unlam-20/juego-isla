@@ -138,7 +138,6 @@ public class GameManager {
 	}
 
 	public UserCharacter getCharacter() {
-		// TODO Auto-generated method stub
 		return character;
 	}
 }

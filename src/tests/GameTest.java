@@ -1,4 +1,4 @@
-package island;
+package tests;
 
 import java.util.ArrayList;
 
@@ -50,13 +50,12 @@ class GameTest {
 		UserCharacter p = new UserCharacter(s1);
 
 		GameManager gm = new GameManager(p, ubicaciones);
-		gm.run();
 		
 		gm.getCharacter().goTo(s2.getName());
 		gm.getCharacter().goTo(s5.getName());
 		gm.getCharacter().goTo(s4.getName());
 
-		Assert.assertEquals(s4, p.getLocation());
+		Assert.assertEquals(s4, gm.getCharacter().getLocation());
 	}
 
 }
