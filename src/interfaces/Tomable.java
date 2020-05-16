@@ -1,7 +1,7 @@
 package interfaces;
 
-import estados.Estado;
+import states.State;
 
 public interface Tomable {
-	public Estado tomar();
+	public State drink();
 }
