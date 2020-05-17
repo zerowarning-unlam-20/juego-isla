@@ -16,24 +16,29 @@ public class UnlockCommand implements ActionCommand {
 
 	@Override
 	public String perform(Scanner args) {
+		String retorno = null;
+		
 		if (args.hasNext()) {
 			String toUnlock = "";
 			String aux = "";
 			toUnlock = args.next();
 			if (toUnlock == "")
-				return "¿Qué querés desbloquear?";
+				retorno = "¿Qué querés desbloquear?";
+			else {
+				while (args.hasNext() && aux != "con") {
+					toUnlock += aux + " ";
+					aux = args.next();
+				}	
+				toUnlock += aux;
+				toUnlock = toUnlock.trim();
 
-			while (args.hasNext() && aux != "con") {
-				toUnlock += aux + " ";
-				aux = args.next();
+				retorno = character.unlock(toUnlock);
 			}
-			toUnlock += aux;
-			toUnlock = toUnlock.trim();
-
-			return character.unlock(toUnlock);
 
 		}
-		return "No se desbloqueó nada";
+		retorno =  "No se desbloqueó nada";
+		
+		return retorno;
 	}
 
 }

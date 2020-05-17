@@ -94,26 +94,32 @@ public class Location extends GameObject {
 	}
 
 	public boolean addLink(Location other) {
+		boolean retorno = false;
+
 		if (other == null)
-			return false;
-		if (this.locations == null) {
-			this.locations = new ArrayList<Location>();
-		}
-		if (other.locations == null) {
-			other.locations = new ArrayList<Location>();
-		}
-		for (Access a : accesses) {
-			for (Access b : other.accesses) {
-				if (this.id == b.getIdDestination()) {
-					a.setDestination(other);
-					b.setDestination(this);
-					this.addLocation(other);
-					other.addLocation(this);
-					return true;
+			retorno = false;
+		else {
+			if (this.locations == null) {
+				this.locations = new ArrayList<Location>();
+			}
+			if (other.locations == null) {
+				other.locations = new ArrayList<Location>();
+			}
+			for (Access a : accesses) {
+				for (Access b : other.accesses) {
+					if (this.id == b.getIdDestination()) {
+						a.setDestination(other);
+						b.setDestination(this);
+						this.addLocation(other);
+						other.addLocation(this);
+						retorno = true;
+						break;
+					}
 				}
+				if (retorno) break;
 			}
 		}
-		return false;
+		return retorno;
 	}
 
 	@Override

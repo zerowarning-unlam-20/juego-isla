@@ -15,14 +15,15 @@ public class OpenCommand implements ActionCommand {
 
 	@Override
 	public String perform(Scanner args) {
+		String retorno = null;
 		if (args.hasNext()) {
 			String itemName = "";
 			while (args.hasNext()) {
 				itemName += args.next() + " ";
 			}
 			itemName = itemName.trim();
-			return character.open(itemName);
+			retorno = character.open(itemName);
 		}
-		return null;
+		return retorno;
 	}
 }

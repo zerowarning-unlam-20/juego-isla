@@ -14,6 +14,7 @@ public class GrabCommand implements ActionCommand {
 
 	@Override
 	public String perform(Scanner args) {
+		String retorno = null;
 		if (args.hasNext()) {
 			String nombreItem = "";
 			while (args.hasNext()) {
@@ -21,9 +22,9 @@ public class GrabCommand implements ActionCommand {
 			}
 			nombreItem = nombreItem.trim();
 
-			return personaje.grab(nombreItem);
+			retorno = personaje.grab(nombreItem);
 		}
-		return "¿Qué querés agarrar?";
+		return (retorno != null)? retorno : "¿Qué querés agarrar?";
 	}
 
 }

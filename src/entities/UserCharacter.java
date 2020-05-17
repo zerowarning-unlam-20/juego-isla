@@ -23,26 +23,33 @@ public class UserCharacter extends Entity {
 	}
 
 	public String drink(String itemName) {
+		String retorno = null;
+
 		for (Item i : inventory) {
 			if (i.getClass() == Container.class) {
 				Container container = (Container) i;
 				if (container.getContent().getName().contentEquals(itemName)) {
-					((Container)i).empty();
-					return "Tomando " + itemName + " de " + container.getName();
+					((Container) i).empty();
+					retorno = "Tomando " + itemName + " de " + container.getName();
+					break;
 				}
 			}
 		}
-		return "No hay nada para tomar";
+
+		return (retorno != null) ? retorno : "No hay nada para tomar";
 	}
 
 	@Override
 	public String open(String itemName) {
+		String retorno = null;
+
 		for (Access a : location.getAccesses()) {
 			if (a.getName().contentEquals(itemName) || a.getDescription().contentEquals(itemName)) {
-				return a.open() ? "Se abrio: " + a.getName() : "No se abrio: " + a.getName();
+				retorno = a.open() ? "Se abrio: " + a.getName() : "No se abrio: " + a.getName();
+				break;
 			}
 		}
-		return "No se abrió nada";
+		return (retorno != null) ? retorno : "No se abrió nada";
 	}
 
 	public String close() {
@@ -51,44 +58,60 @@ public class UserCharacter extends Entity {
 
 	@Override
 	public String look(String itemName) {
+		String retorno = null;
+
 		if (itemName.contentEquals("alrededor") || itemName.contentEquals(location.getName())) {
-			return lookAround();
-		}
-		if (itemName.contentEquals("inventario")) {
-			return lookInventory();
-		}
-		for (Item item : inventory) {
-			if (item.getName().contentEquals(itemName)) {
-				return item.getDescription();
+			retorno = lookAround();
+		} else {
+			if (itemName.contentEquals("inventario")) {
+				retorno = lookInventory();
+			} else {
+				for (Item item : inventory) {
+					if (item.getName().contentEquals(itemName)) {
+						retorno = item.getDescription();
+						break;
+					}
+				}
+				if (retorno == null) {
+					for (Access acceso : location.getAccesses()) {
+						if (acceso.getName().contentEquals(itemName)
+								|| acceso.getDescription().contentEquals(itemName)) {
+							retorno = acceso.getDescription() + ", lleva a " + acceso.getDestino().getName();
+							break;
+						}
+					}
+				}
+				if (retorno == null) {
+					for (Item item : location.getItems()) {
+						if (item.getName().contentEquals(itemName) || item.getDescription().contentEquals(itemName)) {
+							retorno = item.getDescription();
+							break;
+						}
+					}
+				}
 			}
 		}
-		for (Access acceso : location.getAccesses()) {
-			if (acceso.getName().contentEquals(itemName) || acceso.getDescription().contentEquals(itemName)) {
-				return acceso.getDescription() + ", lleva a " + acceso.getDestino().getName();
-			}
-		}
-
-		for (Item item : location.getItems()) {
-			if (item.getName().contentEquals(itemName) || item.getDescription().contentEquals(itemName)) {
-				return item.getDescription();
-			}
-		}
-
-		return "No pude ver nada";
+		return (retorno!=null)? retorno : "No pude ver nada";
 	}
 
 	@Override
 	public String unlock(String toUnlock) {
-		for (Item item : inventory)
+		String retorno = null;
+		
+		for (Item item : inventory) {
 			for (Access acceso : location.getAccesses())
 				if (acceso.getName().contentEquals(toUnlock)) {
 					acceso.recieveObject(item);
 					if (!acceso.estaBloqueado()) {
 						removeItem(item);
-						return toUnlock + " se abrió";
+						retorno = toUnlock + " se abrió";
+						break;
 					}
 				}
-		return "No se pudo desbloquear nada";
+			if(retorno != null) break;
+		}
+		
+		return (retorno!=null)? retorno : "No se pudo desbloquear nada";
 	}
 
 	public String lookInventory() {
@@ -146,26 +169,33 @@ public class UserCharacter extends Entity {
 
 	@Override
 	public String goTo(String locationName) {
+		String retorno = null;
+		
 		for (Location destination : location.getLocations()) {
 			if (destination.getName().contentEquals(locationName)) {
 				location = destination;
-				return "me fui a " + location.getName();
+				retorno = "me fui a " + location.getName();
+				break;
 			}
 		}
-		return "No pude ir a ningun lado";
+		return (retorno!=null)? retorno : "No pude ir a ningun lado";
 	}
 
 	@Override
 	public String grab(String itemName) {
+		String retorno = null;
+		
 		List<Item> items = location.getItems();
 		for (Item i : items) {
 			if (i.getName().contentEquals(itemName)) {
 				inventory.add(i);
 				itemName = i.getDescription();
 				location.removeItem(i);
-				return "Se agarró " + itemName;
+				retorno = "Se agarró " + itemName;
+				break;
 			}
 		}
-		return "No se pudo agarrar nada";
+		
+		return (retorno!=null)? retorno : "No se pudo agarrar nada";
 	}
 }

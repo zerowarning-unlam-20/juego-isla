@@ -15,7 +15,7 @@ public class GoCommand implements ActionCommand {
 
 	@Override
 	public String perform(Scanner args) {
-		String lugar = "";
+		String retorno = null, lugar = "";
 		if (args.hasNext()) {
 			args.next();
 			while (args.hasNext()) {
@@ -23,10 +23,11 @@ public class GoCommand implements ActionCommand {
 			}
 			lugar = lugar.trim();
 			if (lugar != "") {
-				return personaje.goTo(lugar);
+				retorno = personaje.goTo(lugar);
 			}
 		}
-		return personaje.getLocation().getDescription();
+
+		return (retorno!=null)? retorno : personaje.getLocation().getDescription();
 	}
 
 }

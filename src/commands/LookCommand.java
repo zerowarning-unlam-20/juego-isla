@@ -17,11 +17,12 @@ public class LookCommand implements ActionCommand {
 
 	@Override
 	public String perform(Scanner args) {
+		String retorno = null;
 		if (args.hasNext()) {
 			String object = args.next();
-			return character.look(object);
+			retorno = character.look(object);
 		}
-		return "¿Qué querés ver?";
+		return (retorno!=null)? retorno : "¿Qué querés ver?";
 	}
 
 }
