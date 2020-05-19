@@ -26,7 +26,8 @@ public class UserCharacter extends Entity {
 		for (Item i : inventory) {
 			if (i.getClass() == Container.class) {
 				Container container = (Container) i;
-				if (container.getContent().getName().contentEquals(itemName)) {
+				if (container.getContent().get(0) != null
+						&& container.getContent().get(0).getName().contentEquals(itemName)) {
 					((Container) i).empty();
 					return "Tomando " + itemName + " de " + container.getName();
 				}
@@ -167,14 +168,23 @@ public class UserCharacter extends Entity {
 	@Override
 	public String grab(String itemName) {
 		List<Item> items = location.getItems();
+		String result = "No se pudo agarrar nada";
 		for (Item i : items) {
-			if (i.getName().contentEquals(itemName)) {
+			if (i.getClass() == Container.class && !i.name.contentEquals(itemName)) {
+				Item item = ((Container) i).getFromContent("itemName");
+				if (item != null) {
+					inventory.add(item);
+					result = "Se agarró " + itemName;
+					break;
+				}
+			} else if (i.getName().contentEquals(itemName)) {
 				inventory.add(i);
 				itemName = i.getDescription();
 				location.removeItem(i);
-				return "Se agarró " + itemName;
+				result = "Se agarró " + itemName;
+				break;
 			}
 		}
-		return "No se pudo agarrar nada";
+		return result;
 	}
 }
