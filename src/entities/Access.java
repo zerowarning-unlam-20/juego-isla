@@ -52,7 +52,7 @@ public class Access extends Item implements Opening {
 		for (Access c : destination.getAccesses()) {
 			if (c.getId() == this.id) {
 				c.locked = false;
-				state_to_return = true;
+				result = true;
 				break;
 			}
 		}
