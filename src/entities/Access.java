@@ -65,14 +65,11 @@ public class Access extends Item implements Opening {
 	public boolean open() {
 		boolean possible = false;
 		if (!locked) {
-			opened = true;
-			destination.setLocked(false);
-			for (Access c : destination.getAccesses()) {
-				if (c.getId() == this.id) {
-					c.opened = true;
-					possible = true;
-					break;
-				}
+			if (opened) {
+				possible = false;
+			} else {
+				opened = true;
+				possible = true;
 			}
 		}
 		return possible;
@@ -82,25 +79,18 @@ public class Access extends Item implements Opening {
 	public void close() {
 		if (opened) {
 			opened = false;
-			destination.setLocked(true);
-			for (Access c : destination.getAccesses()) {
-				if (c.getId() == this.id) {
-					c.opened = false;
-					break;
-				}
-			}
 		}
 	}
 
-	public boolean estaBloqueado() {
+	public boolean isLocked() {
 		return locked;
 	}
 
-	public boolean estaAbierto() {
+	public boolean isOpened() {
 		return opened;
 	}
 
-	public Location getDestino() {
+	public Location getDestination() {
 		return destination;
 	}
 
@@ -110,6 +100,17 @@ public class Access extends Item implements Opening {
 
 	public int getIdDestination() {
 		return idDestination;
+	}
+
+	public String getStatus() {
+		String result = "";
+		if (locked)
+			result = "bloqueado";
+		else if (opened) {
+			result = "abierto";
+		} else
+			result = "cerrado";
+		return result;
 	}
 
 	@Override
