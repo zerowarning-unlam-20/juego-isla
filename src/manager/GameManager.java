@@ -116,8 +116,8 @@ public class GameManager {
 		itemsSalida.add(botella);
 
 		Location habitacion = new Location(idManager.getNext(), "habitacion",
-				"Habitacion chica, con una llave en el suelo", true, false, itemsHabitacion);
-		Location salida = new Location(idManager.getNext(), "salida", "Una birra nomas", true, false, itemsSalida);
+				"Habitacion chica, con una llave en el suelo", true, itemsHabitacion);
+		Location salida = new Location(idManager.getNext(), "salida", "Una birra nomas", true, itemsSalida);
 		Access a1p2 = new Access(idManager.getNext(), "puerta", "puerta de madera", true, true, false, salida.getId(),
 				llave.getId());
 		ArrayList<Access> accesosHabitacion = new ArrayList<>();

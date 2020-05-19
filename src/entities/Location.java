@@ -7,7 +7,6 @@ public class Location extends GameObject {
 	private List<Item> items;
 	private List<Access> accesses;
 	private List<Entity> npcs;
-	private boolean locked;
 
 	public Location() {
 	}
@@ -17,22 +16,19 @@ public class Location extends GameObject {
 		super(id, name, description, visible);
 		this.items = items;
 		this.accesses = accesses;
-		this.locked = locked;
 	}
 
-	public Location(int id, String name, String description, boolean visible, boolean locked, List<Item> items) {
+	public Location(int id, String name, String description, boolean visible, List<Item> items) {
 		super(id, name, description, visible);
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
 		this.items = items;
-		this.locked = locked;
 	}
 
-	public Location(int id, String name, String description, boolean visible, boolean locked) {
+	public Location(int id, String name, String description, boolean visible) {
 		super(id, name, description, visible);
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
-		this.locked = locked;
 	}
 
 	public List<Location> getLocations() {
@@ -58,14 +54,6 @@ public class Location extends GameObject {
 
 	public List<Access> getAccesses() {
 		return accesses;
-	}
-
-	public boolean isLocked() {
-		return locked;
-	}
-
-	public void setLocked(boolean locked) {
-		this.locked = locked;
 	}
 
 	public void setAccesses(List<Access> accesses) {

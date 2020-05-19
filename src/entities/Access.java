@@ -79,7 +79,6 @@ public class Access extends Item implements Opening {
 	public void close() {
 		if (opened) {
 			opened = false;
-			destination.setLocked(true);
 		}
 	}
 
