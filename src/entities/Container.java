@@ -1,25 +1,66 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.AbstractDocument.Content;
+
 public class Container extends Item {
-	private Item content;
+	private List<Item> content;
 
 	public Container(int id, String name, String description, boolean visible) {
 		super(id, name, description, visible);
 	}
 
-	public Container(int id, String name, String description, boolean visible, Item content) {
+	public Container(int id, String name, String description, boolean visible, List<Item> content) {
 		super(id, name, description, visible);
 		this.content = content;
-		description = name + " con " + content.name;
+		if (content.size() == 1) {
+			description = name + " con " + content.get(0).name;
+		}
 	}
 
-	public Item getContent() {
+	public List<Item> getContent() {
 		return content;
 	}
 
-	public void setContent(Item content) {
+	public Item getFromContent(String name) {
+		Item result = null;
+		for (Item item : content) {
+			if (item.getClass() == Container.class && !item.name.contentEquals(name)) {
+				result = ((Container) item).getFromContent(name);
+				if (result != null)
+					break;
+			}
+			if (item.name.contentEquals(name)) {
+				result = item;
+				content.remove(item);
+				break;
+			}
+		}
+		return result;
+	}
+
+	public Item getFromContent(int id) {
+		for (Item item : content) {
+			if (item.id == id) {
+				Item result = item;
+				content.remove(item);
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public void addContent(Item item) {
+		if (content == null) {
+			content = new ArrayList<Item>();
+		}
+		content.add(item);
+	}
+
+	public void setContent(List<Item> content) {
 		this.content = content;
-		description = name + " con " + content.name;
 	}
 
 	@Override
@@ -35,13 +76,12 @@ public class Container extends Item {
 
 	@Override
 	public void use(Item objective) {
-		objective.recieveObject(content);
+		objective.recieveObject(this);
 	}
 
 	@Override
 	public void recieveObject(GameObject object) {
-		content = (Item) object;
-		description = name + " con " + object.name;
+		addContent((Item) object);
 	}
 
 	public void empty() {

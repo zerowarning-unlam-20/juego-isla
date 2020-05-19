@@ -31,7 +31,7 @@ public abstract class GameObject {
 	}
 
 	public abstract void recieveObject(GameObject object);
-
+	
 	@Override
 	public String toString() {
 		return description;

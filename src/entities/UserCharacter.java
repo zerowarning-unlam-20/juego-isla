@@ -29,9 +29,8 @@ public class UserCharacter extends Entity {
 
 			if (i.getClass() == Container.class) {
 				Container container = (Container) i;
-
-				if (container.getContent().getName().contentEquals(itemName)) {
-
+				if (container.getContent().get(0) != null
+						&& container.getContent().get(0).getName().contentEquals(itemName)) {
 					((Container) i).empty();
 					stringToReturn = "Tomando " + itemName + " de " + container.getName();
 					break;
@@ -54,19 +53,19 @@ public class UserCharacter extends Entity {
 				boolean possible = a.open();
 				if (possible == false)
 					if (a.isOpened()) {
-						stringToReturn = "Ya est· abierto";
+						stringToReturn = "Ya est√° abierto";
 						break;
 					} else {
 						stringToReturn = "No se pudo abrir";
 						break;
 					}
 				else {
-					stringToReturn = "Se abriÛ " + a.getName();
+					stringToReturn = "Se abri√≥ " + a.getName();
 					break;
 				}
 			}
 		}
-		return (stringToReturn != null) ? stringToReturn : "No se abriÛ nada";
+		return (stringToReturn != null) ? stringToReturn : "No se abri√≥ nada";
 
 	}
 
@@ -100,7 +99,7 @@ public class UserCharacter extends Entity {
 						if (acceso.getName().contentEquals(itemName)
 								|| acceso.getDescription().contentEquals(itemName)) {
 							stringToReturn = acceso.getDescription() + ", lleva a " + acceso.getDestination().getName()
-									+ ". \n" + "Est· " + acceso.getStatus();
+									+ ". \n" + "Est√° " + acceso.getStatus();
 							break;
 						}
 					}
@@ -131,7 +130,7 @@ public class UserCharacter extends Entity {
 					acceso.recieveObject(item);
 					if (!acceso.isLocked()) {
 						removeItem(item);
-						stringToReturn = toUnlock + " se desbloqueÛ";
+						stringToReturn = toUnlock + " se desbloque√≥";
 						break;
 					}
 				}
@@ -215,21 +214,24 @@ public class UserCharacter extends Entity {
 	public String grab(String itemName) {
 		String stringToReturn = null;
 		List<Item> items = location.getItems();
-		
+		String result = "No se pudo agarrar nada";
 		for (Item i : items) {
-			
-			if (i.getName().contentEquals(itemName)) {
-				
+			if (i.getClass() == Container.class && !i.name.contentEquals(itemName)) {
+				Item item = ((Container) i).getFromContent("itemName");
+				if (item != null) {
+					inventory.add(item);
+					result = "Se agarr√≥ " + itemName;
+					break;
+				}
+			} else if (i.getName().contentEquals(itemName)) {
 				inventory.add(i);
 				itemName = i.getDescription();
 				location.removeItem(i);
-				stringToReturn = "Se agarrÛ " + itemName;
+				result = "Se agarr√≥ " + itemName;
 				break;
-				
 			}
 			
 		}
-		
-		return (stringToReturn != null)? stringToReturn : "No se pudo agarrar nada";
+		return result;
 	}
 }

@@ -117,7 +117,7 @@ public class GameManager {
 
 		Container botella = new Container(idManager.getNext(), "botella", "Botella de vidrio", true);
 		Liquid cerveza = new Liquid(idManager.getNext(), "cerveza", "No es light", true);
-		botella.setContent(cerveza);
+		botella.addContent(cerveza);
 		ArrayList<Item> itemsSalida = new ArrayList<>();
 		itemsSalida.add(botella);
 
