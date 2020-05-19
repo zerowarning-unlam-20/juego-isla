@@ -45,7 +45,7 @@ public class Access extends Item implements Opening {
 
 	@Override
 	public boolean unlock() {
-		boolean state_to_return = false;
+		boolean result = false;
 		
 		if (locked)
 			locked = false;
@@ -56,7 +56,7 @@ public class Access extends Item implements Opening {
 				break;
 			}
 		}
-		return state_to_return;
+		return result;
 	}
 
 	@Override
