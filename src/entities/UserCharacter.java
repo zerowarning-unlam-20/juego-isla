@@ -27,7 +27,7 @@ public class UserCharacter extends Entity {
 			if (i.getClass() == Container.class) {
 				Container container = (Container) i;
 				if (container.getContent().getName().contentEquals(itemName)) {
-					((Container)i).empty();
+					((Container) i).empty();
 					return "Tomando " + itemName + " de " + container.getName();
 				}
 			}
@@ -39,10 +39,18 @@ public class UserCharacter extends Entity {
 	public String open(String itemName) {
 		for (Access a : location.getAccesses()) {
 			if (a.getName().contentEquals(itemName) || a.getDescription().contentEquals(itemName)) {
-				return a.open() ? "Se abrio: " + a.getName() : "No se abrio: " + a.getName();
+				boolean possible = a.open();
+				if (possible == false)
+					if (a.isOpened())
+						return "Ya está abierto";
+					else
+						return "No se pudo abrir";
+				else
+					return "Se abrió " + a.getName();
 			}
 		}
 		return "No se abrió nada";
+
 	}
 
 	public String close() {
@@ -64,7 +72,8 @@ public class UserCharacter extends Entity {
 		}
 		for (Access acceso : location.getAccesses()) {
 			if (acceso.getName().contentEquals(itemName) || acceso.getDescription().contentEquals(itemName)) {
-				return acceso.getDescription() + ", lleva a " + acceso.getDestino().getName();
+				return acceso.getDescription() + ", lleva a " + acceso.getDestination().getName() + ". \n" + "Está "
+						+ acceso.getStatus();
 			}
 		}
 
@@ -83,9 +92,9 @@ public class UserCharacter extends Entity {
 			for (Access acceso : location.getAccesses())
 				if (acceso.getName().contentEquals(toUnlock)) {
 					acceso.recieveObject(item);
-					if (!acceso.estaBloqueado()) {
+					if (!acceso.isLocked()) {
 						removeItem(item);
-						return toUnlock + " se abrió";
+						return toUnlock + " se desbloqueó";
 					}
 				}
 		return "No se pudo desbloquear nada";
@@ -146,9 +155,9 @@ public class UserCharacter extends Entity {
 
 	@Override
 	public String goTo(String locationName) {
-		for (Location destination : location.getLocations()) {
-			if (destination.getName().contentEquals(locationName)) {
-				location = destination;
+		for (Access access : location.getAccesses()) {
+			if (access.getDestination().getName().contentEquals(locationName) && access.isOpened()) {
+				location = access.getDestination();
 				return "me fui a " + location.getName();
 			}
 		}

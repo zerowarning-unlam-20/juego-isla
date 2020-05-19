@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Location extends GameObject {
-	private List<Location> locations;
 	private List<Item> items;
 	private List<Access> accesses;
 	private List<Entity> npcs;
@@ -13,27 +12,16 @@ public class Location extends GameObject {
 	public Location() {
 	}
 
-	public Location(int id, String name, String description, boolean visible, List<Location> locations,
-			List<Item> items, List<Access> accesses, boolean locked) {
-		super(id, name, description, visible);
-		this.locations = locations;
-		this.items = items;
-		this.accesses = accesses;
-		this.locked = locked;
-	}
-
 	public Location(int id, String name, String description, boolean visible, List<Item> items, List<Access> accesses,
 			boolean locked) {
 		super(id, name, description, visible);
 		this.items = items;
-		this.locations = new ArrayList<Location>();
 		this.accesses = accesses;
 		this.locked = locked;
 	}
 
 	public Location(int id, String name, String description, boolean visible, boolean locked, List<Item> items) {
 		super(id, name, description, visible);
-		locations = new ArrayList<Location>();
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
 		this.items = items;
@@ -42,13 +30,16 @@ public class Location extends GameObject {
 
 	public Location(int id, String name, String description, boolean visible, boolean locked) {
 		super(id, name, description, visible);
-		locations = new ArrayList<Location>();
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
 		this.locked = locked;
 	}
 
 	public List<Location> getLocations() {
+		ArrayList<Location> locations = new ArrayList<>();
+		for (Access access : accesses) {
+			locations.add(access.getDestination());
+		}
 		return locations;
 	}
 
@@ -81,14 +72,6 @@ public class Location extends GameObject {
 		this.accesses = accesses;
 	}
 
-	public void setLocations(List<Location> locations) {
-		this.locations = locations;
-	}
-
-	public void addLocation(Location other) {
-		locations.add(other);
-	}
-
 	public void addAccess(Access access) {
 		accesses.add(access);
 	}
@@ -96,21 +79,14 @@ public class Location extends GameObject {
 	public boolean addLink(Location other) {
 		if (other == null)
 			return false;
-		if (this.locations == null) {
-			this.locations = new ArrayList<Location>();
-		}
-		if (other.locations == null) {
-			other.locations = new ArrayList<Location>();
-		}
 		for (Access a : accesses) {
-			for (Access b : other.accesses) {
-				if (this.id == b.getIdDestination()) {
-					a.setDestination(other);
-					b.setDestination(this);
-					this.addLocation(other);
-					other.addLocation(this);
-					return true;
-				}
+			if (a.getIdDestination() == other.id) {
+				a.setDestination(other);
+			}
+		}
+		for (Access b : other.accesses) {
+			if (b.getIdDestination() == this.id) {
+				b.setDestination(this);
 			}
 		}
 		return false;

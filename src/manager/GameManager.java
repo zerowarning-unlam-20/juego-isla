@@ -122,7 +122,8 @@ public class GameManager {
 				llave.getId());
 		ArrayList<Access> accesosHabitacion = new ArrayList<>();
 		accesosHabitacion.add(a1p2);
-		Access a2p1 = new Access(a1p2.getId(), "puerta", "puerta de madera", true, true, false, habitacion.getId(),
+		
+		Access a2p1 = new Access(idManager.getNext(), "puerta", "puerta de madera", true, true, false, habitacion.getId(),
 				llave.getId());
 		ArrayList<Access> accesosSalida = new ArrayList<>();
 		accesosSalida.add(a2p1);
@@ -131,7 +132,6 @@ public class GameManager {
 		salida.setAccesses(accesosSalida);
 
 		habitacion.addLink(salida);
-		salida.addLocation(habitacion);
 
 		map.add(habitacion);
 		map.add(salida);
