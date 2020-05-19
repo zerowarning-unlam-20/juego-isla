@@ -65,18 +65,20 @@ public class Location extends GameObject {
 	}
 
 	public boolean addLink(Location other) {
-		if (other == null)
-			return false;
-		for (Access a : accesses) {
-			if (a.getIdDestination() == other.id) {
-				a.setDestination(other);
+		
+		if(other != null) {
+			for (Access a : accesses) {
+				if (a.getIdDestination() == other.id) {
+					a.setDestination(other);
+				}
+			}
+			for (Access b : other.accesses) {
+				if (b.getIdDestination() == this.id) {
+					b.setDestination(this);
+				}
 			}
 		}
-		for (Access b : other.accesses) {
-			if (b.getIdDestination() == this.id) {
-				b.setDestination(this);
-			}
-		}
+
 		return false;
 	}
 

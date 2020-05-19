@@ -94,13 +94,19 @@ public class GameManager {
 	}
 
 	private String processCommand(Scanner strCommand) {
+		String stringToReturn = null;
 		String cmd = strCommand.next();
+		
 		for (ActionCommand command : actionCommands) {
+			
 			if (command.getClass().getAnnotation(Command.class).value().equals(cmd)) {
-				return command.perform(strCommand);
+				stringToReturn = command.perform(strCommand);
+				break;
 			}
+			
 		}
-		return "Que es eso";
+		
+		return (stringToReturn != null)? stringToReturn : "Que es eso";
 	}
 
 	private void loadExample() {

@@ -45,15 +45,18 @@ public class Access extends Item implements Opening {
 
 	@Override
 	public boolean unlock() {
+		boolean result = false;
+		
 		if (locked)
 			locked = false;
 		for (Access c : destination.getAccesses()) {
 			if (c.getId() == this.id) {
 				c.locked = false;
-				return true;
+				result = true;
+				break;
 			}
 		}
-		return false;
+		return result;
 	}
 
 	@Override
