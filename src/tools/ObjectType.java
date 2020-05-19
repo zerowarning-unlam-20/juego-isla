@@ -21,10 +21,14 @@ public enum ObjectType {
 	}
 
 	public static ObjectType forName(String name) {
+		ObjectType objectToReturn = null;
+		
 		for (ObjectType t : values())
-			if (name.equals(t.name()))
-				return t;
+			if (name.equals(t.name())) {
+				objectToReturn = t;
+				break;
+			}
 
-		return null;
+		return objectToReturn;
 	}
 }
