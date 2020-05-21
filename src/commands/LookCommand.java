@@ -6,7 +6,6 @@ import entities.UserCharacter;
 import island.GameObject;
 import items.Access;
 import items.Item;
-import items.Location;
 
 @Command("ver")
 public class LookCommand implements ActionCommand {

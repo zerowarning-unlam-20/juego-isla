@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import entities.UserCharacter;
 import items.Access;
-import items.Location;
 
 @Command("ir")
 public class GoCommand implements ActionCommand {

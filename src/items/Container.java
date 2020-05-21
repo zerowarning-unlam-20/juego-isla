@@ -3,7 +3,6 @@ package items;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Entity;
 import interfaces.Unlockable;
 import island.GameObject;
 import tools.Gender;

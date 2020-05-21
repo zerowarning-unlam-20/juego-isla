@@ -22,7 +22,6 @@ import items.Item;
 import items.Liquid;
 import items.Location;
 import items.SingleContainer;
-import items.Tool;
 import tools.Gender;
 import tools.IdManager;
 import tools.ItemType;

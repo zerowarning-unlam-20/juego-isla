@@ -114,7 +114,7 @@ class GameTest {
 				ItemType.UNBREAKABLE, true);
 		UserCharacter p = new UserCharacter(s1);
 		p.grab(botella);
-		p.grab(agua);
+		p.grab(catarata.getContent());
 		Assert.assertEquals(((SingleContainer) p.getInventory().get(0)).getContent(), agua);
 	}
 
@@ -139,5 +139,7 @@ class GameTest {
 		p.goTo(s1);
 		p.look(hoja);
 	}
+	
+	
 
 }

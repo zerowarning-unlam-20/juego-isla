@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import entities.UserCharacter;
 import items.Access;
-import items.Item;
 
 @Command("desbloquear")
 public class UnlockCommand implements ActionCommand {

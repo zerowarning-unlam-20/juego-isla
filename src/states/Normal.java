@@ -90,6 +90,7 @@ public class Normal implements State {
 					if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
 						((SingleContainer) i).setContent(item);
 						message = "Agarre " + item.getName();
+						break;
 					}
 				}
 			} else {

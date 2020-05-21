@@ -5,7 +5,6 @@ import java.util.Scanner;
 import entities.UserCharacter;
 import items.Item;
 import items.SingleContainer;
-import manager.GameManager;
 
 @Command("tomar")
 public class DrinkCommand implements ActionCommand {
