@@ -3,7 +3,8 @@ package commands;
 import java.util.Scanner;
 
 import entities.UserCharacter;
-import entities.Location;
+import items.Access;
+import items.Location;
 
 @Command("ir")
 public class GoCommand implements ActionCommand {
@@ -14,10 +15,9 @@ public class GoCommand implements ActionCommand {
 	}
 
 	@Override
-	public String perform(Scanner args) {
-		String stringToReturn = null;
+	public void perform(Scanner args) {
 		String lugar = "";
-		
+
 		if (args.hasNext()) {
 			args.next();
 			while (args.hasNext()) {
@@ -25,10 +25,14 @@ public class GoCommand implements ActionCommand {
 			}
 			lugar = lugar.trim();
 			if (lugar != "") {
-				stringToReturn = personaje.goTo(lugar);
+				for (Access access : personaje.getLocation().getAccesses()) {
+					if (access.getDestination().getName().contentEquals(lugar) && access.isOpened()) {
+						personaje.goTo(access.getDestination());
+						break;
+					}
+				}
 			}
 		}
-		return (stringToReturn != null)? stringToReturn : personaje.getLocation().getDescription();
 	}
 
 }

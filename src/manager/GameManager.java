@@ -16,60 +16,42 @@ import commands.GrabCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
 import commands.UnlockCommand;
-import entities.Access;
 import entities.UserCharacter;
-import entities.Container;
-import entities.IdManager;
-import entities.Item;
-import entities.Liquid;
-import entities.Location;
-import entities.Tool;
+import items.Access;
+import items.Item;
+import items.Liquid;
+import items.Location;
+import items.SingleContainer;
+import items.Tool;
+import tools.Gender;
+import tools.IdManager;
+import tools.ItemType;
 
 public class GameManager {
-	private UserCharacter character;
-	private List<Location> map;
+	private static GameManager instance;
+	private Game game;
 	private List<ActionCommand> actionCommands;
 
-	public GameManager() {
-		map = new ArrayList<>();
-		loadGame();
+	private GameManager() {
+		loadExample();
+		loadCommands();
 	}
 
-	public GameManager(UserCharacter character, List<Location> locations) {
-		loadGame(character, locations);
-	}
-
-	private void loadGame() {
+	static {
 		try {
-			loadExample();
-			character = new UserCharacter(map.get(0));
-			ActionCommand[] commands = { (ActionCommand) new DrinkCommand(character),
-					(ActionCommand) new GoCommand(character), (ActionCommand) new GrabCommand(character),
-					(ActionCommand) new LookCommand(character), (ActionCommand) new OpenCommand(character),
-					new UnlockCommand(character) };
-			actionCommands = Arrays.asList(commands);
+			instance = new GameManager();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("Exception creating singleton");
 		}
 	}
 
-	private void loadGame(UserCharacter character, List<Location> locations) {
-		this.character = character;
-		map = locations;
-		for (Location location : locations) {
-			for (Location otherLocation : locations) {
-				if (location != otherLocation) {
-					location.addLink(otherLocation);
-				}
-			}
-		}
+	public static GameManager getInstance() {
+		return instance;
 	}
 
-	public void recieveCommand(String command) {
-		if (command != "-") {
-			Scanner cmdScanner = new Scanner(command);
-			System.out.println(processCommand(cmdScanner));
-		}
+	public void setGame(Game game) {
+		reset();
+		this.game = game;
 	}
 
 	public void run() {
@@ -85,52 +67,64 @@ public class GameManager {
 				e.printStackTrace();
 			}
 			Scanner cmdScanner = new Scanner(comando);
-			System.out.println(processCommand(cmdScanner));
+			processCommand(cmdScanner);
 		}
 	}
 
 	public void reset() {
-
+		this.game = null;
+		this.actionCommands = null;
 	}
 
-	private String processCommand(Scanner strCommand) {
-		String stringToReturn = null;
+	private void loadCommands() {
+		try {
+			ActionCommand[] commands = { (ActionCommand) new DrinkCommand(game.getCharacter()),
+					(ActionCommand) new GoCommand(game.getCharacter()),
+					(ActionCommand) new GrabCommand(game.getCharacter()),
+					(ActionCommand) new LookCommand(game.getCharacter()),
+					(ActionCommand) new OpenCommand(game.getCharacter()), new UnlockCommand(game.getCharacter()) };
+			actionCommands = Arrays.asList(commands);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void processCommand(Scanner strCommand) {
 		String cmd = strCommand.next();
-		
-		for (ActionCommand command : actionCommands) {
-			
+		for (ActionCommand command : actionCommands)
 			if (command.getClass().getAnnotation(Command.class).value().equals(cmd)) {
-				stringToReturn = command.perform(strCommand);
+				command.perform(strCommand);
 				break;
 			}
-			
-		}
-		
-		return (stringToReturn != null)? stringToReturn : "Que es eso";
+	}
+
+	public void recieveMessage(String name, String message) {
+		System.out.println(name + ": " + message);
 	}
 
 	private void loadExample() {
 		IdManager idManager = new IdManager();
-		Item llave = new Tool(idManager.getNext(), "llave", "Llave de bronce", true);
+		Item llave = new Item(idManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
 		ArrayList<Item> itemsHabitacion = new ArrayList<>();
 		itemsHabitacion.add(llave);
 
-		Container botella = new Container(idManager.getNext(), "botella", "Botella de vidrio", true);
-		Liquid cerveza = new Liquid(idManager.getNext(), "cerveza", "No es light", true);
-		botella.addContent(cerveza);
+		SingleContainer botella = new SingleContainer(idManager.getNext(), Gender.F, "botella", "Botella de vidrio",
+				ItemType.UNBREAKABLE);
+		Liquid cerveza = new Liquid(idManager.getNext(), Gender.F, "cerveza", "No es light", true);
+		botella.setContent(cerveza);
 		ArrayList<Item> itemsSalida = new ArrayList<>();
 		itemsSalida.add(botella);
 
-		Location habitacion = new Location(idManager.getNext(), "habitacion",
+		Location habitacion = new Location(idManager.getNext(), Gender.F, "habitacion",
 				"Habitacion chica, con una llave en el suelo", true, itemsHabitacion);
-		Location salida = new Location(idManager.getNext(), "salida", "Una birra nomas", true, itemsSalida);
-		Access a1p2 = new Access(idManager.getNext(), "puerta", "puerta de madera", true, true, false, salida.getId(),
-				llave.getId());
+		Location salida = new Location(idManager.getNext(), Gender.F, "salida", "Una birra nomas", true, itemsSalida);
+		Access a1p2 = new Access(idManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
+				salida.getId(), llave.getId());
 		ArrayList<Access> accesosHabitacion = new ArrayList<>();
 		accesosHabitacion.add(a1p2);
-		
-		Access a2p1 = new Access(idManager.getNext(), "puerta", "puerta de madera", true, true, false, habitacion.getId(),
-				llave.getId());
+
+		Access a2p1 = new Access(idManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
+				habitacion.getId(), llave.getId());
 		ArrayList<Access> accesosSalida = new ArrayList<>();
 		accesosSalida.add(a2p1);
 
@@ -139,11 +133,10 @@ public class GameManager {
 
 		habitacion.addLink(salida);
 
-		map.add(habitacion);
-		map.add(salida);
-	}
+		ArrayList<Location> locations = new ArrayList<>();
+		locations.add(habitacion);
+		locations.add(salida);
 
-	public UserCharacter getCharacter() {
-		return character;
+		game = new Game(new UserCharacter(habitacion), locations);
 	}
 }

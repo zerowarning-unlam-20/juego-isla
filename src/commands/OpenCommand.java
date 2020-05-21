@@ -2,8 +2,8 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Access;
 import entities.UserCharacter;
+import items.Access;
 
 @Command("abrir")
 public class OpenCommand implements ActionCommand {
@@ -14,22 +14,24 @@ public class OpenCommand implements ActionCommand {
 	}
 
 	@Override
-	public String perform(Scanner args) {
-		String stringToReturn = null;
-		
+	public void perform(Scanner args) {
 		if (args.hasNext()) {
-			
 			String itemName = "";
-			
+
 			while (args.hasNext()) {
 				itemName += args.next() + " ";
 			}
-			
+
 			itemName = itemName.trim();
-			stringToReturn = character.open(itemName);
-			
+			open(itemName);
 		}
-		
-		return stringToReturn;
+	}
+
+	private void open(String itemName) {
+		for (Access a : character.getLocation().getAccesses())
+			if (a.getName().contentEquals(itemName) || a.getDescription().contentEquals(itemName)) {
+				character.open(a);
+				break;
+			}
 	}
 }

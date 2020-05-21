@@ -1,9 +1,14 @@
-package entities;
+package items;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Entity;
+import island.GameObject;
+import tools.Gender;
+
 public class Location extends GameObject {
+	private boolean visible;
 	private List<Item> items;
 	private List<Access> accesses;
 	private List<Entity> npcs;
@@ -11,24 +16,27 @@ public class Location extends GameObject {
 	public Location() {
 	}
 
-	public Location(int id, String name, String description, boolean visible, List<Item> items, List<Access> accesses,
-			boolean locked) {
-		super(id, name, description, visible);
+	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
+			List<Access> accesses, boolean locked) {
+		super(id, gender, name, description);
 		this.items = items;
+		this.visible = visible;
 		this.accesses = accesses;
 	}
 
-	public Location(int id, String name, String description, boolean visible, List<Item> items) {
-		super(id, name, description, visible);
+	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items) {
+		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
 		this.items = items;
+		this.visible = visible;
 	}
 
-	public Location(int id, String name, String description, boolean visible) {
-		super(id, name, description, visible);
+	public Location(int id, Gender gender, String name, String description, boolean visible) {
+		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
 		this.accesses = new ArrayList<Access>();
+		this.visible = visible;
 	}
 
 	public List<Location> getLocations() {
@@ -65,8 +73,8 @@ public class Location extends GameObject {
 	}
 
 	public boolean addLink(Location other) {
-		
-		if(other != null) {
+
+		if (other != null) {
 			for (Access a : accesses) {
 				if (a.getIdDestination() == other.id) {
 					a.setDestination(other);
@@ -83,8 +91,8 @@ public class Location extends GameObject {
 	}
 
 	@Override
-	public void recieveObject(GameObject object) {
-		// TODO Auto-generated method stub
+	public boolean recieveObject(GameObject object) {
+		return false;
 	}
 
 	public void removeItem(Item i) {
@@ -97,6 +105,16 @@ public class Location extends GameObject {
 
 	public void setNpcs(List<Entity> npcs) {
 		this.npcs = npcs;
+	}
+
+	@Override
+	public void recieveDamage(Double damage) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isVisible() {
+		return visible;
 	}
 
 }

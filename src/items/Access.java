@@ -1,17 +1,21 @@
-package entities;
+package items;
 
 import interfaces.Opening;
+import interfaces.Unlockable;
+import island.GameObject;
+import tools.Gender;
+import tools.ItemType;
 
-public class Access extends Item implements Opening {
+public class Access extends Item implements Opening, Unlockable {
 	private boolean opened;
 	private boolean locked;
 	private int idKey;
 	private Location destination;
 	private int idDestination;
 
-	public Access(int id, String name, String description, boolean visible, boolean locked, boolean opened,
-			Location destination, int idKey) {
-		super(id, name, description, visible);
+	public Access(int id, Gender gender, String name, String description, boolean locked,
+			boolean opened, Location destination, int idKey) {
+		super(id, gender, name, description, ItemType.UNBREAKABLE);
 		this.locked = locked;
 		this.opened = opened;
 		this.destination = destination;
@@ -19,16 +23,13 @@ public class Access extends Item implements Opening {
 		this.idKey = idKey;
 	}
 
-	public Access(int id, String name, String description, boolean visible, boolean locked, boolean opened,
-			int idDestination, int idKey) {
-		super(id, name, description, visible);
+	public Access(int id, Gender gender, String name, String description, boolean locked,
+			boolean opened, int idDestination, int idKey) {
+		super(id, gender, name, description, ItemType.UNBREAKABLE);
 		this.locked = locked;
 		this.opened = opened;
 		this.idDestination = idDestination;
 		this.idKey = idKey;
-	}
-
-	public Access() {
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class Access extends Item implements Opening {
 	@Override
 	public boolean unlock() {
 		boolean result = false;
-		
+
 		if (locked)
 			locked = false;
 		for (Access c : destination.getAccesses()) {
@@ -108,24 +109,34 @@ public class Access extends Item implements Opening {
 	public String getStatus() {
 		String result = "";
 		if (locked)
-			result = "bloqueado";
+			result = "bloquead";
 		else if (opened) {
-			result = "abierto";
+			result = "abiert";
 		} else
-			result = "cerrado";
-		return result;
+			result = "cerrad";
+		return result + gender.getTermination();
 	}
 
 	@Override
-	public void recieveObject(GameObject objeto) {
-		Item recibido = (Item) objeto;
-		if (recibido.getId() == getIdKey()) {
-			locked = false;
+	public boolean recieveObject(GameObject object) {
+		if (object != null) {
+			Item recieved = (Item) object;
+			if (recieved.getId() == getIdKey()) {
+				locked = false;
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public int getIdKey() {
 		return idKey;
+	}
+
+	@Override
+	public void recieveDamage(Double damage) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
