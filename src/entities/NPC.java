@@ -6,7 +6,7 @@ import tools.Gender;
 
 public class NPC extends Entity {
 
-	public NPC(int id, Gender gender, String name, String description, boolean visible, Location location) {
+	public NPC(int id, Gender gender, String name, String description, Location location) {
 		super(id, gender, name, description, location);
 		this.state = new Normal(this);
 	}

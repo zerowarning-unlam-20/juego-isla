@@ -7,8 +7,7 @@ public abstract class GameObject {
 	protected Gender gender;
 	protected String name;
 	protected String description;
-	protected boolean visible;
-
+	
 	public GameObject(int id, Gender gender, String name, String description) {
 		this.id = id;
 		this.gender = gender;
