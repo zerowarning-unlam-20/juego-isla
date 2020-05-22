@@ -69,6 +69,16 @@ class GameTest {
 		game.getCharacter().goTo(s4);
 
 		Assert.assertEquals(s4, game.getCharacter().getLocation());
+		
+		//probar que no pueda pasar directamente a la ubicacion inicial sin pasar por la intermedia
+		game.getCharacter().goTo(s2);
+		Assert.assertNotEquals(s2, game.getCharacter().getLocation());
+		
+		game.getCharacter().goTo(s5);
+		Assert.assertEquals(s5, game.getCharacter().getLocation());
+		
+		game.getCharacter().goTo(s2);
+		Assert.assertEquals(s2, game.getCharacter().getLocation());
 	}
 
 	@Test
