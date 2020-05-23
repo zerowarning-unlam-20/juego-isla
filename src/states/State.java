@@ -1,20 +1,31 @@
 package states;
 
-public abstract class State {
-	protected boolean canChangeLocation = true;
-	protected boolean canOpen = true;
-	protected boolean canCut = true;
-	protected boolean canLook = true;
-	protected boolean canDrink = true;
-	protected boolean canGrab = true;
-	protected boolean canEat = true;
-	protected boolean canDoStrength = true;
+import island.GameObject;
+import items.Item;
+import items.Location;
 
-	@Override
-	public String toString() {
-		return "State [canChangeLocation=" + canChangeLocation + ", canOpen=" + canOpen + ", canLook=" + canLook
-				+ ", canDrink=" + canDrink + ", canGrab=" + canGrab + ", canEat=" + canEat + ", canDoStrength="
-				+ canDoStrength + "]";
-	}
+public interface State {
+	public void open(Item item);
 
+	public void unlock(Item toUnlock);
+
+	public void look(GameObject object);
+
+	public void goTo(Location location);
+
+	public void grab(Item item);
+
+	public State drink(Item item);
+
+	public void give(Item item, GameObject gameObject);
+
+	public void lookAround();
+
+	public void lookInventory();
+	
+	public void hit(Item item, GameObject gameObject);
+	
+	public State heal(Double points);
+
+	public State recieveDamage(Double damage);
 }

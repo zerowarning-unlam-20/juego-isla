@@ -3,11 +3,15 @@ package commands;
 import java.util.Scanner;
 
 public class CutCommand implements ActionCommand {
-
+	private Character character;
+	
+	public CutCommand(Character character) {
+		this.character = character;
+	}
+	
 	@Override
-	public String perform(Scanner args) {
-		// TODO Auto-generated method stub
-		return null;
+	public void perform(Scanner args) {
+		// cortar [] con []
 	}
 
 }
