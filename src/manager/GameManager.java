@@ -17,6 +17,7 @@ import commands.LookCommand;
 import commands.OpenCommand;
 import commands.UnlockCommand;
 import entities.UserCharacter;
+import island.GameObject;
 import items.Access;
 import items.Item;
 import items.Liquid;
@@ -29,10 +30,12 @@ import tools.ItemType;
 public class GameManager {
 	private Game game;
 	private List<ActionCommand> actionCommands;
+	private static List<String> messageHistory;
 
 	public GameManager() {
 		loadExample();
 		loadCommands();
+		messageHistory = new ArrayList<String>();
 	}
 
 	public void setGame(Game game) {
@@ -120,5 +123,14 @@ public class GameManager {
 		locations.add(salida);
 
 		game = new Game(new UserCharacter(habitacion), locations);
+	}
+
+	public static void recieveMessage(GameObject sender, String message) {
+		getMessageHistory().add(message);
+		System.out.println(sender.getName() + ": " + message);
+	}
+
+	public static List<String> getMessageHistory() {
+		return messageHistory;
 	}
 }

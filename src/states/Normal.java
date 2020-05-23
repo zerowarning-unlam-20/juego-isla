@@ -9,7 +9,6 @@ import items.Location;
 import items.SingleContainer;
 import items.Text;
 import manager.GameManager;
-import tools.ScreenOutput;
 
 public class Normal implements State {
 	private Entity character;
@@ -31,7 +30,7 @@ public class Normal implements State {
 					message = access.getSingularName() + "ya esta abiert" + access.getTermination();
 			} else
 				message = access.getSingularName() + " se pudo abrir";
-			ScreenOutput.recieveMessage(character.getName(), message);
+			GameManager.recieveMessage(character, message);
 		}
 	}
 
@@ -54,17 +53,17 @@ public class Normal implements State {
 				}
 			}
 		}
-		ScreenOutput.recieveMessage(character.getName(), message);
+		GameManager.recieveMessage(character, message);
 	}
 
 	@Override
 	public void look(GameObject object) {
-		ScreenOutput.recieveMessage(character.getName(), object.getDescription());
+		GameManager.recieveMessage(character, object.getDescription());
 		if (object.getClass() == Text.class)
 			if (character.getLocation().isVisible())
-				ScreenOutput.recieveMessage(character.getName(), ((Text) object).getContent());
+				GameManager.recieveMessage(character, ((Text) object).getContent());
 			else
-				ScreenOutput.recieveMessage(character.getName(), "No se puede ver nada en la oscuridad");
+				GameManager.recieveMessage(character, "No se puede ver nada en la oscuridad");
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class Normal implements State {
 				}
 			}
 		}
-		ScreenOutput.recieveMessage(character.getName(), message);
+		GameManager.recieveMessage(character, message);
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class Normal implements State {
 				message = "Agarre " + item.getOnlyName();
 			}
 		}
-		ScreenOutput.recieveMessage(character.getName(), message);
+		GameManager.recieveMessage(character, message);
 	}
 
 	@Override
@@ -108,9 +107,9 @@ public class Normal implements State {
 		if (item.getClass() == SingleContainer.class) {
 			SingleContainer cont = (SingleContainer) item;
 			cont.getContent();
-			ScreenOutput.recieveMessage(character.getName(), "Tome " + cont.getName());
+			GameManager.recieveMessage(character, "Tome " + cont.getName());
 		} else if (item.getClass() == Liquid.class) {
-			ScreenOutput.recieveMessage(character.getName(), "Tome " + item.getName());
+			GameManager.recieveMessage(character, "Tome " + item.getName());
 		}
 		return this;
 	}
@@ -128,7 +127,7 @@ public class Normal implements State {
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		ScreenOutput.recieveMessage(character.getName(), message);
+		GameManager.recieveMessage(character, message);
 	}
 
 	@Override
@@ -139,7 +138,7 @@ public class Normal implements State {
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		ScreenOutput.recieveMessage(character.getName(), (message == "") ? "Inventario vacio" : message);
+		GameManager.recieveMessage(character, (message == "") ? "Inventario vacio" : message);
 	}
 
 	public void hit(Item tool, GameObject object) {
