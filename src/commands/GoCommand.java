@@ -7,7 +7,7 @@ import items.Access;
 
 @Command("ir")
 public class GoCommand implements ActionCommand {
-	UserCharacter personaje;
+	private UserCharacter personaje;
 
 	public GoCommand(UserCharacter personaje) {
 		this.personaje = personaje;

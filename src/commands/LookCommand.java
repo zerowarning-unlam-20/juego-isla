@@ -9,7 +9,7 @@ import items.Item;
 
 @Command("ver")
 public class LookCommand implements ActionCommand {
-	UserCharacter character;
+	private UserCharacter character;
 
 	public LookCommand(UserCharacter character) {
 		this.character = character;

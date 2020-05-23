@@ -3,7 +3,7 @@ package commands;
 import java.util.Scanner;
 
 public class CutCommand implements ActionCommand {
-	Character character;
+	private Character character;
 	
 	public CutCommand(Character character) {
 		this.character = character;

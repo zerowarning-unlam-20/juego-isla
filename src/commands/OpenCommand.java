@@ -7,7 +7,7 @@ import items.Access;
 
 @Command("abrir")
 public class OpenCommand implements ActionCommand {
-	UserCharacter character;
+	private UserCharacter character;
 
 	public OpenCommand(UserCharacter character) {
 		this.character = character;

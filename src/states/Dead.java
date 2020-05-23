@@ -7,7 +7,7 @@ import items.Location;
 import manager.GameManager;
 
 public class Dead implements State {
-	Entity character;
+	private Entity character;
 
 	public Dead(Entity character) {
 		this.character = character;
