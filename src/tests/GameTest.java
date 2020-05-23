@@ -61,7 +61,7 @@ class GameTest {
 
 		Game game = new Game(p, ubicaciones);
 
-		GameManager gm = GameManager.getInstance();
+		GameManager gm = new GameManager();
 		gm.setGame(game);
 
 		game.getCharacter().goTo(s2);
@@ -69,14 +69,15 @@ class GameTest {
 		game.getCharacter().goTo(s4);
 
 		Assert.assertEquals(s4, game.getCharacter().getLocation());
-		
-		//probar que no pueda pasar directamente a la ubicacion inicial sin pasar por la intermedia
+
+		// probar que no pueda pasar directamente a la ubicacion inicial sin pasar por
+		// la intermedia
 		game.getCharacter().goTo(s2);
 		Assert.assertNotEquals(s2, game.getCharacter().getLocation());
-		
+
 		game.getCharacter().goTo(s5);
 		Assert.assertEquals(s5, game.getCharacter().getLocation());
-		
+
 		game.getCharacter().goTo(s2);
 		Assert.assertEquals(s2, game.getCharacter().getLocation());
 	}
@@ -104,7 +105,7 @@ class GameTest {
 
 		ArrayList<Location> locations = new ArrayList<Location>();
 		locations.add(s1);
-		GameManager gameManager = GameManager.getInstance();
+		GameManager gameManager = new GameManager();
 		gameManager.setGame(new Game(p, locations));
 
 		p.use(tool, palmTree);
@@ -131,7 +132,7 @@ class GameTest {
 	@Test
 	public void testLibro() {
 		System.out.println("---------Test libro oscuridad---------");
-		GameManager gameManager = GameManager.getInstance();
+		GameManager gameManager = new GameManager();
 		Location cueva = new Location(1, Gender.M, "s1", "Inicio", false);
 		Location s1 = new Location(2, Gender.M, "s1", "Inicio", true);
 		Access salida = new Access(3, Gender.F, "Salida", "salida de cueva", false, true, 2, 0);
@@ -149,7 +150,5 @@ class GameTest {
 		p.goTo(s1);
 		p.look(hoja);
 	}
-	
-	
 
 }

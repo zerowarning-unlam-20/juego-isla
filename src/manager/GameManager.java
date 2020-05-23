@@ -27,25 +27,12 @@ import tools.IdManager;
 import tools.ItemType;
 
 public class GameManager {
-	private static GameManager instance;
 	private Game game;
 	private List<ActionCommand> actionCommands;
 
-	private GameManager() {
+	public GameManager() {
 		loadExample();
 		loadCommands();
-	}
-
-	static {
-		try {
-			instance = new GameManager();
-		} catch (Exception e) {
-			throw new RuntimeException("Exception creating singleton");
-		}
-	}
-
-	public static GameManager getInstance() {
-		return instance;
 	}
 
 	public void setGame(Game game) {
@@ -95,10 +82,6 @@ public class GameManager {
 				command.perform(strCommand);
 				break;
 			}
-	}
-
-	public void recieveMessage(String name, String message) {
-		System.out.println(name + ": " + message);
 	}
 
 	private void loadExample() {

@@ -9,6 +9,7 @@ import items.Location;
 import items.SingleContainer;
 import items.Text;
 import manager.GameManager;
+import tools.ScreenOutput;
 
 public class Normal implements State {
 	private Entity character;
@@ -30,7 +31,7 @@ public class Normal implements State {
 					message = access.getSingularName() + "ya esta abiert" + access.getTermination();
 			} else
 				message = access.getSingularName() + " se pudo abrir";
-			GameManager.getInstance().recieveMessage(character.getName(), message);
+			ScreenOutput.recieveMessage(character.getName(), message);
 		}
 	}
 
@@ -53,17 +54,17 @@ public class Normal implements State {
 				}
 			}
 		}
-		GameManager.getInstance().recieveMessage(character.getName(), message);
+		ScreenOutput.recieveMessage(character.getName(), message);
 	}
 
 	@Override
 	public void look(GameObject object) {
-		GameManager.getInstance().recieveMessage(character.getName(), object.getDescription());
+		ScreenOutput.recieveMessage(character.getName(), object.getDescription());
 		if (object.getClass() == Text.class)
 			if (character.getLocation().isVisible())
-				GameManager.getInstance().recieveMessage(character.getName(), ((Text) object).getContent());
+				ScreenOutput.recieveMessage(character.getName(), ((Text) object).getContent());
 			else
-				GameManager.getInstance().recieveMessage(character.getName(), "No se puede ver nada en la oscuridad");
+				ScreenOutput.recieveMessage(character.getName(), "No se puede ver nada en la oscuridad");
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class Normal implements State {
 				}
 			}
 		}
-		GameManager.getInstance().recieveMessage(character.getName(), message);
+		ScreenOutput.recieveMessage(character.getName(), message);
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class Normal implements State {
 				message = "Agarre " + item.getOnlyName();
 			}
 		}
-		GameManager.getInstance().recieveMessage(character.getName(), message);
+		ScreenOutput.recieveMessage(character.getName(), message);
 	}
 
 	@Override
@@ -107,9 +108,9 @@ public class Normal implements State {
 		if (item.getClass() == SingleContainer.class) {
 			SingleContainer cont = (SingleContainer) item;
 			cont.getContent();
-			GameManager.getInstance().recieveMessage(character.getName(), "Tome " + cont.getName());
+			ScreenOutput.recieveMessage(character.getName(), "Tome " + cont.getName());
 		} else if (item.getClass() == Liquid.class) {
-			GameManager.getInstance().recieveMessage(character.getName(), "Tome " + item.getName());
+			ScreenOutput.recieveMessage(character.getName(), "Tome " + item.getName());
 		}
 		return this;
 	}
@@ -127,7 +128,7 @@ public class Normal implements State {
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		GameManager.getInstance().recieveMessage(character.getName(), message);
+		ScreenOutput.recieveMessage(character.getName(), message);
 	}
 
 	@Override
@@ -138,7 +139,7 @@ public class Normal implements State {
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		GameManager.getInstance().recieveMessage(character.getName(), (message == "") ? "Inventario vacio" : message);
+		ScreenOutput.recieveMessage(character.getName(), (message == "") ? "Inventario vacio" : message);
 	}
 
 	public void hit(Item tool, GameObject object) {
