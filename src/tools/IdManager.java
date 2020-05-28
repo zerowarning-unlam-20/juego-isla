@@ -2,11 +2,14 @@ package tools;
 
 public class IdManager
 {
-    private int lastId = 0;
+    private static int lastId = 0;
 
-    public int getNext()
+    public static int getNext()
     {
-        this.lastId++;
-        return this.lastId;
+        lastId++;
+        return lastId;
+    }
+    public static void setLastId(int n) {
+    	lastId=n;
     }
 }

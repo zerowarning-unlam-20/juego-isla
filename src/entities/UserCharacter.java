@@ -10,7 +10,9 @@ public class UserCharacter extends Entity {
 	public UserCharacter(Location location) {
 		super(0, Gender.M, "Carlos", "Tachero", location);
 	}
-
+	public UserCharacter(String name,Location location) {
+		super(0, Gender.M, name, "Tachero", location);
+	}
 	@Override
 	public void drink(Item item) {
 		if (item != null)
