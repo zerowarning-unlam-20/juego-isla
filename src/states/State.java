@@ -5,25 +5,25 @@ import items.Item;
 import items.Location;
 
 public interface State {
-	public void open(Item item);
+	public boolean open(Item item);
 
-	public void unlock(Item toUnlock);
+	public boolean unlock(Item toUnlock);
 
-	public void look(GameObject object);
+	public boolean look(GameObject object);
 
-	public void goTo(Location location);
+	public boolean goTo(Location location);
 
-	public void grab(Item item);
+	public boolean grab(Item item);
 
 	public State drink(Item item);
 
-	public void give(Item item, GameObject gameObject);
+	public boolean give(Item item, GameObject gameObject);
 
-	public void lookAround();
+	public boolean lookAround();
 
-	public void lookInventory();
+	public boolean lookInventory();
 	
-	public void hit(Item item, GameObject gameObject);
+	public boolean hit(Item item, GameObject gameObject);
 	
 	public State heal(Double points);
 
