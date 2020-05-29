@@ -14,65 +14,74 @@ public class Dead implements State {
 	}
 
 	@Override
-	public void open(Item item) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean open(Item item) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void unlock(Item toUnlock) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean unlock(Item toUnlock) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void look(GameObject object) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean look(GameObject object) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void goTo(Location location) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean goTo(Location location) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void grab(Item item) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean grab(Item item) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
 	public State drink(Item item) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
 		return this;
 	}
 
 	@Override
-	public void give(Item item, GameObject gameObject) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean give(Item item, GameObject gameObject) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void lookAround() {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean lookAround() {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void lookInventory() {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean lookInventory() {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public void hit(Item item, GameObject gameObject) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+	public boolean hit(Item item, GameObject gameObject) {
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		return false;
 	}
 
 	@Override
 	public State heal(Double points) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
 		return this;
 	}
 
 	@Override
 	public State recieveDamage(Double damage) {
-		GameManager.recieveMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(character, "Muert" + character.getTermination());
 		return this;
 	}
 

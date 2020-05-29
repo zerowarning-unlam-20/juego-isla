@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -88,27 +89,26 @@ public class GameManager {
 	}
 
 	private void loadExample() {
-		IdManager idManager = new IdManager();
-		Item llave = new Item(idManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
+		Item llave = new Item(IdManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
 		ArrayList<Item> itemsHabitacion = new ArrayList<>();
 		itemsHabitacion.add(llave);
 
-		SingleContainer botella = new SingleContainer(idManager.getNext(), Gender.F, "botella", "Botella de vidrio",
+		SingleContainer botella = new SingleContainer(IdManager.getNext(), Gender.F, "botella", "Botella de vidrio",
 				ItemType.UNBREAKABLE);
-		Liquid cerveza = new Liquid(idManager.getNext(), Gender.F, "cerveza", "No es light", true);
+		Liquid cerveza = new Liquid(IdManager.getNext(), Gender.F, "cerveza", "No es light", true);
 		botella.setContent(cerveza);
 		ArrayList<Item> itemsSalida = new ArrayList<>();
 		itemsSalida.add(botella);
 
-		Location habitacion = new Location(idManager.getNext(), Gender.F, "habitacion",
+		Location habitacion = new Location(IdManager.getNext(), Gender.F, "habitacion",
 				"Habitacion chica, con una llave en el suelo", true, itemsHabitacion);
-		Location salida = new Location(idManager.getNext(), Gender.F, "salida", "Una birra nomas", true, itemsSalida);
-		Access a1p2 = new Access(idManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
+		Location salida = new Location(IdManager.getNext(), Gender.F, "salida", "Una birra nomas", true, itemsSalida);
+		Access a1p2 = new Access(IdManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
 				salida.getId(), llave.getId());
 		ArrayList<Access> accesosHabitacion = new ArrayList<>();
 		accesosHabitacion.add(a1p2);
 
-		Access a2p1 = new Access(idManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
+		Access a2p1 = new Access(IdManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
 				habitacion.getId(), llave.getId());
 		ArrayList<Access> accesosSalida = new ArrayList<>();
 		accesosSalida.add(a2p1);
@@ -125,7 +125,7 @@ public class GameManager {
 		game = new Game(new UserCharacter(habitacion), locations);
 	}
 
-	public static void recieveMessage(GameObject sender, String message) {
+	public static void sendMessage(GameObject sender, String message) {
 		getMessageHistory().add(message);
 		System.out.println(sender.getName() + ": " + message);
 	}
@@ -133,4 +133,5 @@ public class GameManager {
 	public static List<String> getMessageHistory() {
 		return messageHistory;
 	}
+
 }

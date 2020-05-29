@@ -18,25 +18,29 @@ public class Normal implements State {
 	}
 
 	@Override
-	public void open(Item item) {
+	public boolean open(Item item) {
+		boolean result = false;
 		String message = "No se pudo abrir";
 		if (item.getClass() == Access.class) {
 			Access access = (Access) item;
-			boolean result = access.open();
+			result = access.open();
 			if (!result) {
 				if (access.isLocked())
 					message = access.getSingularName() + " esta bloquead" + access.getTermination();
 				else
 					message = access.getSingularName() + "ya esta abiert" + access.getTermination();
-			} else
+			} else {
 				message = access.getSingularName() + " se pudo abrir";
-			GameManager.recieveMessage(character, message);
+			}
+			GameManager.sendMessage(character, message);
 		}
+		return result;
 	}
 
 	@Override
-	public void unlock(Item toUnlock) {
+	public boolean unlock(Item toUnlock) {
 		String message = "No hay items para desbloquear ";
+		boolean result = false;
 		if (toUnlock != null && toUnlock.getClass() == Access.class) {
 			Access access = (Access) toUnlock;
 			if (!access.isLocked()) {
@@ -48,41 +52,53 @@ public class Normal implements State {
 						character.removeItem(item);
 						access.unlock();
 						message = access.getSingularName() + " se desbloqueo";
+						result = true;
 						break;
 					}
 				}
 			}
 		}
-		GameManager.recieveMessage(character, message);
+		GameManager.sendMessage(character, message);
+		return result;
 	}
 
 	@Override
-	public void look(GameObject object) {
-		GameManager.recieveMessage(character, object.getDescription());
+	public boolean look(GameObject object) {
+		boolean result = false;
+		GameManager.sendMessage(character, object.getDescription());
 		if (object.getClass() == Text.class)
-			if (character.getLocation().isVisible())
-				GameManager.recieveMessage(character, ((Text) object).getContent());
-			else
-				GameManager.recieveMessage(character, "No se puede ver nada en la oscuridad");
+			if (character.getLocation().isVisible()) {
+				GameManager.sendMessage(character, ((Text) object).getContent());
+				result = true;
+			} else {
+				GameManager.sendMessage(character, "No se puede ver nada en la oscuridad");
+				result = false;
+			}
+		return result;
 	}
 
 	@Override
-	public void goTo(Location location) {
+	public boolean goTo(Location location) {
+		boolean result = false;
 		String message = "";
 		for (Access access : character.getLocation().getAccesses()) {
 			if (access.getDestination() == location) {
 				if (access.isOpened()) {
 					character.setLocation(location);
 					message = "Me fui a" + location.getLocationPrefix() + " " + location.getName();
+					result = true;
 				} else {
+					message = "No se puede ir";
 				}
 			}
 		}
-		GameManager.recieveMessage(character, message);
+		GameManager.sendMessage(character, message);
+		return result;
 	}
 
 	@Override
-	public void grab(Item item) {
+	public boolean grab(Item item) {
+		boolean result = false;
 		String message = "No agarre nada";
 		if (item != null) {
 			if (item.getClass() == Liquid.class) {
@@ -90,6 +106,7 @@ public class Normal implements State {
 					if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
 						((SingleContainer) i).setContent(item);
 						message = "Agarre " + item.getName();
+						result = true;
 						break;
 					}
 				}
@@ -99,7 +116,8 @@ public class Normal implements State {
 				message = "Agarre " + item.getOnlyName();
 			}
 		}
-		GameManager.recieveMessage(character, message);
+		GameManager.sendMessage(character, message);
+		return result;
 	}
 
 	@Override
@@ -107,42 +125,48 @@ public class Normal implements State {
 		if (item.getClass() == SingleContainer.class) {
 			SingleContainer cont = (SingleContainer) item;
 			cont.getContent();
-			GameManager.recieveMessage(character, "Tome " + cont.getName());
+			GameManager.sendMessage(character, "Tome " + cont.getName());
 		} else if (item.getClass() == Liquid.class) {
-			GameManager.recieveMessage(character, "Tome " + item.getName());
+			GameManager.sendMessage(character, "Tome " + item.getName());
 		}
 		return this;
 	}
 
 	@Override
-	public void give(Item item, GameObject gameObject) {
+	public boolean give(Item item, GameObject gameObject) {
 		gameObject.recieveObject(item);
+		return true;
 	}
 
 	@Override
-	public void lookAround() {
+	public boolean lookAround() {
+		boolean result = true;
 		String message = character.getLocation().getDescription() + "\n";
 		for (Item item : character.getLocation().getItems()) {
 			message += item + ", ";
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		GameManager.recieveMessage(character, message);
+		GameManager.sendMessage(character, message);
+		result = true;
+		return result;
 	}
 
 	@Override
-	public void lookInventory() {
+	public boolean lookInventory() {
+		boolean result = true;
 		String message = "";
 		for (Item item : character.getInventory()) {
 			message += item.getName() + ", ";
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
-		GameManager.recieveMessage(character, (message == "") ? "Inventario vacio" : message);
+		GameManager.sendMessage(character, (message == "") ? "Inventario vacio" : message);
+		return result;
 	}
 
-	public void hit(Item tool, GameObject object) {
-
+	public boolean hit(Item tool, GameObject object) {
+		return false;
 	}
 
 	@Override

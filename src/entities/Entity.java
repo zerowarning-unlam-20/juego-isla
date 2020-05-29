@@ -23,8 +23,8 @@ public abstract class Entity extends GameObject {
 		inventory = new LinkedList<Item>();
 	}
 
-	public void lookInventory() {
-		state.lookInventory();
+	public boolean lookInventory() {
+		return state.lookInventory();
 	}
 
 	public List<Item> getInventory() {
@@ -36,20 +36,20 @@ public abstract class Entity extends GameObject {
 		return item;
 	}
 
-	public void goTo(Location location) {
-		state.goTo(location);
+	public boolean goTo(Location location) {
+		return state.goTo(location);
 	}
 
-	public void grab(Item item) {
-		state.grab(item);
+	public boolean grab(Item item) {
+		return state.grab(item);
 	}
 
-	public void give(Item item, GameObject gameObject) {
-		state.give(item, gameObject);
+	public boolean give(Item item, GameObject gameObject) {
+		return state.give(item, gameObject);
 	}
 
-	public void unlock(Item toUnlock) {
-		state.unlock(toUnlock);
+	public boolean unlock(Item toUnlock) {
+		return state.unlock(toUnlock);
 	}
 
 	public void setLocation(Location location) {
@@ -60,28 +60,29 @@ public abstract class Entity extends GameObject {
 		return location;
 	}
 
-	public void drink(Item item) {
+	public boolean drink(Item item) {
 		state.drink(item);
+		return item != null;
 	}
 
-	public void look(GameObject gameObject) {
-		state.look(gameObject);
+	public boolean look(GameObject gameObject) {
+		return state.look(gameObject);
 	}
 
-	public void open(Item item) {
-		state.open(item);
+	public boolean open(Item item) {
+		return state.open(item);
 	}
 
-	public void use(Item item, GameObject objective) {
-		objective.recieveObject(item);
+	public boolean use(Item item, GameObject objective) {
+		return objective.recieveObject(item);
 	}
 
 	public void addItem(Item item) {
 		inventory.add(item);
 	}
 
-	public void lookAround() {
-		state.lookAround();
+	public boolean lookAround() {
+		return state.lookAround();
 	}
 
 	@Override
@@ -93,7 +94,8 @@ public abstract class Entity extends GameObject {
 		return false;
 	}
 
-	public void attack(Item item, GameObject gameObject) {
+	public boolean attack(Item item, GameObject gameObject) {
 		gameObject.recieveDamage(0d);
+		return true;
 	}
 }

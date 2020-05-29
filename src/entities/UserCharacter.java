@@ -10,36 +10,43 @@ public class UserCharacter extends Entity {
 	public UserCharacter(Location location) {
 		super(0, Gender.M, "Carlos", "Tachero", location);
 	}
-	public UserCharacter(String name,Location location) {
+
+	public UserCharacter(String name, Location location) {
 		super(0, Gender.M, name, "Tachero", location);
 	}
+
 	@Override
-	public void drink(Item item) {
+	public boolean drink(Item item) {
 		if (item != null)
 			state = state.drink(item);
+		return item != null;
 	}
 
 	@Override
-	public void open(Item item) {
+	public boolean open(Item item) {
 		if (item != null)
-			state.open(item);
+			return state.open(item);
+		return false;
 	}
 
 	@Override
-	public void attack(Item item, GameObject gameObject) {
+	public boolean attack(Item item, GameObject gameObject) {
 		gameObject.recieveDamage(0D);
+		return true;
 	}
 
 	@Override
-	public void look(GameObject gameObject) {
+	public boolean look(GameObject gameObject) {
 		if (gameObject != null)
-			state.look(gameObject);
+			return state.look(gameObject);
+		return false;
 	}
 
 	@Override
-	public void unlock(Item toUnlock) {
+	public boolean unlock(Item toUnlock) {
 		if (toUnlock != null)
 			state.unlock(toUnlock);
+		return false;
 	}
 
 	@Override
