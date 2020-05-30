@@ -81,7 +81,7 @@ public class Normal implements State {
 	public boolean goTo(Location location) {
 		boolean result = false;
 		String message = "";
-		for (Access access : character.getLocation().getAccesses()) {
+		for (Access access : character.getLocation().getAccesses().values()) {
 			if (access.getDestination() == location) {
 				if (access.isOpened()) {
 					character.setLocation(location);

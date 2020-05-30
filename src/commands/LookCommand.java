@@ -36,7 +36,7 @@ public class LookCommand implements ActionCommand {
 				}
 			}
 			if (result == null) {
-				for (Access acceso : character.getLocation().getAccesses()) {
+				for (Access acceso : character.getLocation().getAccesses().values()) {
 					if (acceso.getName().contentEquals(itemName) || acceso.getDescription().contentEquals(itemName)) {
 						result = acceso;
 						break;

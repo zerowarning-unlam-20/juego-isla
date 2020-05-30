@@ -1,6 +1,7 @@
 package items;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entities.Entity;
@@ -10,14 +11,14 @@ import tools.Gender;
 public class Location extends GameObject {
 	private boolean visible;
 	private List<Item> items;
-	private List<Access> accesses;
+	private HashMap<Integer, Access> accesses;
 	private List<Entity> npcs;
 
 	public Location() {
 	}
 
 	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
-			List<Access> accesses, boolean locked) {
+			HashMap<Integer, Access> accesses, boolean locked) {
 		super(id, gender, name, description);
 		this.items = items;
 		this.visible = visible;
@@ -27,7 +28,7 @@ public class Location extends GameObject {
 	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items) {
 		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
-		this.accesses = new ArrayList<Access>();
+		this.accesses = new HashMap<Integer, Access>();
 		this.items = items;
 		this.visible = visible;
 	}
@@ -35,16 +36,8 @@ public class Location extends GameObject {
 	public Location(int id, Gender gender, String name, String description, boolean visible) {
 		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
-		this.accesses = new ArrayList<Access>();
+		this.accesses = new HashMap<Integer, Access>();
 		this.visible = visible;
-	}
-
-	public List<Location> getLocations() {
-		ArrayList<Location> locations = new ArrayList<>();
-		for (Access access : accesses) {
-			locations.add(access.getDestination());
-		}
-		return locations;
 	}
 
 	public String getDescription() {
@@ -60,33 +53,27 @@ public class Location extends GameObject {
 		return items;
 	}
 
-	public List<Access> getAccesses() {
+	public HashMap<Integer, Access> getAccesses() {
 		return accesses;
 	}
 
-	public void setAccesses(List<Access> accesses) {
+	public void setAccesses(HashMap<Integer, Access> accesses) {
 		this.accesses = accesses;
 	}
 
 	public void addAccess(Access access) {
-		accesses.add(access);
+		accesses.put(access.getIdDestination(), access);
 	}
 
 	public boolean addLink(Location other) {
-
-		if (other != null) {
-			for (Access a : accesses) {
-				if (a.getIdDestination() == other.id) {
-					a.setDestination(other);
-				}
-			}
-			for (Access b : other.accesses) {
-				if (b.getIdDestination() == this.id) {
-					b.setDestination(this);
-				}
-			}
+		Access access = accesses.get(other.id);
+		if (access != null) {
+			access.setDestination(other);
+			Access b = access.getDestination().getAccesses().get(this.id);
+			if (b != null)
+				b.setDestination(this);
+			return true;
 		}
-
 		return false;
 	}
 
@@ -115,6 +102,10 @@ public class Location extends GameObject {
 
 	public boolean isVisible() {
 		return visible;
+	}
+
+	public void addItem(Item item) {
+		this.items.add(item);
 	}
 
 }

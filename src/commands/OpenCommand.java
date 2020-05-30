@@ -28,7 +28,7 @@ public class OpenCommand implements ActionCommand {
 	}
 
 	private void open(String itemName) {
-		for (Access a : character.getLocation().getAccesses())
+		for (Access a : character.getLocation().getAccesses().values())
 			if (a.getName().contentEquals(itemName) || a.getDescription().contentEquals(itemName)) {
 				character.open(a);
 				break;

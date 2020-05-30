@@ -31,11 +31,10 @@ import tools.ItemType;
 public class GameManager {
 	private Game game;
 	private List<ActionCommand> actionCommands;
-	private static List<String> messageHistory;
+	private static boolean testMode;
+	private static List<String> messageHistory = new ArrayList<String>();
 
 	public GameManager() {
-		loadExample();
-		loadCommands();
 		messageHistory = new ArrayList<String>();
 	}
 
@@ -45,6 +44,8 @@ public class GameManager {
 	}
 
 	public void run() {
+		loadExample();
+		loadCommands();
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -88,7 +89,7 @@ public class GameManager {
 			}
 	}
 
-	private void loadExample() {
+	public void loadExample() {
 		Item llave = new Item(IdManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
 		ArrayList<Item> itemsHabitacion = new ArrayList<>();
 		itemsHabitacion.add(llave);
@@ -113,8 +114,13 @@ public class GameManager {
 		ArrayList<Access> accesosSalida = new ArrayList<>();
 		accesosSalida.add(a2p1);
 
-		habitacion.setAccesses(accesosHabitacion);
-		salida.setAccesses(accesosSalida);
+		for (Access access : accesosHabitacion) {
+			habitacion.addAccess(access);
+		}
+
+		for (Access access : accesosSalida) {
+			salida.addAccess(access);
+		}
 
 		habitacion.addLink(salida);
 
@@ -127,11 +133,17 @@ public class GameManager {
 
 	public static void sendMessage(GameObject sender, String message) {
 		getMessageHistory().add(message);
-		System.out.println(sender.getName() + ": " + message);
+		if (testMode == false) {
+			System.out.println(sender.getName() + ": " + message);
+		}
 	}
 
 	public static List<String> getMessageHistory() {
 		return messageHistory;
+	}
+
+	public static void setTestMode(boolean testMode) {
+		GameManager.testMode = testMode;
 	}
 
 }

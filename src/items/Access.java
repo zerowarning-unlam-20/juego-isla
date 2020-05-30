@@ -12,9 +12,10 @@ public class Access extends Item implements Opening, Unlockable {
 	private int idKey;
 	private Location destination;
 	private int idDestination;
+	private Access linkedWith;
 
-	public Access(int id, Gender gender, String name, String description, boolean locked,
-			boolean opened, Location destination, int idKey) {
+	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
+			Location destination, int idKey) {
 		super(id, gender, name, description, ItemType.UNBREAKABLE);
 		this.locked = locked;
 		this.opened = opened;
@@ -23,13 +24,20 @@ public class Access extends Item implements Opening, Unlockable {
 		this.idKey = idKey;
 	}
 
-	public Access(int id, Gender gender, String name, String description, boolean locked,
-			boolean opened, int idDestination, int idKey) {
+	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
+			int idDestination, int idKey) {
 		super(id, gender, name, description, ItemType.UNBREAKABLE);
 		this.locked = locked;
 		this.opened = opened;
 		this.idDestination = idDestination;
 		this.idKey = idKey;
+	}
+
+	public void linkWith(Access other) {
+		if (other != null) {
+			this.linkedWith = other;
+			other.linkedWith = this;
+		}
 	}
 
 	@Override
@@ -47,15 +55,11 @@ public class Access extends Item implements Opening, Unlockable {
 	@Override
 	public boolean unlock() {
 		boolean result = false;
-
-		if (locked)
+		if (locked) {
 			locked = false;
-		for (Access c : destination.getAccesses()) {
-			if (c.getId() == this.id) {
-				c.locked = false;
-				result = true;
-				break;
-			}
+			if (linkedWith != null)
+				linkedWith.locked = false;
+			result = true;
 		}
 		return result;
 	}
@@ -136,7 +140,7 @@ public class Access extends Item implements Opening, Unlockable {
 	@Override
 	public void recieveDamage(Double damage) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

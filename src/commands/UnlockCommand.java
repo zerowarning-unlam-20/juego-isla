@@ -34,7 +34,7 @@ public class UnlockCommand implements ActionCommand {
 	}
 
 	private void unlockSearch(String toUnlock) {
-		for (Access acceso : character.getLocation().getAccesses())
+		for (Access acceso : character.getLocation().getAccesses().values())
 			if (acceso.getName().contentEquals(toUnlock)) {
 				character.unlock(acceso);
 			}

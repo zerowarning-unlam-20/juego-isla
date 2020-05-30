@@ -1,6 +1,7 @@
 package entities;
 
 import island.GameObject;
+import items.Access;
 import items.Item;
 import items.Location;
 import tools.Gender;
@@ -8,11 +9,11 @@ import tools.Gender;
 public class UserCharacter extends Entity {
 
 	public UserCharacter(Location location) {
-		super(0, Gender.M, "Carlos", "Tachero", location);
+		super(0, Gender.M, "Test", "Test Character", location);
 	}
 
 	public UserCharacter(String name, Location location) {
-		super(0, Gender.M, name, "Tachero", location);
+		super(0, Gender.M, name, "Character", location);
 	}
 
 	@Override
@@ -88,5 +89,15 @@ public class UserCharacter extends Entity {
 
 	@Override
 	public void recieveDamage(Double damage) {
+	}
+
+	public boolean goTo(int id) {
+		boolean result = false;
+		Access access = location.getAccesses().get(id);
+		if (access != null && access.getDestination() != null) {
+			state.goTo(access.getDestination());
+			result = true;
+		}
+		return result;
 	}
 }

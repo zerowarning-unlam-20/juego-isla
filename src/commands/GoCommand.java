@@ -15,6 +15,7 @@ public class GoCommand implements ActionCommand {
 
 	@Override
 	public void perform(Scanner args) {
+		/*
 		String lugar = "";
 
 		if (args.hasNext()) {
@@ -24,6 +25,7 @@ public class GoCommand implements ActionCommand {
 			}
 			lugar = lugar.trim();
 			if (lugar != "") {
+				personaje.goTo(personaje.getLocation().getAccesses().get(key));
 				for (Access access : personaje.getLocation().getAccesses()) {
 					if (access.getDestination().getName().contentEquals(lugar) && access.isOpened()) {
 						personaje.goTo(access.getDestination());
@@ -32,6 +34,7 @@ public class GoCommand implements ActionCommand {
 				}
 			}
 		}
+		*/
 	}
 
 }
