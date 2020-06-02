@@ -4,24 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaces.Unlockable;
-import island.GameObject;
 import tools.Gender;
-import tools.ItemType;
 
 public class Container extends Item implements Unlockable {
 	private List<Item> content;
 	private boolean locked;
 
-	public Container(int id, Gender gender, String name, String description, ItemType type,
-			boolean locked) {
-		super(id, gender, name, description, type);
+	public Container(int id, Gender gender, String name, String description, boolean locked) {
+		super(id, gender, name, description, null);
 		content = new ArrayList<>();
 		this.locked = locked;
 	}
 
-	public Container(int id, Gender gender, String name, String description, ItemType type,
-			boolean locked, List<Item> content) {
-		super(id, gender, name, description, type);
+	public Container(int id, Gender gender, String name, String description, boolean locked, List<Item> content) {
+		super(id, gender, name, description, null);
 		this.content = content;
 		this.locked = locked;
 	}
@@ -113,27 +109,6 @@ public class Container extends Item implements Unlockable {
 
 	}
 
-	@Override
-	public void use(Item objective) {
-		objective.recieveObject(this);
-	}
-
-	@Override
-	public boolean recieveObject(GameObject object) {
-		if (object != null) {
-			if (((Item) object).getClass() != Tool.class) {
-				addContent((Item) object);
-				return true;
-			} else {
-				Tool tool = (Tool) object;
-				if (tool.getDamages() == this.type) {
-					this.locked = false;
-				}
-			}
-		}
-		return false;
-	}
-
 	public void empty() {
 		content.clear();
 	}
@@ -144,11 +119,8 @@ public class Container extends Item implements Unlockable {
 		return false;
 	}
 
-	@Override
-	public void recieveDamage(Double damage) {
-	}
-
 	public boolean isLocked() {
 		return locked;
 	}
+
 }

@@ -1,13 +1,19 @@
 package tests;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import entities.UserCharacter;
 import items.Location;
+import manager.GameManager;
 import tools.Gender;
 
 class GenderTest {
+	@BeforeEach
+	public void start() {
+		GameManager.setTestMode(true);
+	}
 
 	@Test
 	public void GenderTest1() {

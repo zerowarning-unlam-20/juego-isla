@@ -48,12 +48,8 @@ public abstract class GameObject {
 		return description;
 	}
 
-	public abstract boolean recieveObject(GameObject object);
-
 	@Override
 	public String toString() {
 		return description;
 	}
-
-	public abstract void recieveDamage(Double damage);
 }

@@ -4,9 +4,8 @@ import interfaces.Opening;
 import interfaces.Unlockable;
 import island.GameObject;
 import tools.Gender;
-import tools.ItemType;
 
-public class Access extends Item implements Opening, Unlockable {
+public class Access extends GameObject implements Opening, Unlockable {
 	private boolean opened;
 	private boolean locked;
 	private int idKey;
@@ -16,7 +15,7 @@ public class Access extends Item implements Opening, Unlockable {
 
 	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
 			Location destination, int idKey) {
-		super(id, gender, name, description, ItemType.UNBREAKABLE);
+		super(id, gender, name, description);
 		this.locked = locked;
 		this.opened = opened;
 		this.destination = destination;
@@ -26,7 +25,7 @@ public class Access extends Item implements Opening, Unlockable {
 
 	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
 			int idDestination, int idKey) {
-		super(id, gender, name, description, ItemType.UNBREAKABLE);
+		super(id, gender, name, description);
 		this.locked = locked;
 		this.opened = opened;
 		this.idDestination = idDestination;
@@ -38,14 +37,6 @@ public class Access extends Item implements Opening, Unlockable {
 			this.linkedWith = other;
 			other.linkedWith = this;
 		}
-	}
-
-	@Override
-	public void use(Item objective) {
-		if (opened)
-			close();
-		else
-			open();
 	}
 
 	public boolean needsKey() {
@@ -121,10 +112,8 @@ public class Access extends Item implements Opening, Unlockable {
 		return result + gender.getTermination();
 	}
 
-	@Override
-	public boolean recieveObject(GameObject object) {
-		if (object != null) {
-			Item recieved = (Item) object;
+	public boolean unlockKey(Item recieved) {
+		if (recieved != null) {
 			if (recieved.getId() == getIdKey()) {
 				locked = false;
 				return true;
@@ -135,12 +124,6 @@ public class Access extends Item implements Opening, Unlockable {
 
 	public int getIdKey() {
 		return idKey;
-	}
-
-	@Override
-	public void recieveDamage(Double damage) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

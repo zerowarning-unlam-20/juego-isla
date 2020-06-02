@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import entities.Entity;
+import entities.NPC;
 import island.GameObject;
 import tools.Gender;
 
@@ -12,16 +13,26 @@ public class Location extends GameObject {
 	private boolean visible;
 	private List<Item> items;
 	private HashMap<Integer, Access> accesses;
-	private List<Entity> npcs;
+	private HashMap<Integer, Entity> entities;
 
 	public Location() {
 	}
 
 	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
-			HashMap<Integer, Access> accesses, boolean locked) {
+			HashMap<Integer, Access> accesses) {
 		super(id, gender, name, description);
 		this.items = items;
 		this.visible = visible;
+		this.entities = new HashMap<Integer, Entity>();
+		this.accesses = accesses;
+	}
+
+	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
+			HashMap<Integer, Access> accesses, HashMap<Integer, Entity> entities) {
+		super(id, gender, name, description);
+		this.items = items;
+		this.visible = visible;
+		this.entities = entities;
 		this.accesses = accesses;
 	}
 
@@ -29,6 +40,7 @@ public class Location extends GameObject {
 		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
 		this.accesses = new HashMap<Integer, Access>();
+		this.entities = new HashMap<Integer, Entity>();
 		this.items = items;
 		this.visible = visible;
 	}
@@ -37,6 +49,7 @@ public class Location extends GameObject {
 		super(id, gender, name, description);
 		this.items = new ArrayList<Item>();
 		this.accesses = new HashMap<Integer, Access>();
+		this.entities = new HashMap<Integer, Entity>();
 		this.visible = visible;
 	}
 
@@ -77,27 +90,20 @@ public class Location extends GameObject {
 		return false;
 	}
 
-	@Override
-	public boolean recieveObject(GameObject object) {
-		return false;
-	}
-
 	public void removeItem(Item i) {
 		items.remove(i);
 	}
 
-	public List<Entity> getNpcs() {
-		return npcs;
+	public HashMap<Integer, Entity> getEntities() {
+		return entities;
 	}
 
-	public void setNpcs(List<Entity> npcs) {
-		this.npcs = npcs;
+	public void addNpc(NPC npc) {
+		entities.put(npc.getId(), npc);
 	}
 
-	@Override
-	public void recieveDamage(Double damage) {
-		// TODO Auto-generated method stub
-
+	public void removeNpc(NPC npc) {
+		entities.remove(npc.getId());
 	}
 
 	public boolean isVisible() {
@@ -108,4 +114,11 @@ public class Location extends GameObject {
 		this.items.add(item);
 	}
 
+	public void addEntity(Entity entity) {
+		entities.put(entity.getId(), entity);
+	}
+
+	public void removeEntity(Entity entity) {
+		entities.remove(entity.getId());
+	}
 }

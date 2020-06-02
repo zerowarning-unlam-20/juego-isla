@@ -1,11 +1,11 @@
 package tools;
 
-public enum ItemType {
-	KEY("K"), RESOURCE("R"), INFORMATION("I"), EDIBLE("E"), WEAPON("W"), TOOL("T");
+public enum MessageType {
+	EVENT("E"), CHARACTER("C"), STORY("S");
 
 	private final String value;
 
-	ItemType(String value) {
+	MessageType(String value) {
 		this.value = value;
 	}
 

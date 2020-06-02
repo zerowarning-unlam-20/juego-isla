@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +16,8 @@ import commands.GrabCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
 import commands.UnlockCommand;
+import entities.Entity;
 import entities.UserCharacter;
-import island.GameObject;
 import items.Access;
 import items.Item;
 import items.Liquid;
@@ -26,7 +25,7 @@ import items.Location;
 import items.SingleContainer;
 import tools.Gender;
 import tools.IdManager;
-import tools.ItemType;
+import tools.MessageType;
 
 public class GameManager {
 	private Game game;
@@ -90,12 +89,11 @@ public class GameManager {
 	}
 
 	public void loadExample() {
-		Item llave = new Item(IdManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
+		Item llave = new Item(IdManager.getNext(), Gender.F, "llave", "Llave de bronce", null);
 		ArrayList<Item> itemsHabitacion = new ArrayList<>();
 		itemsHabitacion.add(llave);
 
-		SingleContainer botella = new SingleContainer(IdManager.getNext(), Gender.F, "botella", "Botella de vidrio",
-				ItemType.UNBREAKABLE);
+		SingleContainer botella = new SingleContainer(IdManager.getNext(), Gender.F, "botella", "Botella de vidrio");
 		Liquid cerveza = new Liquid(IdManager.getNext(), Gender.F, "cerveza", "No es light", true);
 		botella.setContent(cerveza);
 		ArrayList<Item> itemsSalida = new ArrayList<>();
@@ -131,11 +129,23 @@ public class GameManager {
 		game = new Game(new UserCharacter(habitacion), locations);
 	}
 
-	public static void sendMessage(GameObject sender, String message) {
+	public static void sendMessage(MessageType type, Entity sender, String message) {
 		getMessageHistory().add(message);
 		if (testMode == false) {
-			System.out.println(sender.getName() + ": " + message);
+			switch (type.getValue()) {
+			case ("E"):
+				System.out.println("//" + message + "//");
+				break;
+			case ("C"):
+				System.out.println(sender.getName() + ": " + message);
+				break;
+
+			case ("S"):
+				System.out.println(sender.getName() + message);
+				break;
+			}
 		}
+
 	}
 
 	public static List<String> getMessageHistory() {

@@ -1,10 +1,13 @@
 package states;
 
+import entities.Attack;
 import entities.Entity;
 import island.GameObject;
 import items.Item;
 import items.Location;
+import items.Weapon;
 import manager.GameManager;
+import tools.MessageType;
 
 public class Dead implements State {
 	private Entity character;
@@ -14,75 +17,81 @@ public class Dead implements State {
 	}
 
 	@Override
-	public boolean open(Item item) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+	public boolean open(GameObject item) {
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean unlock(Item toUnlock) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+	public boolean unlock(GameObject toUnlock) {
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean look(GameObject object) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean goTo(Location location) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean grab(Item item) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public State drink(Item item) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return this;
 	}
 
 	@Override
 	public boolean give(Item item, GameObject gameObject) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean lookAround() {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean lookInventory() {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean hit(Item item, GameObject gameObject) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public State heal(Double points) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return this;
 	}
 
 	@Override
-	public State recieveDamage(Double damage) {
-		GameManager.sendMessage(character, "Muert" + character.getTermination());
+	public State recieveAttack(Attack attack) {
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
 		return this;
+	}
+
+	@Override
+	public boolean attack(Weapon weapon, Entity objective) {
+		GameManager.sendMessage(MessageType.EVENT, character, "Muert" + character.getTermination());
+		return false;
 	}
 
 }

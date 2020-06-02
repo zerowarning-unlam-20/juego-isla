@@ -1,11 +1,11 @@
 package tools;
 
-public enum ItemType {
-	KEY("K"), RESOURCE("R"), INFORMATION("I"), EDIBLE("E"), WEAPON("W"), TOOL("T");
+public enum NPCType {
+	PASSIVE("P"), AGGRESSIVE("A"); // Stem es liana
 
 	private final String value;
 
-	ItemType(String value) {
+	NPCType(String value) {
 		this.value = value;
 	}
 

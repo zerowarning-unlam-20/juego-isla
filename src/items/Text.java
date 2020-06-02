@@ -8,7 +8,7 @@ public class Text extends Item {
 
 	public Text(int id, Gender gender, String name, String description, boolean visible, ItemType type,
 			String content) {
-		super(id, gender, name, description, type);
+		super(id, gender, name, description, null);
 		this.content = content;
 	}
 
@@ -19,4 +19,5 @@ public class Text extends Item {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 }

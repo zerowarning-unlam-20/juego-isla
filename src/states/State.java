@@ -1,13 +1,16 @@
 package states;
 
+import entities.Attack;
+import entities.Entity;
 import island.GameObject;
 import items.Item;
 import items.Location;
+import items.Weapon;
 
 public interface State {
-	public boolean open(Item item);
+	public boolean open(GameObject object);
 
-	public boolean unlock(Item toUnlock);
+	public boolean unlock(GameObject toUnlock);
 
 	public boolean look(GameObject object);
 
@@ -22,10 +25,12 @@ public interface State {
 	public boolean lookAround();
 
 	public boolean lookInventory();
-	
+
 	public boolean hit(Item item, GameObject gameObject);
-	
+
 	public State heal(Double points);
 
-	public State recieveDamage(Double damage);
+	public boolean attack(Weapon weapon, Entity objective);
+
+	public State recieveAttack(Attack attack);
 }

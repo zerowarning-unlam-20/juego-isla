@@ -41,7 +41,7 @@ class BookTest {
 
 	@Test
 	public void bookTest1() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", true, ItemType.UNBREAKABLE,
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", true, ItemType.INFORMATION,
 				"Se necesitan troncos y " + "lianas para poder armar la canoa. "
 						+ "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
@@ -51,7 +51,7 @@ class BookTest {
 
 	@Test
 	public void bookTest2() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", true, ItemType.UNBREAKABLE,
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", true, ItemType.INFORMATION,
 				"Se necesitan troncos y " + "lianas para poder armar la canoa. "
 						+ "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
