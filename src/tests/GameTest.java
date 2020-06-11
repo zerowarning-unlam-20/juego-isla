@@ -1,25 +1,5 @@
 package tests;
 
-import java.util.ArrayList;
-
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
-
-import entities.UserCharacter;
-import items.Access;
-import items.Container;
-import items.Item;
-import items.Liquid;
-import items.Location;
-import items.SingleContainer;
-import items.Text;
-import items.Tool;
-import manager.Game;
-import manager.GameManager;
-import tools.Gender;
-import tools.IdManager;
-import tools.ItemType;
-
 class GameTest {
 	/*
 	 * @Test public void testAccederMadera() { Location s1 = new Location(1,

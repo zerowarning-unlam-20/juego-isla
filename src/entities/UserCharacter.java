@@ -1,20 +1,22 @@
 package entities;
 
-import island.GameObject;
+import java.util.List;
+
+import island.Location;
 import items.Access;
 import items.Item;
-import items.Location;
-import items.Weapon;
+import manager.GameManager;
 import tools.Gender;
 
 public class UserCharacter extends Entity {
 
-	public UserCharacter(Location location) {
-		super(0, Gender.M, "Test", "Test Character", location);
+	public UserCharacter(GameManager gameManager, Location location) {
+		super(gameManager, 0, Gender.M, "Test", "Test Character", location);
 	}
 
-	public UserCharacter(String name, Location location) {
-		super(0, Gender.M, name, "Character", location);
+	public UserCharacter(GameManager gameManager, int id, Gender gender, String name, String description,
+			Location location, List<Item> inventory) {
+		super(gameManager, id, gender, name, description, location, inventory);
 	}
 
 	public Item removeItem(Item item) {
@@ -43,5 +45,12 @@ public class UserCharacter extends Entity {
 			result = true;
 		}
 		return result;
+	}
+
+	public boolean use(Item item) {
+		if (item != null) {
+			return state.use(item);
+		}
+		return false;
 	}
 }

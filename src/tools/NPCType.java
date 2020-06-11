@@ -1,7 +1,7 @@
 package tools;
 
 public enum NPCType {
-	PASSIVE("P"), AGGRESSIVE("A"); // Stem es liana
+	PASSIVE("P"), AGGRESSIVE("A"), INANIMATED("I"); // Stem es liana
 
 	private final String value;
 

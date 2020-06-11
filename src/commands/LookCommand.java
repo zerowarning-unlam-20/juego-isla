@@ -7,7 +7,6 @@ import island.GameObject;
 import items.Access;
 import items.Item;
 
-@Command("ver")
 public class LookCommand implements ActionCommand {
 	private UserCharacter character;
 
@@ -27,6 +26,7 @@ public class LookCommand implements ActionCommand {
 		GameObject result = null;
 		if (itemName.contentEquals("alrededor") || itemName.contentEquals(character.getLocation().getName())) {
 			character.lookAround();
+			return;
 		} else if (itemName.contentEquals("inventario")) {
 			character.lookInventory();
 		} else {
@@ -52,6 +52,7 @@ public class LookCommand implements ActionCommand {
 				}
 			}
 		}
-		character.look(result);
+		if (result != null)
+			character.look(result);
 	}
 }

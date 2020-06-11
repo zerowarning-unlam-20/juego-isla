@@ -5,7 +5,6 @@ import java.util.Scanner;
 import entities.UserCharacter;
 import items.Access;
 
-@Command("abrir")
 public class OpenCommand implements ActionCommand {
 	private UserCharacter character;
 

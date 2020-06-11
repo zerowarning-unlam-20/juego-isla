@@ -6,7 +6,6 @@ import entities.UserCharacter;
 import items.Item;
 import items.SingleContainer;
 
-@Command("tomar")
 public class DrinkCommand implements ActionCommand {
 	private UserCharacter character;
 
@@ -24,18 +23,20 @@ public class DrinkCommand implements ActionCommand {
 	}
 
 	private void drink(String itemName) {
+		Item item = null;
 		for (Item i : character.getInventory()) {
 			if (i.getClass() == SingleContainer.class) {
 				SingleContainer container = (SingleContainer) i;
 				if (container.getContent().getName().contentEquals(itemName)) {
-					character.drink(i);
+					item = i;
 					break;
 				}
 			} else if (i.getName().contentEquals(itemName)) {
-				character.drink(i);
+				item = i;
 				break;
 			}
 		}
+		character.drink(item);
 	}
 
 }

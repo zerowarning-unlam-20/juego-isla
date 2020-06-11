@@ -4,36 +4,49 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import commands.ActionCommand;
-import commands.Command;
 import commands.DrinkCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
+import commands.HitCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
 import commands.UnlockCommand;
 import entities.Entity;
+import entities.NPC;
 import entities.UserCharacter;
+import island.Location;
 import items.Access;
 import items.Item;
 import items.Liquid;
-import items.Location;
 import items.SingleContainer;
+import items.Weapon;
+import tools.DamageType;
 import tools.Gender;
 import tools.IdManager;
 import tools.MessageType;
+import tools.NPCType;
+import tools.WordBuilder;
 
 public class GameManager {
 	private Game game;
-	private List<ActionCommand> actionCommands;
-	private static boolean testMode;
+	private WordBuilder wordBuilder;
+	private HashMap<String, ActionCommand> actionCommands;
+	private boolean testMode;
 	private static List<String> messageHistory = new ArrayList<String>();
 
+	public GameManager(boolean testMode) {
+		wordBuilder = new WordBuilder("words.wds");
+		messageHistory = new ArrayList<String>();
+		this.testMode = testMode;
+	}
+
 	public GameManager() {
+		wordBuilder = new WordBuilder("words.wds");
 		messageHistory = new ArrayList<String>();
 	}
 
@@ -42,7 +55,7 @@ public class GameManager {
 		this.game = game;
 	}
 
-	public void run() {
+	public void consoleRun() {
 		loadExample();
 		loadCommands();
 
@@ -52,9 +65,9 @@ public class GameManager {
 
 		while (comando != "-") {
 			try {
-				comando = reader.readLine();
+				comando = reader.readLine().toLowerCase();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Error: " + e.getMessage());
 			}
 			Scanner cmdScanner = new Scanner(comando);
 			processCommand(cmdScanner);
@@ -67,25 +80,22 @@ public class GameManager {
 	}
 
 	private void loadCommands() {
-		try {
-			ActionCommand[] commands = { (ActionCommand) new DrinkCommand(game.getCharacter()),
-					(ActionCommand) new GoCommand(game.getCharacter()),
-					(ActionCommand) new GrabCommand(game.getCharacter()),
-					(ActionCommand) new LookCommand(game.getCharacter()),
-					(ActionCommand) new OpenCommand(game.getCharacter()), new UnlockCommand(game.getCharacter()) };
-			actionCommands = Arrays.asList(commands);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		actionCommands = new HashMap<>();
+		actionCommands.put("drink", new DrinkCommand(game.getCharacter()));
+		actionCommands.put("go", new GoCommand(game.getCharacter()));
+		actionCommands.put("grab", new GrabCommand(game.getCharacter()));
+		actionCommands.put("look", new LookCommand(game.getCharacter()));
+		actionCommands.put("open", new OpenCommand(game.getCharacter()));
+		actionCommands.put("unlock", new UnlockCommand(game.getCharacter()));
+		actionCommands.put("hit", new HitCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
 		String cmd = strCommand.next();
-		for (ActionCommand command : actionCommands)
-			if (command.getClass().getAnnotation(Command.class).value().equals(cmd)) {
-				command.perform(strCommand);
-				break;
-			}
+		ActionCommand action = actionCommands.get(wordBuilder.getWord(cmd));
+		if (action != null) {
+			action.perform(strCommand);
+		}
 	}
 
 	public void loadExample() {
@@ -126,10 +136,19 @@ public class GameManager {
 		locations.add(habitacion);
 		locations.add(salida);
 
-		game = new Game(new UserCharacter(habitacion), locations);
+		Weapon crossbow = new Weapon(99, Gender.F, "Ballesta", "ballesta_desc", DamageType.SHOT, 100d);
+
+		ArrayList<Item> inventory = new ArrayList<>();
+		inventory.add(crossbow);
+		UserCharacter player = new UserCharacter(this, 0, Gender.M, "Test", "Test_desc", habitacion, inventory); // id
+																													// 0
+
+		NPC tree = new NPC(this, 50, Gender.F, "Palmera", "Palmera_test", habitacion, NPCType.PASSIVE, 0);
+		habitacion.addNpc(tree);
+		game = new Game(player, locations);
 	}
 
-	public static void sendMessage(MessageType type, Entity sender, String message) {
+	public void sendMessage(MessageType type, Entity sender, String message) {
 		getMessageHistory().add(message);
 		if (testMode == false) {
 			switch (type.getValue()) {
@@ -152,8 +171,8 @@ public class GameManager {
 		return messageHistory;
 	}
 
-	public static void setTestMode(boolean testMode) {
-		GameManager.testMode = testMode;
+	public boolean isTestMode() {
+		return testMode;
 	}
 
 }

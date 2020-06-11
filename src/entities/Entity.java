@@ -5,35 +5,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 import island.GameObject;
+import island.Location;
 import items.Item;
-import items.Location;
 import items.Weapon;
 import manager.GameManager;
+import states.Dead;
 import states.Normal;
 import states.State;
 import tools.DamageType;
 import tools.Gender;
+import tools.ItemType;
 import tools.MessageType;
 
 public abstract class Entity extends GameObject {
+	protected GameManager gameManager;
 	protected Double health;
 	protected Location location;
 	protected List<Item> inventory;
 	protected HashMap<DamageType, Double> weakAndRes;
 	protected State state;
 
-	public Entity(int id, Gender gender, String name, String description, Location location) {
+	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location) {
 		super(id, gender, name, description);
 		this.health = 100d;
 		this.location = location;
 		this.state = new Normal(this);
+		this.gameManager = gameManager;
 		inventory = new LinkedList<Item>();
 		weakAndRes = new HashMap<DamageType, Double>();
 	}
-	
-	public Entity(int id, Gender gender, String name, String description, Location location, List<Item> inventory) {
+
+	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location,
+			List<Item> inventory) {
 		super(id, gender, name, description);
 		this.health = 100d;
+		this.gameManager = gameManager;
 		this.location = location;
 		this.state = new Normal(this);
 		this.inventory = inventory;
@@ -59,6 +65,14 @@ public abstract class Entity extends GameObject {
 
 	public List<Item> getInventory() {
 		return inventory;
+	}
+
+	public HashMap<String, Item> getInventoryStringMap() {
+		HashMap<String, Item> map = new HashMap<>();
+		for (Item item : inventory) {
+			map.put(item.getName().toLowerCase(), item);
+		}
+		return map;
 	}
 
 	public Item removeItem(Item item) {
@@ -95,8 +109,11 @@ public abstract class Entity extends GameObject {
 	}
 
 	public boolean drink(Item item) {
-		state.drink(item);
-		return item != null;
+		state = state.drink(item);
+		if (item != null || state.getClass() == Dead.class) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean look(GameObject gameObject) {
@@ -108,7 +125,7 @@ public abstract class Entity extends GameObject {
 	}
 
 	public void addItem(Item item) {
-		GameManager.sendMessage(MessageType.EVENT, this, "Recibido: " + item.getName());
+		gameManager.sendMessage(MessageType.EVENT, this, "Recibido: " + item.getName());
 		inventory.add(item);
 	}
 
@@ -125,12 +142,28 @@ public abstract class Entity extends GameObject {
 	}
 
 	public void recieveAttack(Attack attack) {
-		state.recieveAttack(attack);
+		state = state.recieveAttack(attack);
+	}
+
+	public boolean create(Item item) {
+		return state.create(item);
 	}
 
 	public void onDeath(Attack attack) {
 		for (Item item : inventory) {
 			attack.getAttacker().addItem(item);
 		}
+	}
+
+	public boolean talk(Entity other, String message) {
+		return state.talk(other, message);
+	}
+
+	public boolean listen(Entity other, String message) {
+		return state.listen(other, message);
+	}
+
+	public GameManager getGameManager() {
+		return gameManager;
 	}
 }

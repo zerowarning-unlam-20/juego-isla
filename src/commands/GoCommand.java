@@ -3,9 +3,10 @@ package commands;
 import java.util.Scanner;
 
 import entities.UserCharacter;
+import island.Location;
 import items.Access;
+import manager.Game;
 
-@Command("ir")
 public class GoCommand implements ActionCommand {
 	private UserCharacter personaje;
 
@@ -15,7 +16,6 @@ public class GoCommand implements ActionCommand {
 
 	@Override
 	public void perform(Scanner args) {
-		/*
 		String lugar = "";
 
 		if (args.hasNext()) {
@@ -25,16 +25,12 @@ public class GoCommand implements ActionCommand {
 			}
 			lugar = lugar.trim();
 			if (lugar != "") {
-				personaje.goTo(personaje.getLocation().getAccesses().get(key));
-				for (Access access : personaje.getLocation().getAccesses()) {
-					if (access.getDestination().getName().contentEquals(lugar) && access.isOpened()) {
-						personaje.goTo(access.getDestination());
-						break;
-					}
+				Location location = Game.getLocation(lugar);
+				if (location != null) {
+					personaje.goTo(location.getId());
 				}
 			}
 		}
-		*/
 	}
 
 }

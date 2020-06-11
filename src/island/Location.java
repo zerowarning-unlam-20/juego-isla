@@ -1,4 +1,4 @@
-package items;
+package island;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,8 @@ import java.util.List;
 
 import entities.Entity;
 import entities.NPC;
-import island.GameObject;
+import items.Access;
+import items.Item;
 import tools.Gender;
 
 public class Location extends GameObject {

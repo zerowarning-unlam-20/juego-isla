@@ -2,7 +2,6 @@ package commands;
 
 import java.util.Scanner;
 
-@Command("hablar")
 public class TalkCommand implements ActionCommand {
 
 	@Override

@@ -8,7 +8,6 @@ import items.Container;
 import items.Item;
 import items.SingleContainer;
 
-@Command("agarrar")
 public class GrabCommand implements ActionCommand {
 	private UserCharacter character;
 
@@ -42,7 +41,7 @@ public class GrabCommand implements ActionCommand {
 				item = i;
 				break;
 			}
-			character.grab(item);
 		}
+		character.grab(item);
 	}
 }

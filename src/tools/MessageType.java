@@ -1,7 +1,14 @@
 package tools;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum MessageType {
-	EVENT("E"), CHARACTER("C"), STORY("S");
+	@SerializedName("e")
+	EVENT("E"),
+	@SerializedName("c")
+	CHARACTER("C"),
+	@SerializedName("s")
+	STORY("S");
 
 	private final String value;
 
