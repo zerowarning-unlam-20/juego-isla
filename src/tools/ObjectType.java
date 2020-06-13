@@ -1,5 +1,7 @@
 package tools;
 
+import com.google.gson.annotations.SerializedName;
+
 import entities.UserCharacter;
 import island.Access;
 import island.GameObject;
@@ -8,10 +10,35 @@ import items.Container;
 import items.Item;
 import items.Liquid;
 import items.Tool;
+import items.Text;
 
 public enum ObjectType {
-	ACCESS(Access.class), TOOL(Tool.class), ITEM(Item.class), LIQUID(Liquid.class),
-	GAMEOBJECT(GameObject.class), CHARACTER(UserCharacter.class), CONTAINER(Container.class), LOCATION(Location.class);
+	@SerializedName("access")
+	ACCESS(Access.class),
+
+	@SerializedName("tool")
+	TOOL(Tool.class),
+
+	@SerializedName("item")
+	ITEM(Item.class),
+
+	@SerializedName("liquid")
+	LIQUID(Liquid.class),
+
+	@SerializedName("gameObject")
+	GAMEOBJECT(GameObject.class),
+
+	@SerializedName("usercharacter")
+	USER_CHARACTER(UserCharacter.class),
+
+	@SerializedName("container")
+	CONTAINER(Container.class),
+
+	@SerializedName("location")
+	LOCATION(Location.class),
+	
+	@SerializedName("text")
+	TEXT(Text.class);
 
 	public final Class<?> clazz;
 
@@ -21,9 +48,9 @@ public enum ObjectType {
 
 	public static ObjectType forName(String name) {
 		ObjectType objectToReturn = null;
-		
+
 		for (ObjectType t : values())
-			if (name.equals(t.name())) {
+			if (name.contentEquals(t.name().toLowerCase())) {
 				objectToReturn = t;
 				break;
 			}

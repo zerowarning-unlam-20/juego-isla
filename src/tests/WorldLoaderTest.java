@@ -1,5 +1,8 @@
 package tests;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +15,10 @@ class WorldLoaderTest {
 	}
 
 	@Test
-	void test() {
+	void test() throws FileNotFoundException, IOException {
 		WorldLoader wl = new WorldLoader();
+		wl.loadLocations("zones.json");
+		//wl.loadEntities("entities.json");
 		wl.getLocations();
 	}
 

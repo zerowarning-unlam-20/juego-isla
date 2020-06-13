@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import entities.Entity;
+import island.GameObject;
 import island.Location;
 
 public class WorldLoader {
@@ -27,8 +28,8 @@ public class WorldLoader {
 	public WorldLoader() {
 	}
 
-	public void loadLocations() throws IOException, FileNotFoundException {
-		File file = new File("zones.json");
+	public void loadLocations(String path) throws IOException, FileNotFoundException {
+		File file = new File(path);
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -45,8 +46,7 @@ public class WorldLoader {
 		String result = writer.toString();
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-		gsonBuilder.registerTypeAdapter(Location.class, new GameObjectDeserializer());
+		gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectDeserializer<GameObject>());
 		Gson gson = gsonBuilder.create();
 		locations = Arrays.asList(gson.fromJson(result, Location[].class));
 	}
@@ -70,7 +70,7 @@ public class WorldLoader {
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-		gsonBuilder.registerTypeAdapter(Entity.class, new GameObjectDeserializer());
+		gsonBuilder.registerTypeAdapter(Entity.class, new GameObjectDeserializer<GameObject>());
 		Gson gson = gsonBuilder.create();
 		locations = Arrays.asList(gson.fromJson(result, Location[].class));
 	}

@@ -17,11 +17,11 @@
         "type": "text"
       }
     ],
-    "accesses": [
-      {
+    "accesses": {
+      "3": {
         "type": "access",
         "description": "puerta",
-        "destination": 3,
+        "idDestination": 3,
         "gender": "F",
         "id": 6,
         "idKey": 0,
@@ -29,7 +29,10 @@
         "name": "puerta",
         "opened": true
       }
-    ]
+    },
+    "entities": {
+
+    }
   },
   {
     "type": "location",
@@ -41,8 +44,8 @@
     "items": [
 
     ],
-    "accesses": [
-      {
+    "accesses": {
+     "1":{
         "type": "access",
         "id": 5,
         "gender": "F",
@@ -51,8 +54,8 @@
         "locked": false,
         "opened": true,
         "idKey": 0,
-        "destination": 1
+        "idDdestination": 1
       }
-    ]
+    }
   }
 ]
