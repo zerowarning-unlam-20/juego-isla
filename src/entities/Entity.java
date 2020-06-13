@@ -14,19 +14,21 @@ import states.Normal;
 import states.State;
 import tools.DamageType;
 import tools.Gender;
-import tools.ItemType;
 import tools.MessageType;
 
 public abstract class Entity extends GameObject {
 	protected GameManager gameManager;
+	protected Double baseHealth;
 	protected Double health;
 	protected Location location;
 	protected List<Item> inventory;
 	protected HashMap<DamageType, Double> weakAndRes;
+	protected int initialLocation;
 	protected State state;
 
 	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location) {
 		super(id, gender, name, description);
+		this.baseHealth = 100d;
 		this.health = 100d;
 		this.location = location;
 		this.state = new Normal(this);
@@ -36,14 +38,32 @@ public abstract class Entity extends GameObject {
 	}
 
 	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location,
-			List<Item> inventory) {
+			List<Item> inventory, int initialLocation) {
 		super(id, gender, name, description);
+		this.baseHealth = 100d;
 		this.health = 100d;
 		this.gameManager = gameManager;
 		this.location = location;
 		this.state = new Normal(this);
 		this.inventory = inventory;
 		weakAndRes = new HashMap<DamageType, Double>();
+		this.initialLocation = initialLocation;
+	}
+
+	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, List<Item> inventory,
+			int initialLocation) {
+		super(id, gender, name, description);
+		this.baseHealth = 100d;
+		this.health = 100d;
+		this.gameManager = gameManager;
+		this.state = new Normal(this);
+		this.inventory = inventory;
+		this.initialLocation = initialLocation;
+		weakAndRes = new HashMap<DamageType, Double>();
+	}
+
+	public void linkToManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 	}
 
 	public void addWeakOrRes(DamageType type, Double multiplier) {
@@ -165,5 +185,13 @@ public abstract class Entity extends GameObject {
 
 	public GameManager getGameManager() {
 		return gameManager;
+	}
+
+	public Double getBaseHealth() {
+		return baseHealth;
+	}
+
+	public int getInitialLocation() {
+		return initialLocation;
 	}
 }

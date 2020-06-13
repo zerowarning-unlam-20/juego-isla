@@ -1,21 +1,37 @@
 crear create
+generar create
 construir create
+construct create
 
 beber drink
 chupar drink
+tomar drink
 
 golpear hit
 pegar hit
+atacar hit
+punch hit
+attack hit
 
 comer eat
+ingerir eat
 
 desbloquear unlock
+destrabar unlock
 
 abrir open
 
 agarrar grab
+coger grab
+recoger grab
+obtener grab
 
 ver look
 mirar look
+observar look
+observe look
+watch look
 
 ir goto
+go goto
+avanzar goto

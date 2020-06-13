@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import entities.NPC;
 import entities.UserCharacter;
+import island.Access;
 import island.Location;
-import items.Access;
 import items.Item;
 import items.Weapon;
 import manager.GameManager;
@@ -93,7 +93,7 @@ class NPCTest {
 		expected.add(coconut);
 
 		NPC tree = new NPC(gameManager, 50, Gender.F, "Palmera", "Palmera_test_irrompible", arena, inventory,
-				NPCType.PASSIVE, 0);
+				NPCType.PASSIVE, 0, arena.getId());
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
 		arena.addNpc(tree);
@@ -116,7 +116,7 @@ class NPCTest {
 		ArrayList<Item> inventory = new ArrayList<>();
 
 		NPC tree = new NPC(gameManager, 50, Gender.F, "Piedra", "Piedra_test_desc", arena, inventory, NPCType.PASSIVE,
-				1);
+				1,arena.getId());
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
 		arena.addNpc(tree);

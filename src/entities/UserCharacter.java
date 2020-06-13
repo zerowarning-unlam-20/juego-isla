@@ -2,8 +2,8 @@ package entities;
 
 import java.util.List;
 
+import island.Access;
 import island.Location;
-import items.Access;
 import items.Item;
 import manager.GameManager;
 import tools.Gender;
@@ -16,7 +16,17 @@ public class UserCharacter extends Entity {
 
 	public UserCharacter(GameManager gameManager, int id, Gender gender, String name, String description,
 			Location location, List<Item> inventory) {
-		super(gameManager, id, gender, name, description, location, inventory);
+		super(gameManager, id, gender, name, description, location, inventory, location.getId());
+	}
+
+	public UserCharacter(GameManager gameManager, int id, Gender gender, String name, String description,
+			List<Item> inventory, int initialLocation) {
+		super(gameManager, id, gender, name, description, inventory, initialLocation);
+	}
+
+	public UserCharacter(int id, Gender gender, String name, String description, List<Item> inventory,
+			int initialLocation) {
+		super(null, id, gender, name, description, inventory, initialLocation);
 	}
 
 	public Item removeItem(Item item) {

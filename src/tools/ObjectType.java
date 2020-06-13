@@ -1,9 +1,9 @@
 package tools;
 
 import entities.UserCharacter;
+import island.Access;
 import island.GameObject;
 import island.Location;
-import items.Access;
 import items.Container;
 import items.Item;
 import items.Liquid;

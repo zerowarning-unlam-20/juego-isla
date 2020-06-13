@@ -3,8 +3,8 @@ package commands;
 import java.util.Scanner;
 
 import entities.UserCharacter;
+import island.Access;
 import island.GameObject;
-import items.Access;
 import items.Item;
 
 public class LookCommand implements ActionCommand {

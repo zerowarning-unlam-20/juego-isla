@@ -3,19 +3,19 @@ package tools;
 import com.google.gson.annotations.SerializedName;
 
 public enum ItemType {
-	@SerializedName("k")
+	@SerializedName("K")
 	KEY("K"),
-	@SerializedName("r")
+	@SerializedName("R")
 	RESOURCE("R"),
-	@SerializedName("i")
+	@SerializedName("I")
 	INFORMATION("I"),
-	@SerializedName("e")
+	@SerializedName("E")
 	EDIBLE("E"),
-	@SerializedName("w")
+	@SerializedName("W")
 	WEAPON("W"),
-	@SerializedName("t")
+	@SerializedName("T")
 	TOOL("T"),
-	@SerializedName("b")
+	@SerializedName("B")
 	BLUEPRINT("B");
 
 	private final String value;

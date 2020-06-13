@@ -3,7 +3,7 @@ package commands;
 import java.util.Scanner;
 
 import entities.UserCharacter;
-import items.Access;
+import island.Access;
 
 public class UnlockCommand implements ActionCommand {
 	private UserCharacter character;

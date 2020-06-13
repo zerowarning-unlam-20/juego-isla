@@ -1,30 +1,32 @@
 package items;
 
+import com.google.gson.annotations.SerializedName;
 
 import island.GameObject;
 import tools.Gender;
 import tools.ItemType;
 
 public class Item extends GameObject {
-	private ItemType type;
+	@SerializedName("itemType") // Le digo al gson que lo lea asi en el texto
+	private ItemType itemType;
 
 	public Item(int id, Gender gender, String name, String description, ItemType type) {
 		super(id, gender, name, description);
-		this.type = type;
+		this.itemType = type;
 	}
 
 	public Item() {
 	}
 
 	public ItemType getType() {
-		return type;
+		return itemType;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		return result;
 	}
 
@@ -37,7 +39,7 @@ public class Item extends GameObject {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		if (type != other.type)
+		if (itemType != other.itemType)
 			return false;
 		return true;
 	}

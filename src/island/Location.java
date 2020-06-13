@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 import entities.Entity;
 import entities.NPC;
-import items.Access;
 import items.Item;
 import tools.Gender;
 
 public class Location extends GameObject {
 	private boolean visible;
-	private List<Item> items;
-	private HashMap<Integer, Access> accesses;
-	private HashMap<Integer, Entity> entities;
 
-	public Location() {
-	}
+	private List<Item> items;
+
+	private HashMap<Integer, Access> accesses;
+
+	private HashMap<Integer, Entity> entities;
 
 	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
 			HashMap<Integer, Access> accesses) {
@@ -26,6 +26,18 @@ public class Location extends GameObject {
 		this.visible = visible;
 		this.entities = new HashMap<Integer, Entity>();
 		this.accesses = accesses;
+	}
+
+	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
+			List<Access> accesses) {
+		super(id, gender, name, description);
+		this.items = items;
+		this.visible = visible;
+		this.accesses = new HashMap<Integer,Access>();
+		this.entities = new HashMap<Integer,Entity>();
+		for (Access a : accesses) {
+			this.accesses.put(a.getIdDestination(), a);
+		}
 	}
 
 	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,

@@ -1,9 +1,8 @@
-package items;
+package island;
 
 import interfaces.Opening;
 import interfaces.Unlockable;
-import island.GameObject;
-import island.Location;
+import items.Item;
 import tools.Gender;
 
 public class Access extends GameObject implements Opening, Unlockable {

@@ -34,8 +34,8 @@ public class NPC extends Entity {
 	}
 
 	public NPC(GameManager gameManager, int id, Gender gender, String name, String description, Location location,
-			List<Item> inventory, NPCType type, int idUnlocks) {
-		super(gameManager, id, gender, name, description, location, inventory);
+			List<Item> inventory, NPCType type, int idUnlocks, int initialLocation) {
+		super(gameManager, id, gender, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
 		this.type = type;
 		this.idUnlocks = idUnlocks;

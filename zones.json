@@ -1,0 +1,58 @@
+[
+  {
+    "type": "location",
+    "id": 1,
+    "gender": "F",
+    "name": "norte",
+    "description": "norte",
+    "visible": true,
+    "items": [
+      {
+        "content": "Ta vacia la isla, no?",
+        "description": "blablablablabla isla",
+        "gender": "M",
+        "id": 2,
+        "itemtype": "I",
+        "name": "hoja",
+        "type": "text"
+      }
+    ],
+    "accesses": [
+      {
+        "type": "access",
+        "description": "puerta",
+        "destination": 3,
+        "gender": "F",
+        "id": 6,
+        "idKey": 0,
+        "locked": false,
+        "name": "puerta",
+        "opened": true
+      }
+    ]
+  },
+  {
+    "type": "location",
+    "id": 3,
+    "gender": "M",
+    "name": "sur",
+    "description": "sur",
+    "visible": true,
+    "items": [
+
+    ],
+    "accesses": [
+      {
+        "type": "access",
+        "id": 5,
+        "gender": "F",
+        "name": "puerta",
+        "description": "puerta",
+        "locked": false,
+        "opened": true,
+        "idKey": 0,
+        "destination": 1
+      }
+    ]
+  }
+]

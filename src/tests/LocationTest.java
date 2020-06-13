@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import entities.UserCharacter;
+import island.Access;
 import island.Location;
-import items.Access;
 import manager.Game;
 import manager.GameManager;
 import tools.Gender;

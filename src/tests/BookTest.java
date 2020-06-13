@@ -8,13 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import entities.UserCharacter;
+import island.Access;
 import island.Location;
-import items.Access;
 import items.Text;
 import manager.Game;
 import manager.GameManager;
 import tools.Gender;
-import tools.ItemType;
 
 class BookTest {
 	UserCharacter character;
@@ -37,7 +36,7 @@ class BookTest {
 
 	@Test
 	public void bookTest1() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
 		Assert.assertFalse(character.look(note));
@@ -46,7 +45,7 @@ class BookTest {
 
 	@Test
 	public void bookTest2() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
 		character.goTo(1);
@@ -61,7 +60,7 @@ class BookTest {
 
 	@Test
 	public void bookTest3() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.getLocation().addItem(note);
 		character.grab(note);
@@ -71,7 +70,7 @@ class BookTest {
 
 	@Test
 	public void bookTest4() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.grab(note); // No esta la note en la cueva
 		character.goTo(1); // Sigo adentro de la cueva
@@ -81,7 +80,7 @@ class BookTest {
 
 	@Test
 	public void bookTest5() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.getLocation().addItem(note); // agrego el objeto a la cueva
 		character.goTo(2);
@@ -91,7 +90,7 @@ class BookTest {
 
 	@Test
 	public void bookTest6() {
-		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", ItemType.INFORMATION, "Se necesitan troncos y "
+		Text note = new Text(4, Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.getLocation().addItem(note); // agrego el objeto a la cueva
 		character.grab(note); // la agarro debidamente

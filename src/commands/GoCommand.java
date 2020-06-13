@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import entities.UserCharacter;
 import island.Location;
-import items.Access;
 import manager.Game;
 
 public class GoCommand implements ActionCommand {

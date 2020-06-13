@@ -1,0 +1,12 @@
+[
+  {
+    "description": "lost guy",
+    "gender": "M",
+    "health": 100,
+    "id": 1000,
+    "initialLocation": 1,
+    "name": "carlos",
+    "type": "entity",
+    "user": true
+  }
+]
