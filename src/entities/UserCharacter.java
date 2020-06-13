@@ -6,6 +6,7 @@ import island.Access;
 import island.Location;
 import items.Item;
 import manager.GameManager;
+import states.Normal;
 import tools.Gender;
 
 public class UserCharacter extends Entity {

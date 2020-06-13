@@ -16,8 +16,7 @@ public abstract class GameObject {
 	}
 
 	public GameObject() {
-		name = "";
-		description = "";
+		
 	}
 
 	public int getId() {

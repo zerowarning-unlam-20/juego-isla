@@ -58,7 +58,7 @@ class LocationTest {
 
 		Game game = new Game(character, locations);
 
-		gameManager.setGame(game);
+		gameManager.setInternalGame(game);
 
 		initialLocation = s1;
 	}

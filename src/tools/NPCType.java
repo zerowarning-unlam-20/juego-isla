@@ -1,7 +1,16 @@
 package tools;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum NPCType {
-	PASSIVE("P"), AGGRESSIVE("A"), INANIMATED("I"); // Stem es liana
+	@SerializedName("passive")
+	PASSIVE("P"), 
+	
+	@SerializedName("aggressive")
+	AGGRESSIVE("A"),
+	
+	@SerializedName("inanimated")
+	INANIMATED("I");
 
 	private final String value;
 

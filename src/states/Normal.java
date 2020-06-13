@@ -167,11 +167,13 @@ public class Normal implements State {
 	public boolean lookAround() {
 		boolean result = true;
 		String message = character.getLocation().getDescription() + "\n";
-		for (Item item : character.getLocation().getItems()) {
-			message += item.getDescription() + ", ";
+		if (!character.getLocation().getItems().isEmpty()) {
+			for (Item item : character.getLocation().getItems()) {
+				message += item.getDescription() + ", ";
+			}
+			if (message != ", ")
+				message = message.substring(0, message.length() - 2);
 		}
-		if (message != ", ")
-			message = message.substring(0, message.length() - 2);
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
 		result = true;
 		return result;

@@ -31,21 +31,11 @@
       }
     },
     "entities": {
-
     }
   },
   {
-    "type": "location",
-    "id": 3,
-    "gender": "M",
-    "name": "sur",
-    "description": "sur",
-    "visible": true,
-    "items": [
-
-    ],
     "accesses": {
-     "1":{
+      "1": {
         "type": "access",
         "id": 5,
         "gender": "F",
@@ -56,6 +46,16 @@
         "idKey": 0,
         "idDdestination": 1
       }
-    }
+    },
+    "description": "sur",
+    "entities": {},
+    "gender": "M",
+    "id": 3,
+    "items": [
+
+    ],
+    "name": "sur",
+    "type": "location",
+    "visible": true
   }
 ]

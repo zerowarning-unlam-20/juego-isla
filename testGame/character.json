@@ -1,12 +1,13 @@
-[
   {
     "description": "lost guy",
     "gender": "M",
+    "baseHealth": 100,
     "health": 100,
     "id": 1000,
     "initialLocation": 1,
     "name": "carlos",
-    "type": "entity",
-    "user": true
+    "type": "userCharacter",
+    "weakAndRes": {},
+    "stateName": "normal",
+    "inventory": []
   }
-]

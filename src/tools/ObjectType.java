@@ -3,6 +3,7 @@ package tools;
 import com.google.gson.annotations.SerializedName;
 
 import entities.UserCharacter;
+import entities.NPC;
 import island.Access;
 import island.GameObject;
 import island.Location;
@@ -31,6 +32,9 @@ public enum ObjectType {
 	@SerializedName("usercharacter")
 	USER_CHARACTER(UserCharacter.class),
 
+	@SerializedName("npc")
+	NPC(NPC.class),
+	
 	@SerializedName("container")
 	CONTAINER(Container.class),
 
@@ -48,7 +52,6 @@ public enum ObjectType {
 
 	public static ObjectType forName(String name) {
 		ObjectType objectToReturn = null;
-
 		for (ObjectType t : values())
 			if (name.contentEquals(t.name().toLowerCase())) {
 				objectToReturn = t;

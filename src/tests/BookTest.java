@@ -31,7 +31,7 @@ class BookTest {
 		locations.add(cave);
 		locations.add(s1);
 		Game game = new Game(character, locations);
-		gameManager.setGame(game);
+		gameManager.setInternalGame(game);
 	}
 
 	@Test

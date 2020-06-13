@@ -62,6 +62,10 @@ public abstract class Entity extends GameObject {
 		weakAndRes = new HashMap<DamageType, Double>();
 	}
 
+	public void setState(State state) {
+		this.state = state;
+	}
+
 	public void linkToManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
@@ -118,6 +122,9 @@ public abstract class Entity extends GameObject {
 
 	public void setLocation(Location location) {
 		this.location = location;
+		if (location.getEntities() != null) {
+			location.getEntities().put(this.id, this);
+		}
 	}
 
 	public Location getLocation() {

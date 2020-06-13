@@ -11,15 +11,15 @@ import tools.Gender;
 import tools.NPCType;
 
 public class NPC extends Entity {
-	private NPCType type;
+	private NPCType npcType;
 	private int idUnlocks;
 	HashMap<String, String> chat;
-
+	
 	public NPC(GameManager gameManager, int id, Gender gender, String name, String description, Location location,
 			NPCType type, int idUnlocks) {
 		super(gameManager, id, gender, name, description, location);
 		this.state = new NPCNormal(this);
-		this.type = type;
+		this.npcType = type;
 		this.idUnlocks = idUnlocks;
 		this.chat = new HashMap<String, String>();
 	}
@@ -29,7 +29,7 @@ public class NPC extends Entity {
 		super(gameManager, id, gender, name, description, location);
 		this.state = new NPCNormal(this);
 		this.idUnlocks = idUnlocks;
-		this.type = type;
+		this.npcType = type;
 		this.chat = chat;
 	}
 
@@ -37,12 +37,12 @@ public class NPC extends Entity {
 			List<Item> inventory, NPCType type, int idUnlocks, int initialLocation) {
 		super(gameManager, id, gender, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
-		this.type = type;
+		this.npcType = type;
 		this.idUnlocks = idUnlocks;
 	}
 
 	public NPCType getType() {
-		return type;
+		return npcType;
 	}
 
 	public String getChat(String message) {
