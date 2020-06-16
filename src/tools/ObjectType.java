@@ -9,9 +9,10 @@ import island.GameObject;
 import island.Location;
 import items.Container;
 import items.Item;
-import items.Liquid;
+import items.Consumable;
 import items.Tool;
 import items.Text;
+import items.ItemEffect;
 
 public enum ObjectType {
 	@SerializedName("access")
@@ -20,11 +21,14 @@ public enum ObjectType {
 	@SerializedName("tool")
 	TOOL(Tool.class),
 
+	@SerializedName("itemEffect")
+	ITEM_EFFECT(ItemEffect.class),
+
 	@SerializedName("item")
 	ITEM(Item.class),
 
-	@SerializedName("liquid")
-	LIQUID(Liquid.class),
+	@SerializedName("consumable")
+	CONSUMABLE(Consumable.class),
 
 	@SerializedName("gameObject")
 	GAMEOBJECT(GameObject.class),
@@ -34,13 +38,13 @@ public enum ObjectType {
 
 	@SerializedName("npc")
 	NPC(NPC.class),
-	
+
 	@SerializedName("container")
 	CONTAINER(Container.class),
 
 	@SerializedName("location")
 	LOCATION(Location.class),
-	
+
 	@SerializedName("text")
 	TEXT(Text.class);
 

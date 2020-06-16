@@ -16,7 +16,9 @@ public enum ItemType {
 	@SerializedName("T")
 	TOOL("T"),
 	@SerializedName("B")
-	BLUEPRINT("B");
+	BLUEPRINT("B"), 
+	@SerializedName("C")
+	CONSUMABLE("C");
 
 	private final String value;
 

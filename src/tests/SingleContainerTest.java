@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import entities.UserCharacter;
 import island.Location;
-import items.Liquid;
+import items.Consumable;
+import items.ItemEffect;
 import items.SingleContainer;
 import manager.GameManager;
 import tools.Gender;
@@ -28,7 +29,7 @@ class SingleContainerTest {
 	@Test
 	public void bottleTest2() {
 		SingleContainer bottle = new SingleContainer(2, Gender.F, "Botella", "Botella de vidrio");
-		Liquid water = new Liquid(4, Gender.F, "agua", "Agua de catarata", true);
+		Consumable water = new Consumable(4, Gender.F, "agua", "Agua de catarata", true, new ItemEffect(0D, null));
 		bottle.setContent(water);
 		Assert.assertEquals(bottle.getContent(), water);
 	}
@@ -37,7 +38,7 @@ class SingleContainerTest {
 	public void bottleTest3() {
 		Location s1 = new Location(1, Gender.M, "s1", "Inicio", true);
 		SingleContainer bottle = new SingleContainer(2, Gender.F, "Botella", "Botella de vidrio");
-		Liquid water = new Liquid(4, Gender.F, "agua", "Agua de catarata", true);
+		Consumable water = new Consumable(4, Gender.F, "agua", "Agua de catarata", true, new ItemEffect(0D, null));
 		SingleContainer waterfall = new SingleContainer(3, Gender.F, "Cataratas", "Cataratas con mucha agua", water,
 				true, true);
 		UserCharacter p = new UserCharacter(gameManager, s1);
@@ -51,7 +52,7 @@ class SingleContainerTest {
 	public void bottleTest4() {
 		Location s1 = new Location(1, Gender.M, "s1", "Inicio", true);
 		SingleContainer bottle = new SingleContainer(2, Gender.F, "Botella", "Botella de vidrio");
-		Liquid water = new Liquid(4, Gender.F, "agua", "Agua de catarata", true);
+		Consumable water = new Consumable(4, Gender.F, "agua", "Agua de catarata", true, new ItemEffect(0D, null));
 		SingleContainer waterfall = new SingleContainer(3, Gender.F, "Cataratas", "Cataratas con mucha agua", water,
 				true, true);
 		UserCharacter p = new UserCharacter(gameManager, s1);

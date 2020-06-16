@@ -8,7 +8,7 @@ import island.GameObject;
 import island.Location;
 import items.Blueprint;
 import items.Item;
-import items.Liquid;
+import items.Consumable;
 import items.SingleContainer;
 import items.Text;
 import items.Weapon;
@@ -98,16 +98,24 @@ public class Lost implements State {
 		boolean result = false;
 		String message = "No agarre nada";
 		if (item != null) {
-			if (item.getClass() == Liquid.class) {
-				if (character.getLocation().getItems().contains(item)) // Verificar que este bien este if para los
-																		// liquidos
-					for (Item i : character.getInventory()) {
-						if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
-							((SingleContainer) i).setContent(item);
-							message = "Agarre " + item.getName();
-							result = true;
-							break;
+			if (item.getClass() == Consumable.class) {
+				Consumable consumable = (Consumable) item;
+				if (character.getLocation().getItems().contains(consumable)) // Verificar que este bien este if para los
+					if (consumable.needsContainer()) // liquidos
+						for (Item i : character.getInventory()) {
+							if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
+								((SingleContainer) i).setContent(consumable);
+								message = "Agarre " + consumable.getName();
+								character.getLocation().removeItem(item);
+								result = true;
+								break;
+							}
 						}
+					else {
+						character.addItem(item);
+						message = "Agarre " + consumable.getOnlyName();
+						character.getLocation().removeItem(item);
+						result = true;
 					}
 				else {
 					message = "El objeto no esta en la misma ubicacion que la persona";
@@ -139,7 +147,7 @@ public class Lost implements State {
 			SingleContainer cont = (SingleContainer) item;
 			cont.getContent();
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getName());
-		} else if (item.getClass() == Liquid.class) {
+		} else if (item.getClass() == Consumable.class) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Tome " + item.getName());
 		}
 		return this;
@@ -233,6 +241,10 @@ public class Lost implements State {
 
 	@Override
 	public boolean use(Item item) {
+		if (item.getType() == ItemType.CONSUMABLE) {
+			Consumable consumable = (Consumable) item;
+			consumable.consume(character);
+		}
 		if (item.getType() == ItemType.BLUEPRINT) {
 			Blueprint bp = (Blueprint) item;
 			Item result = bp.produce(character.getInventory());
@@ -266,6 +278,5 @@ public class Lost implements State {
 
 		return result;
 	}
-
 
 }

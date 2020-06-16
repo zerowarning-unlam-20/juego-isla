@@ -7,10 +7,12 @@ import island.Access;
 import island.GameObject;
 import island.Location;
 import items.Item;
-import items.Liquid;
+import items.Blueprint;
+import items.Consumable;
 import items.SingleContainer;
 import items.Text;
 import items.Weapon;
+import tools.ItemType;
 import tools.MessageType;
 
 public class NPCNormal implements State {
@@ -104,34 +106,53 @@ public class NPCNormal implements State {
 	@Override
 	public boolean grab(Item item) {
 		boolean result = false;
-		String message = "No agarro nada";
+		String message = "No agarre nada";
 		if (item != null) {
-			if (item.getClass() == Liquid.class) {
-				for (Item i : character.getInventory()) {
-					if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
-						((SingleContainer) i).setContent(item);
-						message = "agarro " + item.getName();
+			if (item.getClass() == Consumable.class) {
+				Consumable consumable = (Consumable) item;
+				if (character.getLocation().getItems().contains(consumable)) // Verificar que este bien este if para los
+					if (consumable.needsContainer()) // liquidos
+						for (Item i : character.getInventory()) {
+							if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
+								((SingleContainer) i).setContent(consumable);
+								message = "Agarre " + consumable.getName();
+								character.getLocation().removeItem(item);
+								result = true;
+								break;
+							}
+						}
+					else {
+						character.addItem(item);
+						message = "Agarre " + consumable.getOnlyName();
+						character.getLocation().removeItem(item);
 						result = true;
-						break;
 					}
+				else {
+					message = "El objeto no esta en la misma ubicacion que la persona";
+					result = false;
 				}
 			} else {
-				character.addItem(item);
-				character.getLocation().removeItem(item);
-				message = "agarro " + item.getOnlyName();
+				if (character.getLocation().getItems().contains(item)) {
+					character.addItem(item);
+					character.getLocation().removeItem(item);
+					message = "Agarre " + item.getOnlyName();
+					result = true;
+				} else {
+					message = "El objeto no esta en la misma ubicacion que la persona";
+					result = false;
+				}
 			}
 		}
 		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		return result;
 	}
-
 	@Override
 	public State drink(Item item) {
 		if (item.getClass() == SingleContainer.class) {
 			SingleContainer cont = (SingleContainer) item;
 			cont.getContent();
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getName());
-		} else if (item.getClass() == Liquid.class) {
+		} else if (item.getClass() == Consumable.class) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Tome " + item.getName());
 		}
 		return this;
@@ -215,7 +236,19 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean use(Item item) {
-		// TODO Auto-generated method stub
+		if (item.getType() == ItemType.CONSUMABLE) {
+			Consumable consumable = (Consumable) item;
+			consumable.consume(character);
+		}
+		if (item.getType() == ItemType.BLUEPRINT) {
+			Blueprint bp = (Blueprint) item;
+			Item result = bp.produce(character.getInventory());
+			if (result != null) {
+				character.addItem(result);
+				return true;
+			} else
+				character.getGameManager().sendMessage(MessageType.EVENT, character, "No se produjo nada");
+		}
 		return false;
 	}
 

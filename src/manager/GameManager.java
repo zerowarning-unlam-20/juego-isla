@@ -16,6 +16,7 @@ import commands.HitCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
 import commands.UnlockCommand;
+import commands.UseCommand;
 import entities.Entity;
 import tools.MessageType;
 import tools.WordBuilder;
@@ -82,6 +83,7 @@ public class GameManager {
 		actionCommands.put("open", new OpenCommand(game.getCharacter()));
 		actionCommands.put("unlock", new UnlockCommand(game.getCharacter()));
 		actionCommands.put("hit", new HitCommand(game.getCharacter()));
+		actionCommands.put("use", new UseCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {

@@ -8,6 +8,6 @@
     "name": "carlos",
     "type": "userCharacter",
     "weakAndRes": {},
-    "stateName": "normal",
+    "stateName": "lost",
     "inventory": []
   }

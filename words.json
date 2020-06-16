@@ -21,5 +21,6 @@
   "pegar": "hit",
   "recoger": "grab",
   "tomar": "drink",
+  "usar": "use",
   "ver": "look"
 }

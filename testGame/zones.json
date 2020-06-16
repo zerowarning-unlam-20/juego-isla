@@ -15,6 +15,19 @@
         "itemtype": "I",
         "name": "hoja",
         "type": "text"
+      },
+      {
+        "description": "brujula gastada, todavia funciona",
+        "gender": "F",
+        "id": 9,
+        "itemEffect": {
+          "healthChange": 0,
+          "stateName": "normal"
+        },
+        "itemType": "C",
+        "name": "brujula",
+        "needsContainer": false,
+        "type": "consumable"
       }
     ],
     "accesses": {
@@ -52,7 +65,6 @@
     "gender": "M",
     "id": 3,
     "items": [
-
     ],
     "name": "sur",
     "type": "location",

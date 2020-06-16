@@ -21,6 +21,7 @@ import entities.NPC;
 import entities.UserCharacter;
 import island.GameObject;
 import island.Location;
+import items.Item;
 
 public class WorldLoader {
 
@@ -43,6 +44,7 @@ public class WorldLoader {
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectDeserializer());
+		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
 		List<Location> results = new ArrayList<>();
@@ -71,6 +73,7 @@ public class WorldLoader {
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectDeserializer());
+		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
 		List<NPC> results = new ArrayList<>();
@@ -99,6 +102,7 @@ public class WorldLoader {
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectDeserializer());
+		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		return (UserCharacter) gson.fromJson(result, GameObject.class);
 	}

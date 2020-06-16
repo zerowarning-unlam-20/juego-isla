@@ -201,4 +201,8 @@ public abstract class Entity extends GameObject {
 	public int getInitialLocation() {
 		return initialLocation;
 	}
+
+	public State getState() {
+		return state;
+	}
 }
