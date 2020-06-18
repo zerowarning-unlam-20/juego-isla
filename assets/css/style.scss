@@ -1,8 +1,8 @@
 @import "{{site.theme}}"
-$section-headings-color: #2c02b8;
+$sec-headings-color: #2c02b8;
 .main-content{
 	h1,h2,h3,h4,h5,h6{
-		color:$section-headings-color;
+		color:$sec-headings-color;
 		font-weight:normal;
 	}
 }
