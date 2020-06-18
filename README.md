@@ -1,5 +1,3 @@
-# Juego isla (Zork) 2020
-
 ## Introduccion
 
 
