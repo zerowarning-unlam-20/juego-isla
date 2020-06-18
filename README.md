@@ -1,10 +1,7 @@
 # juego isla (Zork) 2020
 
-#Header 1
-Descripcion
+# Descripcion
 
-##Header 2
-Descripcion 2
+## Descripcion 2
 
-##Header 3
-descripcion 3
+### Descripcion 3
