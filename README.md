@@ -20,11 +20,21 @@ Descripción general de una "persona" o elemento con el que se pueda interactuar
 #### Attack
 El ataque en si esta compuesto por un tipo de daño y un valor de daño, el cual se enviará de entidad a entidad cuando se provoque. Sólamente funciona como un elemento de datos.
 #### NPC
-Las entidades con las que podrá interactuar el jugador, estas pueden llegar a desbloquear algun acceso
+Las entidades con las que podrá interactuar el jugador.
+- Cuando mueren dropean los items que tengan
+- Estando muertos pueden darle items al personaje si este los revisa (Ver)
+
 #### UserCharacter
+El personaje utilizado por el jugador, este tiene todas las acciones que sean necesarias en el juego y hará algún llamado para que finalice el juego.
+###### Idea
+- Podria hacer un llamado a "chequearFinal" en el juego por cada item que se agregue o por cada cambio de ubicación.  
 
 ### Manager
+Contendrá el manejo del juego y administración de datos y entren y salgan del mismo. También tendrá un manejador de palabras similares para dar comandos al jugador.
+
 #### Game
+Contiene todas las ubicaciones y los datos del jugador para el mapa que se haya cargado. Al cargar el mapa o "juego" esta clase vinculará las ubicaciones con sus respectivos accesos por como vienen de la fuente en formato json.
+
 #### GameManager
 #### WordManager
 
