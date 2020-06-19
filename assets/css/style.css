@@ -1,14 +1,14 @@
-@import "{
-	{
-		site.theme
-	}
-}
-";
- .page-header {
-	 color: #fff f;
+@import "{{site.theme}}";
+.page-header {
+	 color: #ffff;
 	 background-color: #a067ab;
 }
- .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.main-content h4,
+.main-content h5,
+.main-content h6 {
 	 color: #2c02b8;
 	 font-weight: normal;
 }
