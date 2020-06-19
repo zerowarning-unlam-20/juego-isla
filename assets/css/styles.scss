@@ -2,4 +2,8 @@
 ---
 
 @import "{{ site.theme }}";
-@import "/assets/css/custom.scss";
+
+body {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
