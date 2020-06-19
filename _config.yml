@@ -1,3 +1,3 @@
-remote-theme: jekyll-theme-slate
+theme: jekyll-theme-slate
 markdown: kramdown
 title: Juego Isla (Zork) 2020
