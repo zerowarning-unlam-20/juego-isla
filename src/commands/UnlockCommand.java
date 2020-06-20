@@ -3,7 +3,7 @@ package commands;
 import java.util.Scanner;
 
 import entities.UserCharacter;
-import island.Access;
+import items.Access;
 
 public class UnlockCommand implements ActionCommand {
 	private UserCharacter character;
@@ -33,9 +33,14 @@ public class UnlockCommand implements ActionCommand {
 	}
 
 	private void unlockSearch(String toUnlock) {
-		for (Access acceso : character.getLocation().getAccesses().values())
-			if (acceso.getName().contentEquals(toUnlock)) {
-				character.unlock(acceso);
-			}
+		Access result = null;
+		if (!toUnlock.isEmpty()) {
+			for (Access acceso : character.getLocation().getAccesses().values())
+				if (acceso.getName().equalsIgnoreCase(toUnlock)) {
+					result = acceso;
+					break;
+				}
+		}
+		character.unlock(result);
 	}
 }

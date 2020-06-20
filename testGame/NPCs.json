@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "baseHealth": 0,
+    "chat": {},
+    "description": "huesitos",
+    "gender": "M",
+    "health": 0,
+    "id": 2,
+    "idUnlocks": 0,
+    "initialLocation": 1005,
+    "inventory": [
+      {
+        "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
+        "description": "Hoja gastada",
+        "gender": "M",
+        "id": 3001,
+        "itemtype": "I",
+        "name": "hoja",
+        "type": "text"
+      },
+      {
+        "damage": 25.0,
+        "damageType": "S",
+        "description": "Cuchillo de acero inoxidable",
+        "gender": "M",
+        "id": 3003,
+        "itemType": "W",
+        "name": "Cuchillo",
+        "type": "weapon"
+      }
+    ],
+    "name": "cadaver",
+    "NPCType": "I",
+    "stateName": "dead",
+    "type": "NPC",
+    "weakAndRes": {
+      "B": 0.0,
+      "H": 0.0,
+      "SH": 0.0,
+      "SL": 0.0
+    }
+  },
+  {
+    "baseHealth": 150,
+    "chat": {},
+    "description": "Palmera alta",
+    "gender": "F",
+    "health": 150,
+    "id": 3,
+    "idUnlocks": 0,
+    "initialLocation": 1002,
+    "inventory": [
+      {
+        "description": "Madera",
+        "gender": "F",
+        "id": 3005,
+        "itemType": "R",
+        "name": "Madera de palmera",
+        "type": "resource"
+      }
+    ],
+    "name": "palmera",
+    "NPCType": "I",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 2,
+      "S": 0.1
+    }
+  },
+  {
+    "baseHealth": 200,
+    "chat": {},
+    "description": "Tiburon blanco",
+    "gender": "F",
+    "health": 200,
+    "id": 3,
+    "idUnlocks": 0,
+    "initialLocation": 1007,
+    "inventory": [
+      {
+        "damage": 32,
+        "damageType": "S",
+        "description": "Colmillo de tiburon",
+        "gender": "M",
+        "id": 3003,
+        "itemType": "W",
+        "name": "Cuchillo",
+        "type": "weapon"
+      }
+    ],
+    "name": "palmera",
+    "NPCType": "I",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 0.3,
+      "S": 0.5
+    }
+  }
+]

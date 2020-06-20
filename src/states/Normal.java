@@ -3,16 +3,21 @@ package states;
 import entities.Attack;
 import entities.Entity;
 import entities.NPC;
-import island.Access;
 import island.GameObject;
 import island.Location;
-import items.Blueprint;
 import items.Item;
-import items.Consumable;
-import items.SingleContainer;
-import items.Text;
-import items.Weapon;
-import tools.ItemType;
+import items.Access;
+import items.properties.Attackable;
+import items.properties.Dispenser;
+import items.properties.Holdable;
+import items.properties.Usable;
+import items.types.Blueprint;
+import items.types.Consumable;
+import items.properties.Readablel;
+import items.types.Key;
+import items.types.Container;
+import items.types.Text;
+import items.types.Weapon;
 import tools.MessageType;
 import tools.NPCType;
 
@@ -56,9 +61,8 @@ public class Normal implements State {
 			} else {
 				message += access.getSingularName();
 				for (Item item : character.getInventory()) {
-					if (item.getId() == access.getIdKey()) {
+					if (item instanceof Key && access.unlock(item)) {
 						character.removeItem(item);
-						access.unlock();
 						message = access.getSingularName() + " se desbloqueo";
 						result = true;
 						break;
@@ -73,16 +77,18 @@ public class Normal implements State {
 	@Override
 	public boolean look(GameObject object) {
 		boolean result = false;
+		if (object == null) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character, "No hay nada que ver");
+			return result;
+		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, object.getDescription());
-		if (object.getClass() == Text.class)
-			if (character.getLocation().isVisible()) {
-				character.getGameManager().sendMessage(MessageType.CHARACTER, character, ((Text) object).getContent());
-				result = true;
-			} else {
-				character.getGameManager().sendMessage(MessageType.CHARACTER, character,
-						"No se puede ver nada en la oscuridad");
-				result = false;
+		if (object.getClass() == NPC.class) {
+			NPC npc = (NPC) object;
+			if (npc.getState().getClass().equals(Dead.class)) {
+				Attack attack = new Attack(0d, character, null);
+				npc.onDeath(attack);
 			}
+		}
 		return result;
 	}
 
@@ -90,6 +96,10 @@ public class Normal implements State {
 	public boolean goTo(Location location) {
 		boolean result = false;
 		String message = "";
+		if (location == null) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character, "Ir donde?");
+			return false;
+		}
 		Access destinationAccess = character.getLocation().getAccesses().get(location.getId());
 		if (destinationAccess != null) {
 			if (destinationAccess.isOpened()) {
@@ -103,6 +113,9 @@ public class Normal implements State {
 			}
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
+		if (result) {
+			lookAround();
+		}
 		return result;
 	}
 
@@ -110,41 +123,31 @@ public class Normal implements State {
 	public boolean grab(Item item) {
 		boolean result = false;
 		String message = "No agarre nada";
-		if (item != null) {
-			if (item.getClass() == Consumable.class) {
-				Consumable consumable = (Consumable) item;
-				if (character.getLocation().getItems().contains(consumable)) // Verificar que este bien este if para los
-					if (consumable.needsContainer()) // liquidos
-						for (Item i : character.getInventory()) {
-							if (i.getClass() == SingleContainer.class && (((SingleContainer) i).getContent() == null)) {
-								((SingleContainer) i).setContent(consumable);
-								message = "Agarre " + consumable.getName();
-								character.getLocation().removeItem(item);
-								result = true;
-								break;
-							}
-						}
-					else {
-						character.addItem(item);
-						message = "Agarre " + consumable.getOnlyName();
-						character.getLocation().removeItem(item);
-						result = true;
-					}
-				else {
-					message = "El objeto no esta en la misma ubicacion que la persona";
-					result = false;
-				}
-			} else {
-				if (character.getLocation().getItems().contains(item)) {
-					character.addItem(item);
+
+		if (item == null) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+			return result;
+		} else if (!(item instanceof Holdable)) {
+			message = "Imposible agarrar " + item.getSingularName();
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+			return result;
+		}
+
+		if (item instanceof Consumable && ((Consumable) item).needsContainer()) {
+			for (Item container : character.getInventory()) {
+				if (container instanceof Container && ((Container) container).isEmpty()) {
+					((Container) container).setContent(item);
+					message = "Se ingreso " + item.getSingularName().toLowerCase() + " en "
+							+ container.getSingularName();
 					character.getLocation().removeItem(item);
-					message = "Agarre " + item.getOnlyName();
 					result = true;
-				} else {
-					message = "El objeto no esta en la misma ubicacion que la persona";
-					result = false;
 				}
 			}
+		} else {
+			character.addItem(item);
+			character.getLocation().removeItem(item);
+			message = "Se agarró " + item.getSingularName();
+			result = true;
 		}
 		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		return result;
@@ -156,11 +159,11 @@ public class Normal implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "No hay nada que tomar");
 			return this;
 		}
-		if (item.getClass() == SingleContainer.class) {
-			SingleContainer cont = (SingleContainer) item;
+		if (item.getClass() == Container.class) {
+			Container cont = (Container) item;
 			cont.getContent();
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getName());
-		} else if (item.getClass() == Consumable.class) {
+		} else if (item instanceof Consumable) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Tome " + item.getName());
 		}
 		return this;
@@ -175,13 +178,7 @@ public class Normal implements State {
 	public boolean lookAround() {
 		boolean result = true;
 		String message = character.getLocation().getDescription() + "\n";
-		if (!character.getLocation().getItems().isEmpty()) {
-			for (Item item : character.getLocation().getItems()) {
-				message += item.getDescription() + ", ";
-			}
-			if (message != ", ")
-				message = message.substring(0, message.length() - 2);
-		}
+		message += character.getLocation().lookAround();
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
 		result = true;
 		return result;
@@ -206,14 +203,20 @@ public class Normal implements State {
 	}
 
 	@Override
-	public State heal(Double points) {
-		return this;
+	public void heal(Double points) {
+		if (!character.getState().getClass().equals(Dead.class)) {
+			Double total = character.getHealth() + points;
+			character.setHealth(total > character.getBaseHealth() ? total : character.getBaseHealth());
+		}
 	}
 
 	@Override
 	public State recieveAttack(Attack attack) {
-		character.setHealth(
-				character.getHealth() - attack.getDamage() * character.getWeaknessModifier(attack.getDamageType()));
+		Double modifier = character.getWeaknessModifier(attack.getDamageType());
+		if (modifier != null)
+			character.setHealth(character.getHealth() - attack.getDamage() * modifier);
+		else
+			character.setHealth(character.getHealth() - attack.getDamage());
 		if (character.getHealth() <= 0) {
 			character.setHealth(0d);
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Cayó " + character.getSingularName());
@@ -224,18 +227,27 @@ public class Normal implements State {
 	}
 
 	@Override
-	public boolean attack(Weapon weapon, Entity objective) {
-		if (objective != null) {
+	public boolean attack(Weapon weapon, GameObject objective) {
+		if (objective == null || weapon == null) {
+			if (objective == null) {
+				character.getGameManager().sendMessage(MessageType.EVENT, character, "No le puedo pegar a nadie");
+			}
+			if (weapon == null) {
+				character.getGameManager().sendMessage(MessageType.EVENT, character, " No tengo con que pegar");
+			}
+			return false;
+		}
+
+		// Attack begins, checks objective
+		if (objective instanceof Attackable) {
+			Attackable target = (Attackable) objective;
 			character.getGameManager().sendMessage(MessageType.EVENT, character, character.getName() + " Le pego a "
 					+ objective.getSingularName() + " con " + weapon.getSingularName());
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
-			objective.recieveAttack(attack);
+			target.recieveAttack(attack);
 			return true;
 		}
-		character.getGameManager().sendMessage(MessageType.EVENT, character,
-				character.getName() + " No le pude pegar a nadie");
 		return false;
-
 	}
 
 	@Override
@@ -256,18 +268,13 @@ public class Normal implements State {
 
 	@Override
 	public boolean use(Item item) {
-		if (item.getType() == ItemType.CONSUMABLE) {
-			Consumable consumable = (Consumable) item;
-			consumable.consume(character);
+		if (item == null) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, "No hay nada para usar");
+			return false;
 		}
-		if (item.getType() == ItemType.BLUEPRINT) {
-			Blueprint bp = (Blueprint) item;
-			Item result = bp.produce(character.getInventory());
-			if (result != null) {
-				character.addItem(result);
-				return true;
-			} else
-				character.getGameManager().sendMessage(MessageType.EVENT, character, "No se produjo nada");
+		if (item instanceof Usable) {
+			Usable usable = (Usable) item;
+			return usable.use(character);
 		}
 		return false;
 	}
@@ -275,10 +282,11 @@ public class Normal implements State {
 	@Override
 	public boolean read(Item item) {
 		boolean result = true;
-		if (item.getType() == ItemType.INFORMATION) {
-			Text text = (Text) item;
-			character.getGameManager().sendMessage(MessageType.STORY, character, text.getContent());
-		} else if (item.getType() == ItemType.BLUEPRINT) {
+		if (item instanceof Readablel) {
+			Readablel text = (Readablel) item;
+			character.getGameManager().sendMessage(MessageType.STORY, character,
+					text.read(character.getLocation().isVisible()));
+		} else if (item instanceof Blueprint) {
 			Blueprint bp = (Blueprint) item;
 			character.getGameManager().sendMessage(MessageType.STORY, character, bp.getDescription());
 		}
@@ -292,6 +300,22 @@ public class Normal implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "No hay nada para crear");
 
 		return result;
+	}
+
+	@Override
+	public void lookState() {
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character,
+				"Estoy un poco perdid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.EVENT, character, "Vida: " + character.getHealth());
+	}
+
+	@Override
+	public boolean inspect(Item item) {
+		if (item == null) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, "No hay nada para revisar");
+			return false;
+		}
+		return ((Dispenser) item).giveItems(character);
 	}
 
 }

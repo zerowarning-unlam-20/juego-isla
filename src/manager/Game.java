@@ -2,11 +2,13 @@ package manager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import entities.Entity;
 import entities.NPC;
 import entities.UserCharacter;
 import island.Location;
+import items.Access;
 
 public class Game {
 	private List<Location> locations;
@@ -15,27 +17,16 @@ public class Game {
 	private HashMap<String, Location> locationsMap = new HashMap<>();
 	private UserCharacter character;
 
-	public Game(UserCharacter character, List<Location> locations) {
-		this.locations = locations;
-		this.character = character;
-		linkLocations();
-		locationsMap.clear();
-		for (Location l : locations) {
-			locationsMap.put(l.getName().toLowerCase(), l);
-			locationIds.put(l.getId(), l);
-		}
-	}
-
 	public Game(GameManager gameManager, UserCharacter character, List<Location> locations, List<NPC> NPClist) {
 		this.locations = locations;
 		this.character = character;
 		this.character.linkToManager(gameManager);
-		
+
 		for (Location l : locations) {
 			locationsMap.put(l.getName().toLowerCase(), l);
 			locationIds.put(l.getId(), l);
 		}
-		
+
 		this.character.setLocation(this.locationIds.get(character.getInitialLocation()));
 		this.entities = new HashMap<Integer, Entity>();
 		for (NPC e : NPClist) {
@@ -47,11 +38,9 @@ public class Game {
 	}
 
 	private void linkLocations() {
-		for (Location location : getLocations()) {
-			for (Location otherLocation : getLocations()) {
-				if (location != otherLocation) {
-					location.addLink(otherLocation);
-				}
+		for (Location location : locations) {
+			for (Map.Entry<Integer, Access> entry : location.getAccesses().entrySet()) {
+				entry.getValue().setDestination(locationIds.get(entry.getKey()));
 			}
 		}
 	}

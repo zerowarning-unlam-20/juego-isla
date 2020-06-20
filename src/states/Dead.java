@@ -5,7 +5,10 @@ import entities.Entity;
 import island.GameObject;
 import island.Location;
 import items.Item;
-import items.Weapon;
+import items.ItemEffect;
+import items.properties.Dispenser;
+import items.properties.Inspectable;
+import items.types.Weapon;
 import tools.MessageType;
 
 public class Dead implements State {
@@ -76,9 +79,8 @@ public class Dead implements State {
 	}
 
 	@Override
-	public State heal(Double points) {
+	public void heal(Double points) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
-		return this;
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class Dead implements State {
 	}
 
 	@Override
-	public boolean attack(Weapon weapon, Entity objective) {
+	public boolean attack(Weapon weapon, GameObject objective) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
 		return false;
 	}
@@ -119,6 +121,17 @@ public class Dead implements State {
 
 	@Override
 	public boolean create(Item item) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+		return false;
+	}
+
+	@Override
+	public void lookState() {
+		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	}
+
+	@Override
+	public boolean inspect(Item item) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
 		return false;
 	}

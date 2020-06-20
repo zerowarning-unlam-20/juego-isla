@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 import entities.Entity;
 import entities.UserCharacter;
-import items.Weapon;
+import island.GameObject;
+import items.Item;
+import items.properties.Attackable;
+import items.types.Weapon;
 
 public class HitCommand implements ActionCommand {
 	private UserCharacter character;
@@ -32,15 +35,18 @@ public class HitCommand implements ActionCommand {
 		}
 		weaponString.trim();
 		Weapon weapon = (Weapon) character.getInventoryStringMap().get(weaponString);
-		if (weapon != null) {
-			Entity target = null;
-			for (Map.Entry<Integer, Entity> entry : character.getLocation().getEntities().entrySet()) {
-				if (entry.getValue().getName().toLowerCase().contentEquals(targetString)) {
-					target = entry.getValue();
-				}
+		GameObject target = null;
+		for (Map.Entry<Integer, Entity> entry : character.getLocation().getEntities().entrySet()) {
+			if (entry.getValue().getName().equalsIgnoreCase(targetString)) {
+				target = entry.getValue();
 			}
-			character.attack(weapon, target);
 		}
+		for (Item item : character.getLocation().getItems()) {
+			if (item instanceof Attackable && item.getName().equalsIgnoreCase(targetString)) {
+				target = item;
+			}
+		}
+		character.attack(weapon, target);
 
 	}
 

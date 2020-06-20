@@ -13,8 +13,10 @@ import commands.DrinkCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
 import commands.HitCommand;
+import commands.InspectCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
+import commands.ReadCommand;
 import commands.UnlockCommand;
 import commands.UseCommand;
 import entities.Entity;
@@ -84,6 +86,8 @@ public class GameManager {
 		actionCommands.put("unlock", new UnlockCommand(game.getCharacter()));
 		actionCommands.put("hit", new HitCommand(game.getCharacter()));
 		actionCommands.put("use", new UseCommand(game.getCharacter()));
+		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
+		actionCommands.put("read", new ReadCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
@@ -107,7 +111,7 @@ public class GameManager {
 				System.out.println(sender.getName() + ": " + message);
 				break;
 			case ("S"):
-				System.out.println(sender.getName() + message);
+				System.out.println(message);
 				break;
 			}
 		}
@@ -127,6 +131,8 @@ public class GameManager {
 			game = new Game(this, WorldLoader.loadCharacter(folder), WorldLoader.loadLocations(folder),
 					WorldLoader.loadEntities(folder));
 			loadCommands();
+			sendMessage(MessageType.STORY, null, WorldLoader.loadInitialMessage(folder));
+			game.getCharacter().lookAround();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -134,6 +140,10 @@ public class GameManager {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public void setTestMode(boolean value) {
+		testMode = value;
 	}
 
 }

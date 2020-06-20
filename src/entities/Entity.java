@@ -6,8 +6,13 @@ import java.util.List;
 
 import island.GameObject;
 import island.Location;
+import items.Access;
 import items.Item;
-import items.Weapon;
+import items.ItemEffect;
+import items.properties.Attackable;
+import items.properties.Dispenser;
+import items.properties.Inspectable;
+import items.types.Weapon;
 import manager.GameManager;
 import states.Dead;
 import states.Normal;
@@ -16,7 +21,7 @@ import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
 
-public abstract class Entity extends GameObject {
+public abstract class Entity extends GameObject implements Attackable{
 	protected GameManager gameManager;
 	protected Double baseHealth;
 	protected Double health;
@@ -119,6 +124,10 @@ public abstract class Entity extends GameObject {
 	public boolean unlock(GameObject toUnlock) {
 		return state.unlock(toUnlock);
 	}
+	
+	public boolean read(Item item) {
+		return state.read(item);
+	}
 
 	public void setLocation(Location location) {
 		this.location = location;
@@ -164,12 +173,13 @@ public abstract class Entity extends GameObject {
 		this.health = health;
 	}
 
-	public boolean attack(Weapon weapon, Entity objective) {
-		return state.attack(weapon, objective);
+	public boolean attack(Weapon weapon, GameObject target) {
+		return state.attack(weapon, target);
 	}
 
-	public void recieveAttack(Attack attack) {
+	public boolean recieveAttack(Attack attack) {
 		state = state.recieveAttack(attack);
+		return true;
 	}
 
 	public boolean create(Item item) {
@@ -180,6 +190,7 @@ public abstract class Entity extends GameObject {
 		for (Item item : inventory) {
 			attack.getAttacker().addItem(item);
 		}
+		inventory.clear();
 	}
 
 	public boolean talk(Entity other, String message) {
@@ -205,4 +216,27 @@ public abstract class Entity extends GameObject {
 	public State getState() {
 		return state;
 	}
+
+	public boolean goTo(int id) {
+		boolean result = false;
+		Access access = location.getAccesses().get(id);
+		if (access != null && access.getDestination() != null) {
+			result = state.goTo(access.getDestination());
+		} else
+			state.goTo(null);
+		return result;
+	}
+
+	public boolean use(Item item) {
+		return state.use(item);
+	}
+	
+	public void lookState() {
+		state.lookState();
+	}
+	
+	public void inspect(Item result) {
+		state.inspect(result);
+	}
+
 }

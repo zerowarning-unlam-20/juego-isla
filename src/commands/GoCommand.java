@@ -15,19 +15,16 @@ public class GoCommand implements ActionCommand {
 	@Override
 	public void perform(Scanner args) {
 		String lugar = "";
-		
-		if (args.hasNext()) {
-			while (args.hasNext()) {
-				lugar += args.next() + " ";
-			}
-			lugar = lugar.trim();
-			if (lugar != "") {
-				Location location = personaje.getGameManager().getGame().getLocationFromString(lugar);
-				if (location != null) {
-					personaje.goTo(location.getId());
-				}
-			}
+
+		while (args.hasNext()) {
+			lugar += args.next() + " ";
 		}
+		lugar = lugar.trim();
+		Location location = personaje.getGameManager().getGame().getLocationFromString(lugar);
+		if (location == null)
+			personaje.goTo(null);
+		else
+			personaje.goTo(location.getId());
 	}
 
 }

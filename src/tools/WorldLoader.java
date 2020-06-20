@@ -48,8 +48,8 @@ public class WorldLoader {
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
 		List<Location> results = new ArrayList<>();
-		for(GameObject go: objects) {
-			results.add((Location)go);
+		for (GameObject go : objects) {
+			results.add((Location) go);
 		}
 		return results;
 	}
@@ -77,12 +77,12 @@ public class WorldLoader {
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
 		List<NPC> results = new ArrayList<>();
-		for(GameObject go: objects) {
-			results.add((NPC)go);
+		for (GameObject go : objects) {
+			results.add((NPC) go);
 		}
 		return results;
 	}
-	
+
 	public static UserCharacter loadCharacter(String folder) throws IOException, FileNotFoundException {
 		File file = new File(folder + "/character.json");
 		InputStream is;
@@ -105,6 +105,24 @@ public class WorldLoader {
 		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		return (UserCharacter) gson.fromJson(result, GameObject.class);
+	}
+
+	public static String loadInitialMessage(String folder) throws IOException {
+		File file = new File(folder + "/initialMessage.start");
+		InputStream is;
+
+		is = new FileInputStream(file);
+
+		Writer writer = new StringWriter();
+		char[] buffer = new char[1024];
+
+		Reader reader = new BufferedReader(new InputStreamReader(is));
+		int n;
+		while ((n = reader.read(buffer)) != -1) {
+			writer.write(buffer, 0, n);
+		}
+		reader.close();
+		return writer.toString();
 	}
 
 }

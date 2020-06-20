@@ -2,32 +2,27 @@ package entities;
 
 import java.util.List;
 
-import island.Access;
 import island.Location;
 import items.Item;
 import manager.GameManager;
-import states.Normal;
 import tools.Gender;
 
 public class UserCharacter extends Entity {
 
 	public UserCharacter(GameManager gameManager, Location location) {
 		super(gameManager, 0, Gender.M, "Test", "Test Character", location);
+		initialLocation = location.getId();
 	}
 
-	public UserCharacter(GameManager gameManager, int id, Gender gender, String name, String description,
-			Location location, List<Item> inventory) {
-		super(gameManager, id, gender, name, description, location, inventory, location.getId());
+	public UserCharacter(GameManager gameManager, Location location, List<Item> inventory) {
+		super(gameManager, 0, Gender.M, "Test", "Test Character", location);
+		initialLocation = location.getId();
+		this.inventory = inventory;
 	}
 
 	public UserCharacter(GameManager gameManager, int id, Gender gender, String name, String description,
 			List<Item> inventory, int initialLocation) {
 		super(gameManager, id, gender, name, description, inventory, initialLocation);
-	}
-
-	public UserCharacter(int id, Gender gender, String name, String description, List<Item> inventory,
-			int initialLocation) {
-		super(null, id, gender, name, description, inventory, initialLocation);
 	}
 
 	public Item removeItem(Item item) {
@@ -46,22 +41,5 @@ public class UserCharacter extends Entity {
 			}
 		}
 		return removed;
-	}
-
-	public boolean goTo(int id) {
-		boolean result = false;
-		Access access = location.getAccesses().get(id);
-		if (access != null && access.getDestination() != null) {
-			state.goTo(access.getDestination());
-			result = true;
-		}
-		return result;
-	}
-
-	public boolean use(Item item) {
-		if (item != null) {
-			return state.use(item);
-		}
-		return false;
 	}
 }

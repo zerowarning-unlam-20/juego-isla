@@ -3,10 +3,12 @@ package island;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import entities.Entity;
 import entities.NPC;
+import entities.UserCharacter;
+import items.Access;
 import items.Item;
 import tools.Gender;
 
@@ -33,8 +35,8 @@ public class Location extends GameObject {
 		super(id, gender, name, description);
 		this.items = items;
 		this.visible = visible;
-		this.accesses = new HashMap<Integer,Access>();
-		this.entities = new HashMap<Integer,Entity>();
+		this.accesses = new HashMap<Integer, Access>();
+		this.entities = new HashMap<Integer, Entity>();
 		for (Access a : accesses) {
 			this.accesses.put(a.getIdDestination(), a);
 		}
@@ -68,6 +70,39 @@ public class Location extends GameObject {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public String lookAround() {
+		String acc = "";
+		String ent = "";
+		String message = "";
+
+		for (Map.Entry<Integer, Access> entry : accesses.entrySet()) {
+			acc += entry.getValue().getDescription() + ", ";
+		}
+		if (acc.contains(", ")) {
+			acc = acc.substring(0, acc.length() - 2);
+			acc += ".\n";
+		}
+		if (!acc.isEmpty()) {
+			message += "Se ve: " + acc;
+		}
+		for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
+			if (!entry.getValue().getClass().equals(UserCharacter.class))
+				ent += entry.getValue().getDescription() + ", ";
+		}
+		if (ent.contains(", ")) {
+			ent = ent.substring(0, ent.length() - 2);
+			ent += ".\n";
+		}
+		message += ent;
+		for (Item item : items) {
+			message += item.getDescription() + ", ";
+		}
+		if (message.contains(", "))
+			message = message.substring(0, message.length() - 2);
+
+		return message;
 	}
 
 	@Override

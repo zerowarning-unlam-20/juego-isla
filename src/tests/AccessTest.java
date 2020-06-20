@@ -6,14 +6,15 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import entities.NPC;
 import entities.UserCharacter;
-import island.Access;
 import island.Location;
+import items.Access;
 import items.Item;
+import items.types.Key;
 import manager.Game;
 import manager.GameManager;
 import tools.Gender;
-import tools.ItemType;
 
 class AccessTest {
 
@@ -23,20 +24,25 @@ class AccessTest {
 
 	@BeforeEach
 	void load() {
-		gameManager = new GameManager(true); // Test mode
-		Location s1 = new Location(1, Gender.M, "s1", "Inicio", true);
-		s1.addAccess(new Access(12, Gender.F, "Puerta", "Puerta azul", false, true, 2, 33));
-
-		Location s2 = new Location(2, Gender.M, "s2", "Segundo lugar", true);
-		s2.addAccess(new Access(21, Gender.F, "Puerta", "Puerta azul", false, true, 1, 0));
-
+		gameManager = new GameManager(true);
+		
+		// Load locations
+		Location s1 = new Location(1001, Gender.M, "s1", "Inicio", true);
+		s1.addAccess(new Access(3000, Gender.F, "Puerta", "Puerta azul", false, true, 1002, 3002));
+		Location s2 = new Location(1002, Gender.M, "s2", "Segundo lugar", true);
+		s2.addAccess(new Access(3001, Gender.F, "Puerta", "Puerta azul", false, true, 1001, 0));
 		ArrayList<Location> locations = new ArrayList<>();
 		locations.add(s1);
 		locations.add(s2);
-
+		
+		// Load empty NPC list
+		ArrayList<NPC> npcs = new ArrayList<>();
+		
+		// Load character
 		character = new UserCharacter(gameManager, s1);
 
-		Game game = new Game(character, locations);
+		// Load game into manager
+		Game game = new Game(gameManager, character, locations, npcs);
 
 		gameManager.setInternalGame(game);
 
@@ -45,9 +51,9 @@ class AccessTest {
 
 	@Test
 	public void accessTest1() {
-		Item key = new Item(33, Gender.F, "Llave", "Llave_test", ItemType.KEY);
+		Item key = new Key(3002, Gender.F, "Llave", "Llave_test");
 		character.addItem(key);
-		Assert.assertTrue(character.goTo(2));
+		Assert.assertTrue(character.goTo(1002));
 	}
 
 }

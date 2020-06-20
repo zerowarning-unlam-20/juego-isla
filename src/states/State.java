@@ -5,7 +5,9 @@ import entities.Entity;
 import island.GameObject;
 import island.Location;
 import items.Item;
-import items.Weapon;
+import items.properties.Dispenser;
+import items.properties.Inspectable;
+import items.types.Weapon;
 
 public interface State {
 	public boolean open(GameObject object);
@@ -28,9 +30,9 @@ public interface State {
 
 	public boolean hit(Item item, GameObject gameObject);
 
-	public State heal(Double points);
+	public void heal(Double points);
 
-	public boolean attack(Weapon weapon, Entity objective);
+	public boolean attack(Weapon weapon, GameObject target);
 
 	public State recieveAttack(Attack attack);
 
@@ -43,4 +45,8 @@ public interface State {
 	public boolean read(Item item);
 	
 	public boolean create(Item item);
+	
+	public boolean inspect(Item item);
+
+	public void lookState();
 }

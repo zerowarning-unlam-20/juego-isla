@@ -6,9 +6,10 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import entities.NPC;
 import entities.UserCharacter;
-import island.Access;
 import island.Location;
+import items.Access;
 import manager.Game;
 import manager.GameManager;
 import tools.Gender;
@@ -21,6 +22,8 @@ class LocationTest {
 	@BeforeEach
 	void load() {
 		gameManager = new GameManager(true);
+		
+		// Load locations
 		Location s1 = new Location(1, Gender.M, "s1", "Inicio", true);
 		s1.addAccess(new Access(12, Gender.F, "Puerta", "Puerta azul", false, true, 2, 0));
 
@@ -54,12 +57,16 @@ class LocationTest {
 		locations.add(s5);
 		locations.add(s6);
 
+		// Load character & empty NPC list
 		character = new UserCharacter(gameManager, s1);
 
-		Game game = new Game(character, locations);
+		// NPC empty list (constructor purposes)
+		ArrayList<NPC> npcs = new ArrayList<>();
 
+		// Load game
+		Game game = new Game(gameManager, character, locations, npcs);
 		gameManager.setInternalGame(game);
-
+		
 		initialLocation = s1;
 	}
 

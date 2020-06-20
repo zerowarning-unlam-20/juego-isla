@@ -13,6 +13,7 @@ import entities.UserCharacter;
 import island.GameObject;
 import states.Dead;
 import states.Lost;
+import states.NPCNormal;
 import states.Normal;
 
 public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
@@ -29,7 +30,7 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 			String sn = stateName.getAsString();
 			switch (sn) {
 			case "normal":
-				character.setState(new Normal(character));
+				character.setState(new NPCNormal((NPC)character));
 				break;
 			case "lost":
 				character.setState(new Lost(character));

@@ -1,13 +1,22 @@
   {
-    "description": "lost guy",
+    "description": "Tipo perdido",
     "gender": "M",
     "baseHealth": 100,
     "health": 100,
-    "id": 1000,
-    "initialLocation": 1,
-    "name": "carlos",
+    "id": 1,
+    "initialLocation": 1001,
+    "name": "Carlos",
     "type": "userCharacter",
     "weakAndRes": {},
     "stateName": "lost",
-    "inventory": []
+    "inventory": [
+      {
+        "description": "Botella de vidrio",
+        "gender": "F",
+        "id": 3004,
+        "itemType": "B",
+        "name": "Botella",
+        "type": "single_container"
+      }
+    ]
   }

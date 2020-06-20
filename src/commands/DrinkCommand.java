@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import entities.UserCharacter;
 import items.Item;
-import items.SingleContainer;
+import items.types.Container;
 
 public class DrinkCommand implements ActionCommand {
 	private UserCharacter character;
@@ -25,13 +25,13 @@ public class DrinkCommand implements ActionCommand {
 	private void drink(String itemName) {
 		Item item = null;
 		for (Item i : character.getInventory()) {
-			if (i.getClass() == SingleContainer.class) {
-				SingleContainer container = (SingleContainer) i;
-				if (container.getContent().getName().contentEquals(itemName)) {
+			if (i.getClass() == Container.class) {
+				Container container = (Container) i;
+				if (!container.isEmpty() && container.getContent().getName().equalsIgnoreCase(itemName)) {
 					item = i;
 					break;
 				}
-			} else if (i.getName().contentEquals(itemName)) {
+			} else if (i.getName().equalsIgnoreCase(itemName)) {
 				item = i;
 				break;
 			}

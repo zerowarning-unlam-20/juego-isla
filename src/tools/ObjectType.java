@@ -4,28 +4,43 @@ import com.google.gson.annotations.SerializedName;
 
 import entities.UserCharacter;
 import entities.NPC;
-import island.Access;
 import island.GameObject;
 import island.Location;
-import items.Container;
 import items.Item;
-import items.Consumable;
-import items.Tool;
-import items.Text;
+import items.Access;
 import items.ItemEffect;
+import items.types.*;
 
 public enum ObjectType {
+	@SerializedName("source")
+	SOURCE(Source.class),
+	
+	@SerializedName("box")
+	BOX(Box.class),
+	
+	@SerializedName("resource")
+	RESOURCE(Resource.class),
+	
+	@SerializedName("single_container")
+	SINGLE_CONTAINER(Container.class),
+	 
 	@SerializedName("access")
 	ACCESS(Access.class),
+	
+	@SerializedName("map_item")
+	MAP_ITEM(MapItem.class),
 
-	@SerializedName("tool")
-	TOOL(Tool.class),
-
-	@SerializedName("itemEffect")
+	@SerializedName("item_effect")
 	ITEM_EFFECT(ItemEffect.class),
 
 	@SerializedName("item")
 	ITEM(Item.class),
+	
+	@SerializedName("weapon")
+	WEAPON(Weapon.class),
+	
+	@SerializedName("blueprint")
+	BLUEPRINT(Blueprint.class),
 
 	@SerializedName("consumable")
 	CONSUMABLE(Consumable.class),
@@ -33,14 +48,11 @@ public enum ObjectType {
 	@SerializedName("gameObject")
 	GAMEOBJECT(GameObject.class),
 
-	@SerializedName("usercharacter")
+	@SerializedName("user_character")
 	USER_CHARACTER(UserCharacter.class),
 
 	@SerializedName("npc")
 	NPC(NPC.class),
-
-	@SerializedName("container")
-	CONTAINER(Container.class),
 
 	@SerializedName("location")
 	LOCATION(Location.class),

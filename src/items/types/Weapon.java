@@ -1,15 +1,16 @@
-package items;
+package items.types;
 
+import items.Item;
+import items.properties.Holdable;
 import tools.DamageType;
 import tools.Gender;
-import tools.ItemType;
 
-public class Weapon extends Item {
+public class Weapon extends Item implements Holdable{
 	private Double damage;
 	private DamageType damageType;
 
 	public Weapon(int id, Gender gender, String name, String description, DamageType damageType, Double damage) {
-		super(id, gender, name, description, ItemType.WEAPON);
+		super(id, gender, name, description);
 		this.damageType = damageType;
 		this.damage = damage;
 	}
@@ -21,5 +22,4 @@ public class Weapon extends Item {
 	public Double getDamage() {
 		return damage;
 	}
-
 }

@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import entities.UserCharacter;
-import items.Consumable;
-import items.Container;
 import items.Item;
-import items.SingleContainer;
+import items.properties.Usable;
 
 public class UseCommand implements ActionCommand {
 	private UserCharacter character;
@@ -18,25 +16,24 @@ public class UseCommand implements ActionCommand {
 
 	@Override
 	public void perform(Scanner args) {
-		if (args.hasNext()) {
-			String itemName = "";
-			while (args.hasNext()) {
-				itemName += args.next() + " ";
-			}
-			itemName = itemName.trim();
-			use(itemName);
+		String itemName = "";
+		while (args.hasNext()) {
+			itemName += args.next() + " ";
 		}
+		itemName = itemName.trim();
+		use(itemName);
 	}
 
 	private void use(String itemName) {
 		List<Item> items = character.getInventory();
 		Item item = null;
 		for (Item i : items) {
-			if (i.getClass() == Consumable.class) {
-				item = !((Consumable) i).needsContainer() ? i : null;
+			if (i instanceof Usable && i.getName().equalsIgnoreCase(itemName)) {
+				item = i;
 				break;
 			}
 		}
+
 		character.use(item);
 	}
 }

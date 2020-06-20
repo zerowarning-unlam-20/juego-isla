@@ -7,10 +7,11 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import entities.NPC;
 import entities.UserCharacter;
-import island.Access;
 import island.Location;
-import items.Text;
+import items.Access;
+import items.types.Text;
 import manager.Game;
 import manager.GameManager;
 import tools.Gender;
@@ -22,15 +23,27 @@ class BookTest {
 	@BeforeEach
 	public void start() {
 		gameManager = new GameManager(true);
+
+		// Load locations
 		Location cave = new Location(1, Gender.M, "s1", "Inicio", false);
 		Location s1 = new Location(2, Gender.M, "s1", "Inicio", true);
-		Access exit = new Access(3, Gender.F, "Salida", "salida de cueva", false, true, 2, 0);
-		cave.addAccess(exit);
-		character = new UserCharacter(gameManager, cave);
+
 		ArrayList<Location> locations = new ArrayList<>();
 		locations.add(cave);
 		locations.add(s1);
-		Game game = new Game(character, locations);
+
+		// Load accesses
+		Access exit = new Access(3, Gender.F, "Salida", "salida de cueva", false, true, 2, 0);
+		cave.addAccess(exit);
+
+		// Load character
+		character = new UserCharacter(gameManager, cave);
+
+		// Load empty NPC list
+		ArrayList<NPC> npcs = new ArrayList<>();
+
+		// Load game
+		Game game = new Game(gameManager, character, locations, npcs);
 		gameManager.setInternalGame(game);
 	}
 

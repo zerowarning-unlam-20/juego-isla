@@ -7,14 +7,18 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import entities.NPC;
 import entities.UserCharacter;
-import items.Blueprint;
+import island.Location;
 import items.Item;
-import items.Weapon;
+import items.types.Blueprint;
+import items.types.Resource;
+import items.types.Weapon;
+import manager.Game;
 import manager.GameManager;
 import tools.DamageType;
 import tools.Gender;
-import tools.ItemType;
+import tools.ResourceType;
 
 class BlueprintTest {
 	private GameManager gameManager;
@@ -26,50 +30,81 @@ class BlueprintTest {
 
 	@Test
 	public void blueprintTest1() {
-		Item wood1 = new Item(56, Gender.F, "Madera", "Madera_test_1", ItemType.RESOURCE);
-		Item wood2 = new Item(56, Gender.F, "Madera", "Madera_test_1", ItemType.RESOURCE);
-		Item stone = new Item(57, Gender.M, "Piedra", "Piedra_test", ItemType.RESOURCE);
+		// Load environment
+		Location s1 = new Location(1000, Gender.M, "s1", "Inicio", true);
+		ArrayList<Location> locations = new ArrayList<>();
+		locations.add(s1);
+
+		// NPC empty list (constructor purposes)
+		ArrayList<NPC> npcs = new ArrayList<>();
+
+		// Load character & inventory
+		Resource wood1 = new Resource(3001, Gender.F, "Madera", "Madera_test_1", ResourceType.WOOD);
+		Resource wood2 = new Resource(3002, Gender.F, "Madera", "Madera_test_1", ResourceType.WOOD);
+		Resource stone = new Resource(3003, Gender.M, "Piedra", "Piedra_test", ResourceType.STONE);
 		ArrayList<Item> inventory = new ArrayList<>();
 		inventory.add(wood1);
 		inventory.add(wood2);
 		inventory.add(stone);
-		UserCharacter player = new UserCharacter(gameManager, 0, Gender.M, "Test", "Test_desc", null, inventory); // id
-																													// 0
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put(wood1.getName(), 2);
-		map.put(stone.getName(), 1);
+		UserCharacter player = new UserCharacter(gameManager, 1, Gender.M, "Test", "Test_desc", inventory, 1000);
 
-		Weapon crossbow = new Weapon(99, Gender.F, "Ballesta", "ballesta_desc", DamageType.SHOT, 100d);
-		Blueprint crossBlueprint = new Blueprint(22, Gender.M, "Plano ballesta", "Plano_desc", ItemType.BLUEPRINT, map,
+		// crossbow & blueprint
+		HashMap<ResourceType, Integer> requirements = new HashMap<>();
+		requirements.put(wood1.getResourceType(), 2);
+		requirements.put(stone.getResourceType(), 1);
+		Weapon crossbow = new Weapon(3000, Gender.F, "Ballesta", "ballesta_desc", DamageType.SHOT, 100d);
+		Blueprint crossBlueprint = new Blueprint(3004, Gender.M, "Plano de ballesta", "Plano_desc", requirements,
 				crossbow);
-		player.addItem(crossBlueprint);
-		player.use(crossBlueprint);
 
-		Assert.assertEquals(crossbow, player.getInventory().get(1));
+		// Add crossbow to character
+		inventory.add(crossBlueprint);
+
+		// Load game
+		Game game = new Game(gameManager, player, locations, npcs);
+		gameManager.setInternalGame(game);
+
+		player.use(crossBlueprint);
+		Assert.assertEquals(crossbow, player.getInventory().get(0));
 	}
 
 	@Test
 	public void blueprintTest2() {
-		Item wood1 = new Item(56, Gender.F, "Madera", "Madera_test_1", ItemType.RESOURCE);
-		Item wood2 = new Item(56, Gender.F, "Madera", "Madera_test_1", ItemType.RESOURCE);
-		Item stone = new Item(57, Gender.M, "Piedra", "Piedra_test", ItemType.RESOURCE);
+		// Load environment
+		Location s1 = new Location(1000, Gender.M, "s1", "Inicio", true);
+		ArrayList<Location> locations = new ArrayList<>();
+		locations.add(s1);
+
+		// NPC empty list (constructor purposes)
+		ArrayList<NPC> npcs = new ArrayList<>();
+
+		// Load character & inventory
+		Resource wood1 = new Resource(3001, Gender.F, "Madera", "Madera_test_1", ResourceType.WOOD);
+		Resource wood2 = new Resource(3002, Gender.F, "Madera", "Madera_test_1", ResourceType.WOOD);
+		Resource stone = new Resource(3003, Gender.M, "Piedra", "Piedra_test", ResourceType.STONE);
 		ArrayList<Item> inventory = new ArrayList<>();
 		inventory.add(wood1);
 		inventory.add(wood2);
 		inventory.add(stone);
-		UserCharacter player = new UserCharacter(gameManager, 0, Gender.M, "Test", "Test_desc", null, inventory); // id
-																													// 0
+		UserCharacter player = new UserCharacter(gameManager, 1, Gender.M, "Test", "Test_desc", inventory, 1000);
 
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put(wood1.getName(), 2);
-		map.put(stone.getName(), 1);
-
-		Weapon crossbow = new Weapon(99, Gender.F, "Ballesta", "ballesta_desc", DamageType.SHOT, 100d);
-		Blueprint crossBlueprint = new Blueprint(22, Gender.M, "Plano catapulta", "Plano_desc", ItemType.BLUEPRINT, map,
+		// crossbow & blueprint
+		HashMap<ResourceType, Integer> requirements = new HashMap<>();
+		requirements.put(wood1.getResourceType(), 2);
+		requirements.put(stone.getResourceType(), 1);
+		Weapon crossbow = new Weapon(3000, Gender.F, "Ballesta", "ballesta_desc", DamageType.SHOT, 100d);
+		Blueprint crossBlueprint = new Blueprint(3004, Gender.M, "Plano de ballesta", "Plano_desc", requirements,
 				crossbow);
-		player.addItem(crossBlueprint);
 
-		Assert.assertNotEquals(crossbow, player.getInventory().get(1));
+		// Add crossbow to character
+		inventory.add(crossBlueprint);
+
+		// Load game
+		Game game = new Game(gameManager, player, locations, npcs);
+		gameManager.setInternalGame(game);
+
+		player.removeItem(3002);
+		Assert.assertFalse(player.use(crossBlueprint));
+		Assert.assertNotEquals(crossbow, player.getInventory().get(0));
 	}
 
 }
