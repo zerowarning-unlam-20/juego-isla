@@ -1,36 +1,53 @@
 package manager;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import entities.UserCharacter;
-import items.Location;
+import entities.NPC;
+import entities.Player;
+import island.Location;
+import items.Access;
+import items.Item;
 
 public class Game {
-	private List<Location> locations;
-	private UserCharacter character;
+	private HashMap<String, NPC> entities;
+	private HashMap<String, Location> locations;
+	private Player character;
 
-	public Game(UserCharacter character, List<Location> locations) {
+	public Game(GameManager gameManager, Player character, HashMap<String, Location> locations,
+			HashMap<String, NPC> npcList) {
 		this.locations = locations;
 		this.character = character;
+		this.character.linkToManager(gameManager);
+
+		this.character.setLocation(locations.get(character.getInitialLocation()));
+		this.entities = npcList;
+
+		for (Map.Entry<String, NPC> npcEntry : npcList.entrySet()) {
+			npcEntry.getValue().linkToManager(gameManager);
+			npcEntry.getValue().setLocation(locations.get(npcEntry.getValue().getInitialLocation()));
+		}
 		linkLocations();
 	}
 
 	private void linkLocations() {
-		for (Location location : getLocations()) {
-			for (Location otherLocation : getLocations()) {
-				if (location != otherLocation) {
-					location.addLink(otherLocation);
-				}
+		for (Location location : locations.values()) {
+			for (Access access : location.getAccesses().values()) {
+				access.setDestination(locations.get(access.getDestinationName()));
 			}
 		}
 	}
 
-	public List<Location> getLocations() {
-		return locations;
+	public Player getCharacter() {
+		return character;
 	}
 
-	public UserCharacter getCharacter() {
-		return character;
+	public HashMap<String, NPC> getEntities() {
+		return entities;
+	}
+
+	public HashMap<String, Location> getLocations() {
+		return locations;
 	}
 
 }

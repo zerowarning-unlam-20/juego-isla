@@ -2,15 +2,14 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 import items.Item;
-import items.SingleContainer;
+import items.types.Container;
 
-@Command("tomar")
 public class DrinkCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public DrinkCommand(UserCharacter personaje) {
+	public DrinkCommand(Player personaje) {
 		this.character = personaje;
 	}
 
@@ -24,18 +23,8 @@ public class DrinkCommand implements ActionCommand {
 	}
 
 	private void drink(String itemName) {
-		for (Item i : character.getInventory()) {
-			if (i.getClass() == SingleContainer.class) {
-				SingleContainer container = (SingleContainer) i;
-				if (container.getContent().getName().contentEquals(itemName)) {
-					character.drink(i);
-					break;
-				}
-			} else if (i.getName().contentEquals(itemName)) {
-				character.drink(i);
-				break;
-			}
-		}
+		Item item = character.getInventory().get(itemName);
+		character.drink(item);
 	}
 
 }

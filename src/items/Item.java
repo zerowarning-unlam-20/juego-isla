@@ -1,35 +1,30 @@
 package items;
 
+import com.google.gson.annotations.SerializedName;
+
 import island.GameObject;
+import items.properties.Inspectable;
 import tools.Gender;
-import tools.ItemType;
 
-public class Item extends GameObject {
-	protected ItemType type;
+public class Item extends GameObject implements Inspectable {
 
-	public Item(int id, Gender gender, String name, String description, ItemType type) {
-		super(id, gender, name, description);
-		this.type = type;
-	}
-
-	public Item() {
-	}
-
-	public void use(Item objective) {
-		objective.recieveObject(this);
-	}
-
-	public ItemType getType() {
-		return type;
+	public Item(Gender gender, String name, String description) {
+		super(gender, name, description);
 	}
 
 	@Override
-	public boolean recieveObject(GameObject object) {
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 
 	@Override
-	public void recieveDamage(Double damage) {
+	public String inspect() {
+		return this.getDescription();
 	}
-
 }

@@ -4,58 +4,69 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import commands.ActionCommand;
-import commands.Command;
 import commands.DrinkCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
+import commands.HitCommand;
+import commands.InspectCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
+import commands.ReadCommand;
 import commands.UnlockCommand;
-import entities.UserCharacter;
-import island.GameObject;
-import items.Access;
+import commands.UseCommand;
+import entities.Entity;
 import items.Item;
-import items.Liquid;
-import items.Location;
-import items.SingleContainer;
-import tools.Gender;
-import tools.IdManager;
-import tools.ItemType;
+import tools.MessageType;
+import tools.WordBuilder;
+import tools.WorldLoader;
 
 public class GameManager {
 	private Game game;
-	private List<ActionCommand> actionCommands;
-	private static boolean testMode;
+	private WordBuilder wordBuilder;
+	private HashMap<String, ActionCommand> actionCommands;
+	private boolean testMode;
 	private static List<String> messageHistory = new ArrayList<String>();
 
+	public GameManager(boolean testMode) {
+		try {
+			wordBuilder = new WordBuilder("words.json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		messageHistory = new ArrayList<String>();
+		this.testMode = testMode;
+	}
+
 	public GameManager() {
+		try {
+			wordBuilder = new WordBuilder("words.json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		messageHistory = new ArrayList<String>();
 	}
 
-	public void setGame(Game game) {
+	public void setInternalGame(Game game) {
 		reset();
 		this.game = game;
 	}
 
-	public void run() {
-		loadExample();
-		loadCommands();
-
+	public void consoleRun() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
 		String comando = "";
 
 		while (comando != "-") {
 			try {
-				comando = reader.readLine();
+				comando = reader.readLine().toLowerCase();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Error: " + e.getMessage());
 			}
 			Scanner cmdScanner = new Scanner(comando);
 			processCommand(cmdScanner);
@@ -64,77 +75,46 @@ public class GameManager {
 
 	public void reset() {
 		this.game = null;
-		this.actionCommands = null;
 	}
 
 	private void loadCommands() {
-		try {
-			ActionCommand[] commands = { (ActionCommand) new DrinkCommand(game.getCharacter()),
-					(ActionCommand) new GoCommand(game.getCharacter()),
-					(ActionCommand) new GrabCommand(game.getCharacter()),
-					(ActionCommand) new LookCommand(game.getCharacter()),
-					(ActionCommand) new OpenCommand(game.getCharacter()), new UnlockCommand(game.getCharacter()) };
-			actionCommands = Arrays.asList(commands);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		actionCommands = new HashMap<>();
+		actionCommands.put("drink", new DrinkCommand(game.getCharacter()));
+		actionCommands.put("go", new GoCommand(game.getCharacter()));
+		actionCommands.put("grab", new GrabCommand(game.getCharacter()));
+		actionCommands.put("look", new LookCommand(game.getCharacter()));
+		actionCommands.put("open", new OpenCommand(game.getCharacter()));
+		actionCommands.put("unlock", new UnlockCommand(game.getCharacter()));
+		actionCommands.put("hit", new HitCommand(game.getCharacter()));
+		actionCommands.put("use", new UseCommand(game.getCharacter()));
+		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
+		actionCommands.put("read", new ReadCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
-		String cmd = strCommand.next();
-		for (ActionCommand command : actionCommands)
-			if (command.getClass().getAnnotation(Command.class).value().equals(cmd)) {
-				command.perform(strCommand);
-				break;
+		if (strCommand.hasNext()) {
+			String cmd = strCommand.next();
+			ActionCommand action = actionCommands.get(wordBuilder.getWord(cmd));
+			if (action != null) {
+				action.perform(strCommand);
 			}
+		}
 	}
 
-	public void loadExample() {
-		Item llave = new Item(IdManager.getNext(), Gender.F, "llave", "Llave de bronce", ItemType.UNBREAKABLE);
-		ArrayList<Item> itemsHabitacion = new ArrayList<>();
-		itemsHabitacion.add(llave);
-
-		SingleContainer botella = new SingleContainer(IdManager.getNext(), Gender.F, "botella", "Botella de vidrio",
-				ItemType.UNBREAKABLE);
-		Liquid cerveza = new Liquid(IdManager.getNext(), Gender.F, "cerveza", "No es light", true);
-		botella.setContent(cerveza);
-		ArrayList<Item> itemsSalida = new ArrayList<>();
-		itemsSalida.add(botella);
-
-		Location habitacion = new Location(IdManager.getNext(), Gender.F, "habitacion",
-				"Habitacion chica, con una llave en el suelo", true, itemsHabitacion);
-		Location salida = new Location(IdManager.getNext(), Gender.F, "salida", "Una birra nomas", true, itemsSalida);
-		Access a1p2 = new Access(IdManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
-				salida.getId(), llave.getId());
-		ArrayList<Access> accesosHabitacion = new ArrayList<>();
-		accesosHabitacion.add(a1p2);
-
-		Access a2p1 = new Access(IdManager.getNext(), Gender.F, "puerta", "puerta de madera", true, false,
-				habitacion.getId(), llave.getId());
-		ArrayList<Access> accesosSalida = new ArrayList<>();
-		accesosSalida.add(a2p1);
-
-		for (Access access : accesosHabitacion) {
-			habitacion.addAccess(access);
-		}
-
-		for (Access access : accesosSalida) {
-			salida.addAccess(access);
-		}
-
-		habitacion.addLink(salida);
-
-		ArrayList<Location> locations = new ArrayList<>();
-		locations.add(habitacion);
-		locations.add(salida);
-
-		game = new Game(new UserCharacter(habitacion), locations);
-	}
-
-	public static void sendMessage(GameObject sender, String message) {
+	public void sendMessage(MessageType type, Entity sender, String message) {
 		getMessageHistory().add(message);
 		if (testMode == false) {
-			System.out.println(sender.getName() + ": " + message);
+			switch (type.getValue()) {
+			case ("E"):
+				System.out.println("//" + message + "//");
+				break;
+			case ("C"):
+				System.out.println(sender.getName() + ": " + message);
+				break;
+			case ("S"):
+				System.out.println(message);
+				break;
+			}
 		}
 	}
 
@@ -142,8 +122,29 @@ public class GameManager {
 		return messageHistory;
 	}
 
-	public static void setTestMode(boolean testMode) {
-		GameManager.testMode = testMode;
+	public boolean isTestMode() {
+		return testMode;
+	}
+
+	public void loadGame(String folder) {
+		try {
+			reset();
+			game = new Game(this, WorldLoader.loadCharacter(folder), WorldLoader.loadLocations(folder),
+					WorldLoader.loadEntities(folder));
+			loadCommands();
+			sendMessage(MessageType.STORY, null, WorldLoader.loadInitialMessage(folder));
+			game.getCharacter().lookAround();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setTestMode(boolean value) {
+		testMode = value;
 	}
 
 }

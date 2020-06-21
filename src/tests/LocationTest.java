@@ -1,101 +1,109 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import entities.UserCharacter;
+import entities.NPC;
+import entities.Player;
+import island.Location;
 import items.Access;
-import items.Location;
 import manager.Game;
 import manager.GameManager;
+import tools.DamageType;
 import tools.Gender;
 
 class LocationTest {
 	GameManager gameManager;
-	UserCharacter character;
+	Player character;
 	Location initialLocation;
 
 	@BeforeEach
 	void load() {
-		gameManager = new GameManager();
-		GameManager.setTestMode(true);
-		Location s1 = new Location(1, Gender.M, "s1", "Inicio", true);
-		s1.addAccess(new Access(12, Gender.F, "Puerta", "Puerta azul", false, true, 2, 0));
+		gameManager = new GameManager(true);
 
-		Location s2 = new Location(2, Gender.M, "s2", "Segundo lugar", true);
-		s2.addAccess(new Access(12, Gender.F, "Puerta", "Puerta azul", false, true, 1, 0));
-		s2.addAccess(new Access(23, Gender.F, "Puerta", "Puerta azul", false, true, 3, 0));
-		s2.addAccess(new Access(25, Gender.F, "Puerta", "Puerta azul", false, true, 5, 0));
-		s2.addAccess(new Access(26, Gender.F, "Puerta", "Puerta azul", false, true, 6, 0));
+		// Load locations
+		Location s1 = new Location(Gender.M, "s1", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s2 = new Location(Gender.M, "s2", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s3 = new Location(Gender.M, "s3", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s4 = new Location(Gender.M, "s4", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s5 = new Location(Gender.M, "s5", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s6 = new Location(Gender.M, "s6", "Inicio", true, new HashMap<>(), new HashMap<>());
 
-		Location s3 = new Location(3, Gender.M, "s3", "Tercer lugar", true);
-		s3.addAccess(new Access(23, Gender.F, "Puerta", "Puerta azul", false, true, 2, 0));
-		s3.addAccess(new Access(34, Gender.F, "Puerta", "Puerta azul", false, true, 4, 0));
+		// Load accesses
+		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
 
-		Location s4 = new Location(4, Gender.M, "s4", "Cuarto lugar", true);
-		s4.addAccess(new Access(34, Gender.F, "Puerta", "Puerta azul", false, true, 3, 0));
-		s4.addAccess(new Access(45, Gender.F, "Puerta", "Puerta azul", false, true, 5, 0));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s1", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s3", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s5", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s6", null, DamageType.BLUNT));
 
-		Location s5 = new Location(5, Gender.M, "s5", "Quinto lugar", true);
-		s5.addAccess(new Access(45, Gender.F, "Puerta", "Puerta azul", false, true, 4, 0));
-		s5.addAccess(new Access(25, Gender.F, "Puerta", "Puerta azul", false, true, 2, 0));
+		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
+		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s4", null, DamageType.BLUNT));
 
-		Location s6 = new Location(6, Gender.M, "s6", "Sexto lugar", true);
-		s6.addAccess(new Access(26, Gender.F, "Puerta", "Puerta azul", false, true, 2, 0));
+		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s3", null, DamageType.BLUNT));
+		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s5", null, DamageType.BLUNT));
 
-		ArrayList<Location> locations = new ArrayList<>();
-		locations.add(s1);
-		locations.add(s2);
-		locations.add(s3);
-		locations.add(s4);
-		locations.add(s5);
-		locations.add(s5);
-		locations.add(s6);
+		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s4", null, DamageType.BLUNT));
+		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
 
-		character = new UserCharacter(s1);
+		s6.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
 
-		Game game = new Game(character, locations);
+		HashMap<String, Location> locations = new HashMap<>();
+		locations.put(s1.getName().toLowerCase(), s1);
+		locations.put(s2.getName().toLowerCase(), s2);
+		locations.put(s3.getName().toLowerCase(), s3);
+		locations.put(s4.getName().toLowerCase(), s4);
+		locations.put(s5.getName().toLowerCase(), s5);
+		locations.put(s6.getName().toLowerCase(), s6);
 
-		GameManager gm = new GameManager();
-		gm.setGame(game);
+		// Load character & empty NPC list
+		character = new Player(gameManager, s1);
+
+		// NPC empty list (constructor purposes)
+		HashMap<String, NPC> npcs = new HashMap<>();
+
+		// Load game
+		Game game = new Game(gameManager, character, locations, npcs);
+		gameManager.setInternalGame(game);
 
 		initialLocation = s1;
 	}
 
 	@Test
 	void moveTest1() {
-		character.goTo(2);
-		Assert.assertEquals(2, character.getLocation().getId());
+		character.goTo(character.getLocation().getAccesses().get("s2").getDestination());
+		Assert.assertEquals("s2", character.getLocation().getName());
 	}
 
 	@Test
 	void moveTest2() {
-		Assert.assertFalse(character.goTo(6));
+		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s6")));
 	}
 
 	@Test
 	void moveTest3() {
-		character.goTo(2);
-		character.goTo(5);
-		Assert.assertTrue(character.goTo(4));
-		Assert.assertEquals(4, character.getLocation().getId());
+		character.goTo(character.getGameManager().getGame().getLocations().get("s2"));
+		character.goTo(character.getGameManager().getGame().getLocations().get("s5"));
+		Assert.assertTrue(character.goTo(character.getGameManager().getGame().getLocations().get("s4")));
+		Assert.assertEquals("s4", character.getLocation().getName());
 	}
 
 	@Test
 	void moveTest4() {
-		character.goTo(2);
-		character.goTo(5);
-		character.goTo(4);
-		Assert.assertFalse(character.goTo(2));
-		Assert.assertFalse(character.goTo(1));
+		character.goTo(character.getGameManager().getGame().getLocations().get("s2"));
+		character.goTo(character.getGameManager().getGame().getLocations().get("s5"));
+		character.goTo(character.getGameManager().getGame().getLocations().get("s4"));
+		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s2")));
+		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s1")));
 	}
 
 	@Test
 	void moveTest5() {
-		Assert.assertFalse(character.goTo(16));
+		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s16")));
 	}
 
 }

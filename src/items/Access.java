@@ -1,36 +1,31 @@
 package items;
 
-import interfaces.Opening;
-import interfaces.Unlockable;
-import island.GameObject;
+import entities.Attack;
+import island.Location;
+import items.properties.Attackable;
+import items.properties.Opening;
+import items.properties.Unlockable;
+import tools.DamageType;
 import tools.Gender;
-import tools.ItemType;
 
-public class Access extends Item implements Opening, Unlockable {
+public class Access extends Item implements Opening, Unlockable, Attackable {
 	private boolean opened;
 	private boolean locked;
-	private int idKey;
+	private String keyName;
 	private Location destination;
-	private int idDestination;
+	private String destinationName;
 	private Access linkedWith;
+	private DamageType weakness;
 
-	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
-			Location destination, int idKey) {
-		super(id, gender, name, description, ItemType.UNBREAKABLE);
+	public Access(Gender gender, String name, String description, boolean locked, boolean opened, Location destination, String destinationName,
+			String idKey, DamageType weakness) {
+		super(gender, name, description);
 		this.locked = locked;
 		this.opened = opened;
 		this.destination = destination;
-		this.idDestination = destination.getId();
-		this.idKey = idKey;
-	}
-
-	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
-			int idDestination, int idKey) {
-		super(id, gender, name, description, ItemType.UNBREAKABLE);
-		this.locked = locked;
-		this.opened = opened;
-		this.idDestination = idDestination;
-		this.idKey = idKey;
+		this.destinationName = destinationName;
+		this.keyName = idKey;
+		this.weakness = weakness;
 	}
 
 	public void linkWith(Access other) {
@@ -40,33 +35,20 @@ public class Access extends Item implements Opening, Unlockable {
 		}
 	}
 
-	@Override
-	public void use(Item objective) {
-		if (opened)
-			close();
-		else
-			open();
-	}
-
 	public boolean needsKey() {
-		return idKey != 0;
+		return getKeyName() != "";
 	}
 
 	@Override
-	public boolean unlock() {
-		boolean result = false;
-		if (locked) {
-			locked = false;
-			if (linkedWith != null)
-				linkedWith.locked = false;
-			result = true;
-		}
-		return result;
+	public void unlock() { // Solamente desbloquea
+		locked = false;
+		if (linkedWith != null)
+			linkedWith.locked = false;
 	}
 
 	@Override
 	public String toString() {
-		return "[" + this.id + " - " + this.name + " destino=" + this.idDestination + "]";
+		return "[" + name + " destino=" + this.destinationName + "]";
 	}
 
 	@Override
@@ -106,8 +88,8 @@ public class Access extends Item implements Opening, Unlockable {
 		this.destination = other;
 	}
 
-	public int getIdDestination() {
-		return idDestination;
+	public String getDestinationName() {
+		return destinationName;
 	}
 
 	public String getStatus() {
@@ -122,25 +104,33 @@ public class Access extends Item implements Opening, Unlockable {
 	}
 
 	@Override
-	public boolean recieveObject(GameObject object) {
-		if (object != null) {
-			Item recieved = (Item) object;
-			if (recieved.getId() == getIdKey()) {
+	public boolean unlock(Item keyItem) { // desbloquear con una llave en particular
+		boolean result = false;
+		if (locked) {
+			if (keyItem.getName().equalsIgnoreCase(getKeyName())) {
 				locked = false;
-				return true;
 			}
+			if (linkedWith != null)
+				linkedWith.locked = false;
+			result = true;
 		}
-		return false;
-	}
-
-	public int getIdKey() {
-		return idKey;
+		return result;
 	}
 
 	@Override
-	public void recieveDamage(Double damage) {
-		// TODO Auto-generated method stub
+	public boolean recieveAttack(Attack attack) { // Si el acceso es rompible bueno, se rompe
+		boolean result = false;
+		if (this.weakness != null) {
+			if (attack.getDamageType().equals(this.weakness)) {
+				this.unlock();
+				result = true;
+			}
+		}
+		return result;
+	}
 
+	public String getKeyName() {
+		return keyName;
 	}
 
 }

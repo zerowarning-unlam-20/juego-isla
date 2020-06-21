@@ -1,54 +1,51 @@
 package commands;
 
+import java.util.Map;
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Entity;
+import entities.Player;
 import island.GameObject;
 import items.Access;
 import items.Item;
 
-@Command("ver")
 public class LookCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public LookCommand(UserCharacter character) {
+	public LookCommand(Player character) {
 		this.character = character;
 	}
 
 	@Override
 	public void perform(Scanner args) {
-		if (args.hasNext()) {
-			String object = args.next();
-			look(object);
-		}
+		String object = "";
+		while (args.hasNext())
+			object = args.next();
+		look(object);
 	}
 
-	private void look(String itemName) {
+	private void look(String name) {
 		GameObject result = null;
-		if (itemName.contentEquals("alrededor") || itemName.contentEquals(character.getLocation().getName())) {
-			character.lookAround();
-		} else if (itemName.contentEquals("inventario")) {
-			character.lookInventory();
-		} else {
-			for (Item item : character.getInventory()) {
-				if (item.getName().contentEquals(itemName)) {
-					result = item;
+		if (!name.isEmpty()) {
+			if (name.equalsIgnoreCase("alrededor") || name.equalsIgnoreCase(character.getLocation().getName())) {
+				character.lookAround();
+				return;
+			} else if (name.equalsIgnoreCase("inventario")) {
+				character.lookInventory();
+				return;
+			} else if (name.equalsIgnoreCase("estado")) {
+				character.lookState();
+				return;
+			} else {
+				result = character.getInventory().get(name);
+				if (result == null) {
+					result = character.getLocation().getItems().get(name);
 				}
-			}
-			if (result == null) {
-				for (Access acceso : character.getLocation().getAccesses().values()) {
-					if (acceso.getName().contentEquals(itemName) || acceso.getDescription().contentEquals(itemName)) {
-						result = acceso;
-						break;
-					}
+				if (result == null) {
+					result = character.getLocation().getAccesses().get(name);
 				}
-			}
-			if (result == null) {
-				for (Item item : character.getLocation().getItems()) {
-					if (item.getName().contentEquals(itemName) || item.getDescription().contentEquals(itemName)) {
-						result = item;
-						break;
-					}
+				if (result == null) {
+					result = character.getLocation().getEntities().get(name);
 				}
 			}
 		}

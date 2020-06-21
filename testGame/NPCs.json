@@ -1,0 +1,96 @@
+[
+  {
+    "baseHealth": 0,
+    "chat": {},
+    "description": "huesitos",
+    "gender": "M",
+    "health": 0,
+    "initialLocation": "cueva",
+    "inventory": {
+      "cuchillo": {
+        "damage": 25.0,
+        "damageType": "S",
+        "description": "Cuchillo de acero inoxidable",
+        "gender": "M",
+        "name": "Cuchillo",
+        "type": "weapon"
+      },
+      "hoja": {
+        "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
+        "description": "Hoja gastada",
+        "gender": "M",
+        "name": "hoja",
+        "type": "text"
+      }
+    },
+    "name": "cadaver",
+    "NPCType": "inanimated",
+    "stateName": "dead",
+    "type": "NPC",
+    "weakAndRes": {
+      "B": 0.0,
+      "H": 0.0,
+      "SH": 0.0,
+      "SL": 0.0
+    }
+  },
+  {
+    "baseHealth": 150,
+    "chat": {},
+    "description": "Palmera alta",
+    "gender": "F",
+    "health": 150,
+    "initialLocation": "este",
+    "inventory": {
+      "madera doblada": {
+        "description": "Madera doblada",
+        "gender": "F",
+        "itemType": "R",
+        "name": "Madera doblada",
+        "resourceType": "wood",
+        "type": "resource"
+      },
+      "madera en buen estado": {
+        "description": "Madera en buen estado",
+        "gender": "F",
+        "name": "Madera en buen estado",
+        "resourceType": "wood",
+        "type": "resource"
+      }
+    },
+    "name": "palmera",
+    "NPCType": "inanimated",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 2,
+      "S": 0.1
+    }
+  },
+  {
+    "baseHealth": 200,
+    "chat": {},
+    "description": "Tiburon blanco",
+    "gender": "F",
+    "health": 200,
+    "initialLocation": "mar",
+    "inventory": {
+      "colmillo": {
+        "damage": 32,
+        "damageType": "S",
+        "description": "Colmillo de tiburon",
+        "gender": "M",
+        "name": "Cuchillo",
+        "type": "weapon"
+      }
+    },
+    "name": "palmera",
+    "NPCType": "inanimated",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 0.3,
+      "S": 0.5
+    }
+  }
+]

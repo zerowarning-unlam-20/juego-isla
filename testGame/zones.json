@@ -1,0 +1,279 @@
+[
+  {
+    "accesses": {
+      "este": {
+        "description": "Camino este",
+        "destinationName": "este",
+        "gender": "M",
+        "locked": false,
+        "name": "este",
+        "opened": true,
+        "type": "access"
+      },
+      "oeste": {
+        "description": "Camino oeste",
+        "destinationName": "oeste",
+        "gender": "F",
+        "locked": false,
+        "name": "oeste",
+        "opened": true,
+        "type": "access"
+      },
+      "sur": {
+        "description": "Camino sur",
+        "gender": "M",
+        "idDestination": "sur",
+        "locked": false,
+        "name": "sur",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "description": "norte de la isla",
+    "entities": {
+    },
+    "gender": "M",
+    "items": {
+      "brujula": {
+        "description": "brujula gastada, todavia funciona",
+        "gender": "F",
+        "itemEffect": {
+          "healthChange": 0,
+          "stateName": "normal",
+          "type": "item_effect"
+        },
+        "itemType": "M",
+        "name": "brujula",
+        "needsContainer": false,
+        "type": "map_item"
+      },
+      "catarata":{
+        "content": {
+          "description": "Agua de catarata",
+          "gender": "M",
+          "itemEffect": {
+            "healthChange": 20,
+            "type": "item_effect"
+          },
+          "itemType": "M",
+          "name": "agua",
+          "needsContainer": true,
+          "type": "consumable"
+        },
+        "description": "catarata de agua pequeña, con piedras alrededor. El agua parece ser muy rica y sana.",
+        "gender": "F",
+        "itemType": "F",
+        "name": "catarata",
+        "needsContainer": false,
+        "type": "source"
+      }
+    },
+    "name": "norte",
+    "type": "location",
+    "visible": true
+  },
+  {
+    "accesses": {
+      "cueva": {
+        "description": "Entrada a una cueva con poca luz",
+        "destinationName": "cueva",
+        "gender": "M",
+        "locked": false,
+        "name": "entrada",
+        "opened": true,
+        "type": "access"
+      },
+      "norte": {
+        "description": "Camino norte",
+        "destinationName": "norte",
+        "gender": "M",
+        "locked": false,
+        "name": "norte",
+        "opened": true,
+        "type": "access"
+      },
+      "oeste": {
+        "description": "Camino oeste",
+        "destinationName": "oeste",
+        "gender": "F",
+        "idKey": 0,
+        "locked": false,
+        "name": "oeste",
+        "opened": true,
+        "type": "access"
+      },
+      "sur": {
+        "description": "Camino sur",
+        "destinationName": "sur",
+        "gender": "M",
+        "locked": false,
+        "name": "sur",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "description": "Este de la isla, se ve una cueva gigante en frente tuyo",
+    "entities": {
+    },
+    "gender": "M",
+    "items": {
+      "cofre":{
+        "content": [
+          {
+            "description": "Plano de balsa de madera",
+            "gender": "M",
+            "itemtype": "C",
+            "name": "plano",
+            "requirements": {
+              "rope": 1,
+              "wood": 2
+            },
+            "type": "blueprint"
+          }
+        ],
+        "description": "Cofre de madera sellado",
+        "gender": "M",
+        "locked": true,
+        "name": "cofre",
+        "type": "box",
+        "weakness": "H"
+      }
+    },
+    "name": "Este",
+    "type": "location",
+    "visible": true
+  },
+  {
+    "accesses": {
+      "norte": {
+        "description": "Camino norte",
+        "destinationName": "norte",
+        "gender": "M",
+        "locked": false,
+        "name": "norte",
+        "opened": true,
+        "type": "access"
+      },
+      "este": {
+        "description": "Camino este",
+        "destinationName": "este",
+        "gender": "F",
+        "locked": false,
+        "name": "este",
+        "opened": true,
+        "type": "access"
+      },
+      "sur": {
+        "description": "Camino sur",
+        "destinationName": "sur",
+        "gender": "M",
+        "locked": false,
+        "name": "sur",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "description": "Oeste de la isla",
+    "entities": {
+    },
+    "gender": "M",
+    "items": {
+      "hacha":{
+        "damage": 60.0,
+        "damageType": "H",
+        "description": "Hacha oxidada con mango de madera",
+        "gender": "M",
+        "name": "Hacha",
+        "type": "weapon"
+      }
+    },
+    "name": "Oeste",
+    "type": "location",
+    "visible": true
+  },
+  {
+    "accesses": {
+      "norte": {
+        "description": "Camino norte",
+        "destinationName": "norte",
+        "gender": "M",
+        "locked": false,
+        "name": "norte",
+        "opened": true,
+        "type": "access"
+      },
+      "oeste": {
+        "description": "Camino oeste",
+        "destinationName": "oeste",
+        "gender": "M",
+        "locked": false,
+        "name": "Camino oeste",
+        "opened": true,
+        "type": "access"
+      },
+      "este": {
+        "description": "Camino este",
+        "destinationName": "este",
+        "gender": "F",
+        "idKey": 0,
+        "locked": false,
+        "name": "este",
+        "opened": true,
+        "type": "access"
+      },
+      "costa": {
+        "description": "costa",
+        "destinationName": "mar",
+        "gender": "F",
+        "idKey": 0,
+        "locked": true,
+        "name": "costa",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "description": "Sur de la isla",
+    "entities": {
+    },
+    "gender": "M",
+    "id": 1003,
+    "items": [],
+    "name": "Sur",
+    "type": "location",
+    "visible": true
+  },
+  {
+    "accesses": {
+      "este": {
+        "description": "Salida de la cueva",
+        "destinationName": "este",
+        "gender": "F",
+        "locked": false,
+        "name": "salida",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "description": "Cueva obscura",
+    "entities": {
+    },
+    "gender": "F",
+    "items": [],
+    "name": "cueva",
+    "type": "location",
+    "visible": false
+  },
+  {
+    "accesses": {
+    },
+    "description": "Mar abierto",
+    "entities": {
+    },
+    "gender": "M",
+    "items": [],
+    "name": "mar",
+    "type": "location",
+    "visible": true
+  }
+
+]

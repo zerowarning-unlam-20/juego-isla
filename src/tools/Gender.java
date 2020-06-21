@@ -1,7 +1,12 @@
 package tools;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Gender {
-	M("M"), F("F");
+	@SerializedName("M")
+	M("M"), 
+	@SerializedName("F")
+	F("F");
 
 	private final String value;
 	private final String singular;

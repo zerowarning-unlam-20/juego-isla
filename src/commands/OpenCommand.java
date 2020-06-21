@@ -2,36 +2,35 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 import items.Access;
 
-@Command("abrir")
 public class OpenCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public OpenCommand(UserCharacter character) {
+	public OpenCommand(Player character) {
 		this.character = character;
 	}
 
 	@Override
 	public void perform(Scanner args) {
-		if (args.hasNext()) {
-			String itemName = "";
-
-			while (args.hasNext()) {
-				itemName += args.next() + " ";
-			}
-
-			itemName = itemName.trim();
-			open(itemName);
+		String itemName = "";
+		while (args.hasNext()) {
+			itemName += args.next() + " ";
 		}
+		itemName = itemName.trim();
+		open(itemName);
 	}
 
 	private void open(String itemName) {
-		for (Access a : character.getLocation().getAccesses().values())
-			if (a.getName().contentEquals(itemName) || a.getDescription().contentEquals(itemName)) {
-				character.open(a);
-				break;
-			}
+		Access result = null;
+		if (!itemName.isEmpty()) {
+			for (Access a : character.getLocation().getAccesses().values())
+				if (a.getName().equalsIgnoreCase(itemName) || a.getDescription().equalsIgnoreCase(itemName)) {
+					result = a;
+					break;
+				}
+		}
+		character.open(result);
 	}
 }
