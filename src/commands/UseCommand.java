@@ -1,11 +1,9 @@
 package commands;
 
-import java.util.List;
 import java.util.Scanner;
 
 import entities.Player;
 import items.Item;
-import items.properties.Usable;
 
 public class UseCommand implements ActionCommand {
 	private Player character;

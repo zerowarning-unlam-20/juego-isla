@@ -7,7 +7,6 @@ import entities.NPC;
 import entities.Player;
 import island.Location;
 import items.Access;
-import items.Item;
 
 public class Game {
 	private HashMap<String, NPC> entities;

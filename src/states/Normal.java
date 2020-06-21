@@ -7,19 +7,17 @@ import entities.Entity;
 import entities.NPC;
 import island.GameObject;
 import island.Location;
-import items.Item;
 import items.Access;
+import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
-import items.properties.Usable;
-import items.types.Blueprint;
-import items.types.Consumable;
 import items.properties.Readablel;
+import items.properties.Usable;
+import items.types.Consumable;
+import items.types.Container;
 import items.types.Key;
 import items.types.Source;
-import items.types.Container;
-import items.types.Text;
 import items.types.Weapon;
 import tools.MessageType;
 import tools.NPCType;
@@ -52,7 +50,7 @@ public class Normal implements State {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public boolean unlock(GameObject toUnlock, Item key) {
 		String message = "No hay items para desbloquear ";
@@ -80,7 +78,7 @@ public class Normal implements State {
 			return result;
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, object.getDescription());
-		if (object.getClass() == NPC.class) {
+		if (object instanceof NPC) {
 			NPC npc = (NPC) object;
 			if (npc.getState().getClass().equals(Dead.class)) {
 				Attack attack = new Attack(0d, character, null);
@@ -118,16 +116,18 @@ public class Normal implements State {
 	}
 
 	@Override
-	public boolean grab(Item item) {
+	public boolean grab(Item item, Item content) {
 		boolean result = false;
 		String message = "No agarre nada";
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 			return result;
-		} else if (!(item instanceof Holdable) && !(item instanceof Dispenser)) {
-			message = "Imposible agarrar " + item.getSingularName();
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
-			return result;
+		} else if (!(item instanceof Holdable)) {
+			if (item instanceof Source && content == null) {
+				message = "Imposible agarrar " + item.getSingularName();
+				character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+				return result;
+			}
 		}
 		if (item instanceof Source) {
 			Source source = (Source) item;
@@ -149,8 +149,9 @@ public class Normal implements State {
 			character.getLocation().removeItem(item);
 			message = "Se agarró " + item.getSingularName();
 			result = true;
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		}
+		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+
 		return result;
 	}
 
@@ -200,6 +201,7 @@ public class Normal implements State {
 		return result;
 	}
 
+	@Override
 	public boolean hit(Item tool, GameObject object) {
 		return false;
 	}
@@ -284,14 +286,16 @@ public class Normal implements State {
 	@Override
 	public boolean read(Item item) {
 		boolean result = true;
+		String message = "Esto no se puede leer, no hay nada para leer";
+
+		if (item == null) {
+			message = "No hay nada para leer";
+		}
 		if (item instanceof Readablel) {
 			Readablel text = (Readablel) item;
-			character.getGameManager().sendMessage(MessageType.STORY, character,
-					text.read(character.getLocation().isVisible()));
-		} else if (item instanceof Blueprint) {
-			Blueprint bp = (Blueprint) item;
-			character.getGameManager().sendMessage(MessageType.STORY, character, bp.getDescription());
+			message = text.read(character.getLocation().isVisible());
 		}
+		character.getGameManager().sendMessage(MessageType.STORY, character, message);
 		return result;
 	}
 

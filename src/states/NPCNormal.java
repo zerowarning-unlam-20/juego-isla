@@ -1,22 +1,16 @@
 package states;
 
-import java.util.Map;
-
 import entities.Attack;
 import entities.Entity;
 import entities.NPC;
 import island.GameObject;
 import island.Location;
-import items.Item;
 import items.Access;
+import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
-import items.properties.Holdable;
 import items.properties.Usable;
-import items.types.Consumable;
 import items.types.Key;
-import items.types.Source;
-import items.types.Container;
 import items.types.Weapon;
 import tools.MessageType;
 
@@ -75,110 +69,35 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean goTo(Location location) {
-		boolean result = false;
-		String message = "";
-		if (location == null) {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character, "Ir donde?");
-			return false;
-		}
-		Access destinationAccess = character.getLocation().getAccesses().get(location.getName());
-		if (destinationAccess != null) {
-			if (destinationAccess.isOpened()) {
-				character.getLocation().removeEntity(character);
-				character.setLocation(location);
-				character.getLocation().addEntity(character);
-				message = "Me fui a" + location.getLocationPrefix() + " " + location.getName();
-				result = true;
-			} else {
-				message = "No se puede ir";
-			}
-		}
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
-		if (result) {
-			lookAround();
-		}
-		return result;
+		return false;
 	}
 
 	@Override
-	public boolean grab(Item item) {
-		boolean result = false;
-		String message = "No agarre nada";
-		if (item == null) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
-			return result;
-		} else if (!(item instanceof Holdable) && !(item instanceof Dispenser)) {
-			message = "Imposible agarrar " + item.getSingularName();
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
-			return result;
-		}
-		if (item instanceof Source) {
-			Source source = (Source) item;
-			for (Map.Entry<String, Item> entry : character.getInventory().entrySet()) {
-				if (entry.getValue() instanceof Container) {
-					if (((Container) entry.getValue()).isEmpty()) {
-						((Container) entry.getValue()).setContent(source.getContent());
-						message = "Se ingreso " + source.getContent().getSingularName().toLowerCase() + " en "
-								+ entry.getValue().getSingularName();
-						result = true;
-					} else {
-						message = source.getSingularName().toLowerCase() + " esta llen"
-								+ entry.getValue().getTermination();
-					}
-				}
-			}
-		} else {
-			character.addItem(item);
-			character.getLocation().removeItem(item);
-			message = "Se agarró " + item.getSingularName();
-			result = true;
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
-		}
-		return result;
+	public boolean grab(Item item, Item content) {
+		return false;
 	}
 
 	@Override
 	public State drink(Item item) {
-		if (item.getClass() == Container.class) {
-			Container cont = (Container) item;
-			cont.getContent();
-			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getName());
-		} else if (item.getClass() == Consumable.class) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character, "Tome " + item.getName());
-		}
 		return this;
 	}
 
 	@Override
 	public boolean give(Item item, GameObject gameObject) {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean lookAround() {
-		boolean result = true;
-		String message = character.getLocation().getDescription() + "\n";
-		message += character.getLocation().lookAround();
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
-		result = true;
-		return result;
+		return false;
 	}
 
 	@Override
 	public boolean lookInventory() {
-		boolean result = true;
-		String message = "";
-
-		for (Map.Entry<String, Item> itemEntry : character.getInventory().entrySet()) {
-			message += itemEntry.getValue().getName() + ", ";
-		}
-		if (message != "")
-			message = message.substring(0, message.length() - 2);
-		character.getGameManager().sendMessage(MessageType.EVENT, character,
-				(message == "") ? "tiene el inventario vacio" : message);
-		return result;
+		return false;
 	}
 
+	@Override
 	public boolean hit(Item tool, GameObject object) {
 		return false;
 	}

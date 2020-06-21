@@ -1,7 +1,6 @@
 package entities;
 
 import java.util.HashMap;
-import java.util.List;
 
 import island.Location;
 import items.Item;

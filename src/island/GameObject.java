@@ -12,7 +12,7 @@ public abstract class GameObject {
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

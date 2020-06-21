@@ -1,7 +1,5 @@
 package items;
 
-import com.google.gson.annotations.SerializedName;
-
 import island.GameObject;
 import items.properties.Inspectable;
 import tools.Gender;

@@ -5,7 +5,6 @@ import java.util.Scanner;
 import entities.Player;
 import items.Access;
 import items.Item;
-import items.types.Key;
 
 public class UnlockCommand implements ActionCommand {
 	private Player character;

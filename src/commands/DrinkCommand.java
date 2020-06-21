@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import entities.Player;
 import items.Item;
-import items.types.Container;
 
 public class DrinkCommand implements ActionCommand {
 	private Player character;

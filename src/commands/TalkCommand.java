@@ -10,7 +10,7 @@ public class TalkCommand implements ActionCommand {
 	public TalkCommand(Player character) {
 		this.character = character;
 	}
-	
+
 	@Override
 	public void perform(Scanner args) {
 		// TODO Auto-generated method stub

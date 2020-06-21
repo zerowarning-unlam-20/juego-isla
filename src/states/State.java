@@ -5,8 +5,6 @@ import entities.Entity;
 import island.GameObject;
 import island.Location;
 import items.Item;
-import items.properties.Dispenser;
-import items.properties.Inspectable;
 import items.types.Weapon;
 
 public interface State {
@@ -18,7 +16,7 @@ public interface State {
 
 	public boolean goTo(Location location);
 
-	public boolean grab(Item item);
+	public boolean grab(Item item, Item content);
 
 	public State drink(Item item);
 
@@ -41,11 +39,11 @@ public interface State {
 	public boolean listen(Entity other, String message);
 
 	public boolean use(Item item);
-	
+
 	public boolean read(Item item);
-	
+
 	public boolean create(Item item);
-	
+
 	public boolean inspect(Item item);
 
 	public void lookState();

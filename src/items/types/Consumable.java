@@ -7,12 +7,11 @@ import items.properties.Holdable;
 import items.properties.Usable;
 import tools.Gender;
 
-public class Consumable extends Item implements Holdable, Usable{
+public class Consumable extends Item implements Holdable, Usable {
 	private boolean needsContainer;
 	private ItemEffect itemEffect;
 
-	public Consumable(Gender gender, String name, String description, boolean needsContainer,
-			ItemEffect itemEffect) {
+	public Consumable(Gender gender, String name, String description, boolean needsContainer, ItemEffect itemEffect) {
 		super(gender, name, description);
 		this.itemEffect = itemEffect;
 		this.needsContainer = needsContainer;

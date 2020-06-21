@@ -2,7 +2,7 @@
   {
     "baseHealth": 0,
     "chat": {},
-    "description": "huesitos",
+    "description": "cadaver, es puro huesitos",
     "gender": "M",
     "health": 0,
     "initialLocation": "cueva",
@@ -19,7 +19,7 @@
         "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
         "description": "Hoja gastada",
         "gender": "M",
-        "name": "hoja",
+        "name": "Hoja",
         "type": "text"
       }
     },
