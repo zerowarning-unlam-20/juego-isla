@@ -1,6 +1,7 @@
 package tools;
 
 import java.lang.reflect.Type;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -17,6 +18,12 @@ import states.NPCNormal;
 import states.Normal;
 
 public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
+	/**
+	 * Esto es una clase que viene justamente de json, lo que hace es ver en que
+	 * parte de la herencia esta para supuestamente usar los constructores pero es
+	 * medio mentiroso. Lo que hace es agarrar absolutamente todos los atributos y
+	 * los llena. Si un atributo no esta reflejado en json va nulo directamente.
+	 */
 
 	@Override
 	public GameObject deserialize(JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
@@ -30,7 +37,7 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 			String sn = stateName.getAsString();
 			switch (sn) {
 			case "normal":
-				character.setState(new NPCNormal((NPC)character));
+				character.setState(new NPCNormal((NPC) character));
 				break;
 			case "lost":
 				character.setState(new Lost(character));

@@ -11,7 +11,8 @@ import tools.Gender;
 
 public class Location extends GameObject {
 	private boolean visible;
-
+	// Todo se maneja con strings como clave unica, y fue. Esto es lo más facil que
+	// hay. creo.
 	private HashMap<String, Item> items;
 
 	private HashMap<String, Access> accesses;
@@ -32,7 +33,7 @@ public class Location extends GameObject {
 		return description;
 	}
 
-	public String lookAround() {
+	public String lookAround() { // Barrido de location
 		String acc = "";
 		String ent = "";
 		String message = "";

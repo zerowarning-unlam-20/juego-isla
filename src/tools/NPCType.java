@@ -3,13 +3,13 @@ package tools;
 import com.google.gson.annotations.SerializedName;
 
 public enum NPCType {
-	@SerializedName("passive")
-	PASSIVE("passive"), 
-	
-	@SerializedName("aggressive")
+	@SerializedName("passive") // No pega
+	PASSIVE("passive"),
+
+	@SerializedName("aggressive") // Pega
 	AGGRESSIVE("aggresive"),
-	
-	@SerializedName("inanimated")
+
+	@SerializedName("inanimated") // Plantas, cadaveres y esas cosas que no respiran
 	INANIMATED("inanimated");
 
 	private final String value;

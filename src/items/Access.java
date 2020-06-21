@@ -28,6 +28,8 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 		this.weakness = weakness;
 	}
 
+	// TODO: revisar linkeado de "una puerta" que conecta dos lugares, hace mucho se
+	// dejó de lado
 	public void linkWith(Access other) {
 		if (other != null) {
 			this.linkedWith = other;
@@ -117,6 +119,8 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 		return result;
 	}
 
+	// Recibir un ataque es como poner una llave, nada mas que con attack.
+	// Dependiendo del tipo de daño se va a desbloquear esto
 	@Override
 	public boolean recieveAttack(Attack attack) { // Si el acceso es rompible bueno, se rompe
 		boolean result = false;

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import entities.Player;
 
-public class TalkCommand implements ActionCommand {
+public class TalkCommand implements ActionCommand { // Uh falto implementar talk
 	private Player character;
 
 	public TalkCommand(Player character) {

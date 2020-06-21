@@ -36,7 +36,6 @@ public class Blueprint extends Item implements Inspectable, Usable, Readablel, H
 	private Item produce(HashMap<String, Item> inventory) {
 		HashMap<ResourceType, Integer> mapCount = new HashMap<ResourceType, Integer>();
 		ArrayList<Item> usedItems = new ArrayList<>();
-		boolean completed = false;
 
 		for (Item item : inventory.values()) {
 			if (item instanceof Resource) {

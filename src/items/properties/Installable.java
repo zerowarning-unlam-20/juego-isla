@@ -1,7 +1,5 @@
 package items.properties;
 
-public interface Installable{
-	//marker
+public interface Installable {
+	// Excusa para decir que algo es una llave
 }
-
-
