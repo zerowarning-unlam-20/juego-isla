@@ -1,13 +1,12 @@
 package island;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import entities.Entity;
 import entities.NPC;
-import entities.UserCharacter;
+import entities.Player;
 import items.Access;
 import items.Item;
 import tools.Gender;
@@ -15,57 +14,19 @@ import tools.Gender;
 public class Location extends GameObject {
 	private boolean visible;
 
-	private List<Item> items;
+	private HashMap<String, Item> items;
 
-	private HashMap<Integer, Access> accesses;
+	private HashMap<String, Access> accesses;
 
-	private HashMap<Integer, Entity> entities;
+	private HashMap<String, Entity> entities;
 
-	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
-			HashMap<Integer, Access> accesses) {
-		super(id, gender, name, description);
+	public Location(Gender gender, String name, String description, boolean visible, HashMap<String, Item> items,
+			HashMap<String, Access> accesses) {
+		super(gender, name, description);
 		this.items = items;
 		this.visible = visible;
-		this.entities = new HashMap<Integer, Entity>();
+		this.entities = new HashMap<String, Entity>();
 		this.accesses = accesses;
-	}
-
-	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
-			List<Access> accesses) {
-		super(id, gender, name, description);
-		this.items = items;
-		this.visible = visible;
-		this.accesses = new HashMap<Integer, Access>();
-		this.entities = new HashMap<Integer, Entity>();
-		for (Access a : accesses) {
-			this.accesses.put(a.getIdDestination(), a);
-		}
-	}
-
-	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items,
-			HashMap<Integer, Access> accesses, HashMap<Integer, Entity> entities) {
-		super(id, gender, name, description);
-		this.items = items;
-		this.visible = visible;
-		this.entities = entities;
-		this.accesses = accesses;
-	}
-
-	public Location(int id, Gender gender, String name, String description, boolean visible, List<Item> items) {
-		super(id, gender, name, description);
-		this.items = new ArrayList<Item>();
-		this.accesses = new HashMap<Integer, Access>();
-		this.entities = new HashMap<Integer, Entity>();
-		this.items = items;
-		this.visible = visible;
-	}
-
-	public Location(int id, Gender gender, String name, String description, boolean visible) {
-		super(id, gender, name, description);
-		this.items = new ArrayList<Item>();
-		this.accesses = new HashMap<Integer, Access>();
-		this.entities = new HashMap<Integer, Entity>();
-		this.visible = visible;
 	}
 
 	public String getDescription() {
@@ -77,8 +38,8 @@ public class Location extends GameObject {
 		String ent = "";
 		String message = "";
 
-		for (Map.Entry<Integer, Access> entry : accesses.entrySet()) {
-			acc += entry.getValue().getDescription() + ", ";
+		for (Access access : accesses.values()) {
+			acc += access.getDescription() + ", ";
 		}
 		if (acc.contains(", ")) {
 			acc = acc.substring(0, acc.length() - 2);
@@ -87,19 +48,19 @@ public class Location extends GameObject {
 		if (!acc.isEmpty()) {
 			message += "Se ve: " + acc;
 		}
-		for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
-			if (!entry.getValue().getClass().equals(UserCharacter.class))
-				ent += entry.getValue().getDescription() + ", ";
+		for (Entity entity : entities.values()) {
+			if (!entity.getClass().equals(Player.class))
+				ent += entity.getDescription() + ", ";
 		}
 		if (ent.contains(", ")) {
 			ent = ent.substring(0, ent.length() - 2);
 			ent += ".\n";
 		}
 		message += ent;
-		for (Item item : items) {
+		for (Item item : items.values()) {
 			message += item.getDescription() + ", ";
 		}
-		if (message.contains(", "))
+		if (message.length() > 2 && message.substring(message.length() - 2, message.length()).contains(", "))
 			message = message.substring(0, message.length() - 2);
 
 		return message;
@@ -110,27 +71,23 @@ public class Location extends GameObject {
 		return "[" + name + "]";
 	}
 
-	public List<Item> getItems() {
+	public HashMap<String, Item> getItems() {
 		return items;
 	}
 
-	public HashMap<Integer, Access> getAccesses() {
+	public HashMap<String, Access> getAccesses() {
 		return accesses;
 	}
 
-	public void setAccesses(HashMap<Integer, Access> accesses) {
-		this.accesses = accesses;
-	}
-
 	public void addAccess(Access access) {
-		accesses.put(access.getIdDestination(), access);
+		accesses.put(access.getDestinationName().toLowerCase(), access);
 	}
 
 	public boolean addLink(Location other) {
-		Access access = accesses.get(other.id);
+		Access access = accesses.get(other.name);
 		if (access != null) {
 			access.setDestination(other);
-			Access b = access.getDestination().getAccesses().get(this.id);
+			Access b = access.getDestination().getAccesses().get(this.name);
 			if (b != null)
 				b.setDestination(this);
 			return true;
@@ -139,19 +96,19 @@ public class Location extends GameObject {
 	}
 
 	public void removeItem(Item i) {
-		items.remove(i);
+		items.remove(i.name);
 	}
 
-	public HashMap<Integer, Entity> getEntities() {
+	public HashMap<String, Entity> getEntities() {
 		return entities;
 	}
 
 	public void addNpc(NPC npc) {
-		entities.put(npc.getId(), npc);
+		entities.put(npc.name, npc);
 	}
 
 	public void removeNpc(NPC npc) {
-		entities.remove(npc.getId());
+		entities.remove(npc.name);
 	}
 
 	public boolean isVisible() {
@@ -159,14 +116,14 @@ public class Location extends GameObject {
 	}
 
 	public void addItem(Item item) {
-		this.items.add(item);
+		items.put(item.name, item);
 	}
 
 	public void addEntity(Entity entity) {
-		entities.put(entity.getId(), entity);
+		entities.put(entity.name, entity);
 	}
 
 	public void removeEntity(Entity entity) {
-		entities.remove(entity.getId());
+		entities.remove(entity.name);
 	}
 }

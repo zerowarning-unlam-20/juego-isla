@@ -4,15 +4,15 @@ import java.util.Map;
 import java.util.Scanner;
 
 import entities.Entity;
-import entities.UserCharacter;
+import entities.Player;
 import island.GameObject;
 import items.Access;
 import items.Item;
 
 public class LookCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public LookCommand(UserCharacter character) {
+	public LookCommand(Player character) {
 		this.character = character;
 	}
 
@@ -37,36 +37,15 @@ public class LookCommand implements ActionCommand {
 				character.lookState();
 				return;
 			} else {
-				for (Item item : character.getInventory()) {
-					if (item.getName().toLowerCase().equalsIgnoreCase(name)) {
-						result = item;
-					}
+				result = character.getInventory().get(name);
+				if (result == null) {
+					result = character.getLocation().getItems().get(name);
 				}
 				if (result == null) {
-					for (Access acceso : character.getLocation().getAccesses().values()) {
-						if (acceso.getName().equalsIgnoreCase(name) || acceso.getDescription().equalsIgnoreCase(name)) {
-							result = acceso;
-							break;
-						}
-					}
+					result = character.getLocation().getAccesses().get(name);
 				}
 				if (result == null) {
-					for (Item item : character.getLocation().getItems()) {
-						if (item.getName().equalsIgnoreCase(name) || item.getDescription().equalsIgnoreCase(name)) {
-							result = item;
-							break;
-						}
-					}
-				}
-				if (result == null) {
-					for (Map.Entry<Integer, Entity> entry : character.getLocation().getEntities().entrySet()) {
-						Entity entity = entry.getValue();
-						if (entity.getName().toLowerCase().contentEquals(name)
-								|| entity.getDescription().equalsIgnoreCase(name)) {
-							result = entity;
-							break;
-						}
-					}
+					result = character.getLocation().getEntities().get(name);
 				}
 			}
 		}

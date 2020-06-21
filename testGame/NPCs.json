@@ -5,32 +5,26 @@
     "description": "huesitos",
     "gender": "M",
     "health": 0,
-    "id": 2,
-    "idUnlocks": 0,
-    "initialLocation": 1005,
-    "inventory": [
-      {
-        "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
-        "description": "Hoja gastada",
-        "gender": "M",
-        "id": 3001,
-        "itemtype": "I",
-        "name": "hoja",
-        "type": "text"
-      },
-      {
+    "initialLocation": "cueva",
+    "inventory": {
+      "cuchillo": {
         "damage": 25.0,
         "damageType": "S",
         "description": "Cuchillo de acero inoxidable",
         "gender": "M",
-        "id": 3003,
-        "itemType": "W",
         "name": "Cuchillo",
         "type": "weapon"
+      },
+      "hoja": {
+        "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
+        "description": "Hoja gastada",
+        "gender": "M",
+        "name": "hoja",
+        "type": "text"
       }
-    ],
+    },
     "name": "cadaver",
-    "NPCType": "I",
+    "NPCType": "inanimated",
     "stateName": "dead",
     "type": "NPC",
     "weakAndRes": {
@@ -46,21 +40,26 @@
     "description": "Palmera alta",
     "gender": "F",
     "health": 150,
-    "id": 3,
-    "idUnlocks": 0,
-    "initialLocation": 1002,
-    "inventory": [
-      {
-        "description": "Madera",
+    "initialLocation": "este",
+    "inventory": {
+      "madera doblada": {
+        "description": "Madera doblada",
         "gender": "F",
-        "id": 3005,
         "itemType": "R",
-        "name": "Madera de palmera",
+        "name": "Madera doblada",
+        "resourceType": "wood",
+        "type": "resource"
+      },
+      "madera en buen estado": {
+        "description": "Madera en buen estado",
+        "gender": "F",
+        "name": "Madera en buen estado",
+        "resourceType": "wood",
         "type": "resource"
       }
-    ],
+    },
     "name": "palmera",
-    "NPCType": "I",
+    "NPCType": "inanimated",
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {
@@ -74,23 +73,19 @@
     "description": "Tiburon blanco",
     "gender": "F",
     "health": 200,
-    "id": 3,
-    "idUnlocks": 0,
-    "initialLocation": 1007,
-    "inventory": [
-      {
+    "initialLocation": "mar",
+    "inventory": {
+      "colmillo": {
         "damage": 32,
         "damageType": "S",
         "description": "Colmillo de tiburon",
         "gender": "M",
-        "id": 3003,
-        "itemType": "W",
         "name": "Cuchillo",
         "type": "weapon"
       }
-    ],
+    },
     "name": "palmera",
-    "NPCType": "I",
+    "NPCType": "inanimated",
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {

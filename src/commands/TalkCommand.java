@@ -2,12 +2,12 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 
 public class TalkCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public TalkCommand(UserCharacter character) {
+	public TalkCommand(Player character) {
 		this.character = character;
 	}
 	

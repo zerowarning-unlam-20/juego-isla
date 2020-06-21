@@ -1,6 +1,5 @@
 package items.types;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import entities.Attack;
@@ -11,15 +10,16 @@ import items.properties.Dispenser;
 import items.properties.Unlockable;
 import tools.DamageType;
 import tools.Gender;
+import tools.MessageType;
 
 public class Box extends Item implements Unlockable, Dispenser, Attackable {
 	private boolean locked;
-	private int idKey;
+	private String idKey;
 	private List<Item> content;
 	private DamageType weakness;
 
-	public Box(int id, Gender gender, String name, String description, boolean locked, int idKey, List<Item>items) {
-		super(id, gender, name, description);
+	public Box(Gender gender, String name, String description, boolean locked, String idKey, List<Item> items) {
+		super(gender, name, description);
 		this.locked = locked;
 		this.content = items;
 	}
@@ -53,7 +53,7 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 	public boolean unlock(Item keyItem) {
 		boolean result = false;
 		if (locked) {
-			if (keyItem.getId() == idKey) {
+			if (keyItem.getName().equalsIgnoreCase(idKey)) {
 				locked = false;
 			}
 			result = true;
@@ -63,11 +63,15 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 
 	@Override
 	public boolean giveItems(Entity entity) {
-		boolean result = content.isEmpty();
-		for (Item item : content) {
-			entity.addItem(item);
+		boolean result = false;
+		if (!locked) {
+			result = !content.isEmpty();
+			for (Item item : content) {
+				entity.addItem(item);
+			}
+			content.clear();
 		}
-		content.clear();
+		entity.getGameManager().sendMessage(MessageType.EVENT, entity, "No se puede inspeccionar");
 		return result;
 	}
 

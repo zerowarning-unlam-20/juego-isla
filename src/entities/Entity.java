@@ -1,17 +1,12 @@
 package entities;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import island.GameObject;
 import island.Location;
 import items.Access;
 import items.Item;
-import items.ItemEffect;
 import items.properties.Attackable;
-import items.properties.Dispenser;
-import items.properties.Inspectable;
 import items.types.Weapon;
 import manager.GameManager;
 import states.Dead;
@@ -21,30 +16,19 @@ import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
 
-public abstract class Entity extends GameObject implements Attackable{
+public abstract class Entity extends GameObject implements Attackable {
 	protected GameManager gameManager;
 	protected Double baseHealth;
 	protected Double health;
 	protected Location location;
-	protected List<Item> inventory;
+	protected HashMap<String, Item> inventory;
 	protected HashMap<DamageType, Double> weakAndRes;
-	protected int initialLocation;
+	protected String initialLocation;
 	protected State state;
 
-	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location) {
-		super(id, gender, name, description);
-		this.baseHealth = 100d;
-		this.health = 100d;
-		this.location = location;
-		this.state = new Normal(this);
-		this.gameManager = gameManager;
-		inventory = new LinkedList<Item>();
-		weakAndRes = new HashMap<DamageType, Double>();
-	}
-
-	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, Location location,
-			List<Item> inventory, int initialLocation) {
-		super(id, gender, name, description);
+	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
+			HashMap<String, Item> inventory, String initialLocation) {
+		super(gender, name, description);
 		this.baseHealth = 100d;
 		this.health = 100d;
 		this.gameManager = gameManager;
@@ -53,18 +37,6 @@ public abstract class Entity extends GameObject implements Attackable{
 		this.inventory = inventory;
 		weakAndRes = new HashMap<DamageType, Double>();
 		this.initialLocation = initialLocation;
-	}
-
-	public Entity(GameManager gameManager, int id, Gender gender, String name, String description, List<Item> inventory,
-			int initialLocation) {
-		super(id, gender, name, description);
-		this.baseHealth = 100d;
-		this.health = 100d;
-		this.gameManager = gameManager;
-		this.state = new Normal(this);
-		this.inventory = inventory;
-		this.initialLocation = initialLocation;
-		weakAndRes = new HashMap<DamageType, Double>();
 	}
 
 	public void setState(State state) {
@@ -92,20 +64,12 @@ public abstract class Entity extends GameObject implements Attackable{
 		return state.lookInventory();
 	}
 
-	public List<Item> getInventory() {
+	public HashMap<String, Item> getInventory() {
 		return inventory;
 	}
 
-	public HashMap<String, Item> getInventoryStringMap() {
-		HashMap<String, Item> map = new HashMap<>();
-		for (Item item : inventory) {
-			map.put(item.getName().toLowerCase(), item);
-		}
-		return map;
-	}
-
 	public Item removeItem(Item item) {
-		inventory.remove(item);
+		inventory.remove(item.getName().toLowerCase());
 		return item;
 	}
 
@@ -121,10 +85,10 @@ public abstract class Entity extends GameObject implements Attackable{
 		return state.give(item, gameObject);
 	}
 
-	public boolean unlock(GameObject toUnlock) {
-		return state.unlock(toUnlock);
+	public boolean unlock(GameObject toUnlock, Item key) {
+		return state.unlock(toUnlock, key);
 	}
-	
+
 	public boolean read(Item item) {
 		return state.read(item);
 	}
@@ -132,7 +96,7 @@ public abstract class Entity extends GameObject implements Attackable{
 	public void setLocation(Location location) {
 		this.location = location;
 		if (location.getEntities() != null) {
-			location.getEntities().put(this.id, this);
+			location.getEntities().put(this.name, this);
 		}
 	}
 
@@ -162,7 +126,7 @@ public abstract class Entity extends GameObject implements Attackable{
 
 	public void addItem(Item item) {
 		gameManager.sendMessage(MessageType.EVENT, this, "Recibido: " + item.getName());
-		inventory.add(item);
+		inventory.put(item.getName().toLowerCase(), item);
 	}
 
 	public boolean lookAround() {
@@ -187,9 +151,7 @@ public abstract class Entity extends GameObject implements Attackable{
 	}
 
 	public void onDeath(Attack attack) {
-		for (Item item : inventory) {
-			attack.getAttacker().addItem(item);
-		}
+		attack.getAttacker().inventory.putAll(inventory);
 		inventory.clear();
 	}
 
@@ -209,7 +171,7 @@ public abstract class Entity extends GameObject implements Attackable{
 		return baseHealth;
 	}
 
-	public int getInitialLocation() {
+	public String getInitialLocation() {
 		return initialLocation;
 	}
 
@@ -217,9 +179,9 @@ public abstract class Entity extends GameObject implements Attackable{
 		return state;
 	}
 
-	public boolean goTo(int id) {
+	public boolean goTo(String name) {
 		boolean result = false;
-		Access access = location.getAccesses().get(id);
+		Access access = location.getAccesses().get(name);
 		if (access != null && access.getDestination() != null) {
 			result = state.goTo(access.getDestination());
 		} else
@@ -230,11 +192,11 @@ public abstract class Entity extends GameObject implements Attackable{
 	public boolean use(Item item) {
 		return state.use(item);
 	}
-	
+
 	public void lookState() {
 		state.lookState();
 	}
-	
+
 	public void inspect(Item result) {
 		state.inspect(result);
 	}

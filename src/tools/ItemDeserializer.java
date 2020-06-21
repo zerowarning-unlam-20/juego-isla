@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 
 import entities.Entity;
 import entities.NPC;
-import entities.UserCharacter;
+import entities.Player;
 import island.GameObject;
 import items.Item;
 import states.Dead;

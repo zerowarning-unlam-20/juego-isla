@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 
 import entities.Entity;
 import entities.NPC;
-import entities.UserCharacter;
+import entities.Player;
 import island.GameObject;
 import states.Dead;
 import states.Lost;
@@ -24,7 +24,7 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 		JsonObject jsonObject = json.getAsJsonObject();
 		JsonElement jsonType = jsonObject.get("type");
 		String type = jsonType.getAsString();
-		if (type.contentEquals("NPC")) {
+		if (ObjectType.valueOf(type.toUpperCase()).equals(ObjectType.NPC)) {
 			Entity character = context.deserialize(jsonObject, NPC.class);
 			JsonElement stateName = jsonObject.get("stateName");
 			String sn = stateName.getAsString();
@@ -40,8 +40,8 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 				break;
 			}
 			return character;
-		} else if (type.contentEquals("userCharacter")) {
-			Entity character = context.deserialize(jsonObject, UserCharacter.class);
+		} else if (ObjectType.valueOf(type.toUpperCase()).equals(ObjectType.PLAYER)) {
+			Entity character = context.deserialize(jsonObject, Player.class);
 			JsonElement stateName = jsonObject.get("stateName");
 			String sn = stateName.getAsString();
 			switch (sn) {

@@ -2,16 +2,16 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 import items.Item;
 import items.properties.Inspectable;
 import items.properties.Readablel;
 import items.types.Text;
 
 public class ReadCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public ReadCommand(UserCharacter personaje) {
+	public ReadCommand(Player personaje) {
 		this.character = personaje;
 	}
 
@@ -26,13 +26,7 @@ public class ReadCommand implements ActionCommand {
 	}
 
 	private void read(String name) {
-		Item result = null;
-		for (Item item : character.getInventory()) {
-			if (item instanceof Readablel && item.getName().equalsIgnoreCase(name)) {
-				result = item;
-				break;
-			}
-		}
+		Item result = character.getInventory().get(name);
 		character.read(result);
 	}
 

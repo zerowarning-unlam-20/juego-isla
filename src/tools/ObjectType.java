@@ -2,7 +2,7 @@ package tools;
 
 import com.google.gson.annotations.SerializedName;
 
-import entities.UserCharacter;
+import entities.Player;
 import entities.NPC;
 import island.GameObject;
 import island.Location;
@@ -48,8 +48,8 @@ public enum ObjectType {
 	@SerializedName("gameObject")
 	GAMEOBJECT(GameObject.class),
 
-	@SerializedName("user_character")
-	USER_CHARACTER(UserCharacter.class),
+	@SerializedName("player")
+	PLAYER(Player.class),
 
 	@SerializedName("npc")
 	NPC(NPC.class),

@@ -12,20 +12,21 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import entities.NPC;
-import entities.UserCharacter;
+import entities.Player;
 import island.GameObject;
 import island.Location;
 import items.Item;
 
 public class WorldLoader {
 
-	public static List<Location> loadLocations(String folder) throws IOException, FileNotFoundException {
+	public static HashMap<String, Location> loadLocations(String folder) throws IOException, FileNotFoundException {
 		File file = new File(folder + "/zones.json");
 		InputStream is;
 
@@ -47,14 +48,15 @@ public class WorldLoader {
 		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
-		List<Location> results = new ArrayList<>();
+
+		HashMap<String, Location> results = new HashMap<String, Location>();
 		for (GameObject go : objects) {
-			results.add((Location) go);
+			results.put(go.getName().toLowerCase(), (Location) go);
 		}
 		return results;
 	}
 
-	public static List<NPC> loadEntities(String folder) throws IOException, FileNotFoundException {
+	public static HashMap<String, NPC> loadEntities(String folder) throws IOException, FileNotFoundException {
 		File file = new File(folder + "/NPCs.json");
 		InputStream is;
 
@@ -76,14 +78,14 @@ public class WorldLoader {
 		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
 		List<GameObject> objects = Arrays.asList(gson.fromJson(result, GameObject[].class));
-		List<NPC> results = new ArrayList<>();
+		HashMap<String, NPC> results = new HashMap<String, NPC>();
 		for (GameObject go : objects) {
-			results.add((NPC) go);
+			results.put(go.getName().toLowerCase(), (NPC) go);
 		}
 		return results;
 	}
 
-	public static UserCharacter loadCharacter(String folder) throws IOException, FileNotFoundException {
+	public static Player loadCharacter(String folder) throws IOException, FileNotFoundException {
 		File file = new File(folder + "/character.json");
 		InputStream is;
 
@@ -104,7 +106,7 @@ public class WorldLoader {
 		gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectDeserializer());
 		gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 		Gson gson = gsonBuilder.create();
-		return (UserCharacter) gson.fromJson(result, GameObject.class);
+		return (Player) gson.fromJson(result, GameObject.class);
 	}
 
 	public static String loadInitialMessage(String folder) throws IOException {

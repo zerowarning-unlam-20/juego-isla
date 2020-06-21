@@ -25,7 +25,7 @@ public class Dead implements State {
 	}
 
 	@Override
-	public boolean unlock(GameObject toUnlock) {
+	public boolean unlock(GameObject toUnlock, Item key) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
 		return false;
 	}

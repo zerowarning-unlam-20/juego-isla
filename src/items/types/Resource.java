@@ -8,8 +8,8 @@ import tools.ResourceType;
 public class Resource extends Item implements Holdable {
 	private ResourceType resourceType;
 
-	public Resource(int id, Gender gender, String name, String description, ResourceType resourceType) {
-		super(id, gender, name, description);
+	public Resource(Gender gender, String name, String description, ResourceType resourceType) {
+		super(gender, name, description);
 		this.resourceType = resourceType;
 	}
 

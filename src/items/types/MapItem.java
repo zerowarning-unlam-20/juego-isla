@@ -14,8 +14,8 @@ import tools.MessageType;
 public class MapItem extends Item implements Usable, Holdable {
 	private ItemEffect itemEffect;
 
-	public MapItem(int id, Gender gender, String name, String description) {
-		super(id, gender, name, description);
+	public MapItem(Gender gender, String name, String description) {
+		super(gender, name, description);
 		// TODO Auto-generated constructor stub
 	}
 

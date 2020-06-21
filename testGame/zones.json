@@ -1,36 +1,30 @@
 [
   {
     "accesses": {
-      "1002": {
+      "este": {
         "description": "Camino este",
+        "destinationName": "este",
         "gender": "M",
-        "id": 2001,
-        "idDestination": 1002,
-        "idKey": 0,
         "locked": false,
         "name": "este",
         "opened": true,
         "type": "access"
       },
-      "1003": {
-        "description": "Camino sur",
-        "gender": "M",
-        "id": 2002,
-        "idDestination": 1003,
-        "idKey": 0,
+      "oeste": {
+        "description": "Camino oeste",
+        "destinationName": "oeste",
+        "gender": "F",
         "locked": false,
-        "name": "sur",
+        "name": "oeste",
         "opened": true,
         "type": "access"
       },
-      "1004": {
-        "description": "Camino oeste",
-        "gender": "F",
-        "id": 2003,
-        "idDestination": 1004,
-        "idKey": 0,
+      "sur": {
+        "description": "Camino sur",
+        "gender": "M",
+        "idDestination": "sur",
         "locked": false,
-        "name": "oeste",
+        "name": "sur",
         "opened": true,
         "type": "access"
       }
@@ -39,12 +33,10 @@
     "entities": {
     },
     "gender": "M",
-    "id": 1001,
-    "items": [
-      {
+    "items": {
+      "brujula": {
         "description": "brujula gastada, todavia funciona",
         "gender": "F",
-        "id": 3002,
         "itemEffect": {
           "healthChange": 0,
           "stateName": "normal",
@@ -55,18 +47,10 @@
         "needsContainer": false,
         "type": "map_item"
       },
-      {
-        "description": "catarata de agua pequeña, con piedras alrededor. El agua parece ser muy rica y sana.",
-        "gender": "F",
-        "id": 3005,
-        "itemType": "F",
-        "name": "catarata",
-        "needsContainer": false,
-        "type": "source",
+      "catarata":{
         "content": {
           "description": "Agua de catarata",
           "gender": "M",
-          "id": 3002,
           "itemEffect": {
             "healthChange": 20,
             "type": "item_effect"
@@ -75,56 +59,55 @@
           "name": "agua",
           "needsContainer": true,
           "type": "consumable"
-        }
+        },
+        "description": "catarata de agua pequeña, con piedras alrededor. El agua parece ser muy rica y sana.",
+        "gender": "F",
+        "itemType": "F",
+        "name": "catarata",
+        "needsContainer": false,
+        "type": "source"
       }
-    ],
+    },
     "name": "norte",
     "type": "location",
     "visible": true
   },
   {
     "accesses": {
-      "1001": {
-        "description": "Camino norte",
+      "cueva": {
+        "description": "Entrada a una cueva con poca luz",
+        "destinationName": "cueva",
         "gender": "M",
-        "id": 2004,
-        "idDestination": 1001,
-        "idKey": 0,
+        "locked": false,
+        "name": "entrada",
+        "opened": true,
+        "type": "access"
+      },
+      "norte": {
+        "description": "Camino norte",
+        "destinationName": "norte",
+        "gender": "M",
         "locked": false,
         "name": "norte",
         "opened": true,
         "type": "access"
       },
-      "1003": {
-        "description": "Camino sur",
-        "gender": "M",
-        "id": 2005,
-        "idDestination": 1003,
-        "idKey": 0,
-        "locked": false,
-        "name": "sur",
-        "opened": true,
-        "type": "access"
-      },
-      "1004": {
+      "oeste": {
         "description": "Camino oeste",
+        "destinationName": "oeste",
         "gender": "F",
-        "id": 2006,
-        "idDestination": 1004,
         "idKey": 0,
         "locked": false,
         "name": "oeste",
         "opened": true,
         "type": "access"
       },
-      "1005": {
-        "description": "Entrada a una cueva con poca luz",
+      "sur": {
+        "description": "Camino sur",
+        "destinationName": "sur",
         "gender": "M",
-        "id": 2013,
-        "idDestination": 1005,
-        "idKey": 0,
         "locked": false,
-        "name": "entrada",
+        "name": "sur",
         "opened": true,
         "type": "access"
       }
@@ -133,14 +116,12 @@
     "entities": {
     },
     "gender": "M",
-    "id": 1002,
-    "items": [
-      {
+    "items": {
+      "cofre":{
         "content": [
           {
             "description": "Plano de balsa de madera",
             "gender": "M",
-            "id": 3002,
             "itemtype": "C",
             "name": "plano",
             "requirements": {
@@ -152,47 +133,40 @@
         ],
         "description": "Cofre de madera sellado",
         "gender": "M",
-        "id": 2013,
-        "idKey": 0,
         "locked": true,
         "name": "cofre",
-        "type": "box"
+        "type": "box",
+        "weakness": "H"
       }
-    ],
+    },
     "name": "Este",
     "type": "location",
     "visible": true
   },
   {
     "accesses": {
-      "1001": {
+      "norte": {
         "description": "Camino norte",
+        "destinationName": "norte",
         "gender": "M",
-        "id": 2007,
-        "idDestination": 1001,
-        "idKey": 0,
         "locked": false,
         "name": "norte",
         "opened": true,
         "type": "access"
       },
-      "1002": {
+      "este": {
         "description": "Camino este",
+        "destinationName": "este",
         "gender": "F",
-        "id": 2009,
-        "idDestination": 1002,
-        "idKey": 0,
         "locked": false,
         "name": "este",
         "opened": true,
         "type": "access"
       },
-      "1003": {
+      "sur": {
         "description": "Camino sur",
+        "destinationName": "sur",
         "gender": "M",
-        "id": 2008,
-        "idDestination": 1003,
-        "idKey": 0,
         "locked": false,
         "name": "sur",
         "opened": true,
@@ -203,63 +177,54 @@
     "entities": {
     },
     "gender": "M",
-    "id": 1004,
-    "items": [
-      {
+    "items": {
+      "hacha":{
         "damage": 60.0,
         "damageType": "H",
         "description": "Hacha oxidada con mango de madera",
         "gender": "M",
-        "id": 3003,
-        "itemType": "W",
         "name": "Hacha",
         "type": "weapon"
       }
-    ],
+    },
     "name": "Oeste",
     "type": "location",
     "visible": true
   },
   {
     "accesses": {
-      "1001": {
+      "norte": {
         "description": "Camino norte",
+        "destinationName": "norte",
         "gender": "M",
-        "id": 2010,
-        "idDestination": 1001,
-        "idKey": 0,
         "locked": false,
         "name": "norte",
         "opened": true,
         "type": "access"
       },
-      "1004": {
+      "oeste": {
         "description": "Camino oeste",
+        "destinationName": "oeste",
         "gender": "M",
-        "id": 2011,
-        "idDestination": 1004,
-        "idKey": 0,
         "locked": false,
         "name": "Camino oeste",
         "opened": true,
         "type": "access"
       },
-      "1002": {
+      "este": {
         "description": "Camino este",
+        "destinationName": "este",
         "gender": "F",
-        "id": 2012,
-        "idDestination": 1002,
         "idKey": 0,
         "locked": false,
         "name": "este",
         "opened": true,
         "type": "access"
       },
-      "1007": {
+      "costa": {
         "description": "costa",
+        "destinationName": "mar",
         "gender": "F",
-        "id": 2015,
-        "idDestination": 1007,
         "idKey": 0,
         "locked": true,
         "name": "costa",
@@ -279,12 +244,10 @@
   },
   {
     "accesses": {
-      "1002": {
+      "este": {
         "description": "Salida de la cueva",
+        "destinationName": "este",
         "gender": "F",
-        "id": 2014,
-        "idDestination": 1002,
-        "idKey": 0,
         "locked": false,
         "name": "salida",
         "opened": true,
@@ -295,7 +258,6 @@
     "entities": {
     },
     "gender": "F",
-    "id": 1005,
     "items": [],
     "name": "cueva",
     "type": "location",
@@ -308,7 +270,6 @@
     "entities": {
     },
     "gender": "M",
-    "id": 1007,
     "items": [],
     "name": "mar",
     "type": "location",

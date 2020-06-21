@@ -1,60 +1,53 @@
 package manager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import entities.Entity;
 import entities.NPC;
-import entities.UserCharacter;
+import entities.Player;
 import island.Location;
 import items.Access;
+import items.Item;
 
 public class Game {
-	private List<Location> locations;
-	private HashMap<Integer, Entity> entities;
-	private HashMap<Integer, Location> locationIds = new HashMap<>();
-	private HashMap<String, Location> locationsMap = new HashMap<>();
-	private UserCharacter character;
+	private HashMap<String, NPC> entities;
+	private HashMap<String, Location> locations;
+	private Player character;
 
-	public Game(GameManager gameManager, UserCharacter character, List<Location> locations, List<NPC> NPClist) {
+	public Game(GameManager gameManager, Player character, HashMap<String, Location> locations,
+			HashMap<String, NPC> npcList) {
 		this.locations = locations;
 		this.character = character;
 		this.character.linkToManager(gameManager);
 
-		for (Location l : locations) {
-			locationsMap.put(l.getName().toLowerCase(), l);
-			locationIds.put(l.getId(), l);
-		}
+		this.character.setLocation(locations.get(character.getInitialLocation()));
+		this.entities = npcList;
 
-		this.character.setLocation(this.locationIds.get(character.getInitialLocation()));
-		this.entities = new HashMap<Integer, Entity>();
-		for (NPC e : NPClist) {
-			e.linkToManager(gameManager);
-			this.entities.put(e.getId(), e);
-			e.setLocation(this.locationIds.get(e.getInitialLocation()));
+		for (Map.Entry<String, NPC> npcEntry : npcList.entrySet()) {
+			npcEntry.getValue().linkToManager(gameManager);
+			npcEntry.getValue().setLocation(locations.get(npcEntry.getValue().getInitialLocation()));
 		}
 		linkLocations();
 	}
 
 	private void linkLocations() {
-		for (Location location : locations) {
-			for (Map.Entry<Integer, Access> entry : location.getAccesses().entrySet()) {
-				entry.getValue().setDestination(locationIds.get(entry.getKey()));
+		for (Location location : locations.values()) {
+			for (Access access : location.getAccesses().values()) {
+				access.setDestination(locations.get(access.getDestinationName()));
 			}
 		}
 	}
 
-	public List<Location> getLocations() {
-		return locations;
-	}
-
-	public UserCharacter getCharacter() {
+	public Player getCharacter() {
 		return character;
 	}
 
-	public Location getLocationFromString(String lugar) {
-		return locationsMap.get(lugar);
+	public HashMap<String, NPC> getEntities() {
+		return entities;
+	}
+
+	public HashMap<String, Location> getLocations() {
+		return locations;
 	}
 
 }

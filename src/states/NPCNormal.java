@@ -1,5 +1,7 @@
 package states;
 
+import java.util.Map;
+
 import entities.Attack;
 import entities.Entity;
 import entities.NPC;
@@ -13,6 +15,7 @@ import items.properties.Holdable;
 import items.properties.Usable;
 import items.types.Consumable;
 import items.types.Key;
+import items.types.Source;
 import items.types.Container;
 import items.types.Weapon;
 import tools.MessageType;
@@ -28,7 +31,9 @@ public class NPCNormal implements State {
 	public boolean open(GameObject object) {
 		boolean result = false;
 		String message = "No se pudo abrir";
-		if (object.getClass() == Access.class) {
+		if (object == null) {
+			message = "No hay nada para abrir";
+		} else if (object instanceof Access) {
 			Access access = (Access) object;
 			result = access.open();
 			if (!result) {
@@ -45,23 +50,18 @@ public class NPCNormal implements State {
 	}
 
 	@Override
-	public boolean unlock(GameObject toUnlock) {
+	public boolean unlock(GameObject toUnlock, Item key) {
 		String message = "No hay items para desbloquear ";
 		boolean result = false;
-		if (toUnlock != null && toUnlock.getClass() == Access.class) {
+		if (toUnlock != null && toUnlock instanceof Access) {
 			Access access = (Access) toUnlock;
-			if (!access.isLocked()) {
-				message = access.getSingularName() + " esta bloquead" + access.getTermination();
+			if (key instanceof Key) {
+				access.unlock(key);
+				result = true;
+				message = access.getSingularName() + "se pudo desbloquear";
 			} else {
-				message += access.getSingularName();
-				for (Item item : character.getInventory()) {
-					if (item instanceof Key && access.unlock(item)) {
-						character.removeItem(item);
-						message = access.getSingularName() + " se desbloqueo";
-						result = true;
-						break;
-					}
-				}
+				result = false;
+				message = "Esto no sirve";
 			}
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
@@ -81,7 +81,7 @@ public class NPCNormal implements State {
 			character.getGameManager().sendMessage(MessageType.CHARACTER, character, "Ir donde?");
 			return false;
 		}
-		Access destinationAccess = character.getLocation().getAccesses().get(location.getId());
+		Access destinationAccess = character.getLocation().getAccesses().get(location.getName());
 		if (destinationAccess != null) {
 			if (destinationAccess.isOpened()) {
 				character.getLocation().removeEntity(character);
@@ -104,24 +104,36 @@ public class NPCNormal implements State {
 	public boolean grab(Item item) {
 		boolean result = false;
 		String message = "No agarre nada";
-
-		if (item != null) {
-			if (item instanceof Holdable) {
-				character.addItem(item);
-				character.getLocation().removeItem(item);
-			}
-			if (item.getClass().equals(Consumable.class) && ((Consumable) item).needsContainer()) {
-				for (Item container : character.getInventory()) {
-					if (container.getClass().equals(Container.class) && ((Container) container).isEmpty()) {
-						((Container) container).setContent(item);
-						message = "Se ingreso" + item.getSingularName() + " en " + container.getSingularName();
-						character.getLocation().removeItem(item);
+		if (item == null) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+			return result;
+		} else if (!(item instanceof Holdable) && !(item instanceof Dispenser)) {
+			message = "Imposible agarrar " + item.getSingularName();
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+			return result;
+		}
+		if (item instanceof Source) {
+			Source source = (Source) item;
+			for (Map.Entry<String, Item> entry : character.getInventory().entrySet()) {
+				if (entry.getValue() instanceof Container) {
+					if (((Container) entry.getValue()).isEmpty()) {
+						((Container) entry.getValue()).setContent(source.getContent());
+						message = "Se ingreso " + source.getContent().getSingularName().toLowerCase() + " en "
+								+ entry.getValue().getSingularName();
+						result = true;
+					} else {
+						message = source.getSingularName().toLowerCase() + " esta llen"
+								+ entry.getValue().getTermination();
 					}
 				}
 			}
+		} else {
+			character.addItem(item);
+			character.getLocation().removeItem(item);
+			message = "Se agarró " + item.getSingularName();
+			result = true;
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		}
-
-		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		return result;
 	}
 
@@ -156,8 +168,9 @@ public class NPCNormal implements State {
 	public boolean lookInventory() {
 		boolean result = true;
 		String message = "";
-		for (Item item : character.getInventory()) {
-			message += item.getName() + ", ";
+
+		for (Map.Entry<String, Item> itemEntry : character.getInventory().entrySet()) {
+			message += itemEntry.getValue().getName() + ", ";
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);
@@ -249,7 +262,7 @@ public class NPCNormal implements State {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean read(Item item) {
 		// TODO Auto-generated method stub

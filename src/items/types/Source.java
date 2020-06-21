@@ -8,12 +8,12 @@ import tools.Gender;
 public class Source extends Item implements Dispenser {
 	private Item content;
 
-	public Source(int id, Gender gender, String name, String description) {
-		super(id, gender, name, description);
+	public Source(Gender gender, String name, String description) {
+		super(gender, name, description);
 	}
 
-	public Source(int id, Gender gender, String name, String description, Item content) {
-		super(id, gender, name, description);
+	public Source(Gender gender, String name, String description, Item content) {
+		super(gender, name, description);
 		this.content = content;
 	}
 

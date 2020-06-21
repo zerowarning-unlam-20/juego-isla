@@ -1,22 +1,21 @@
-  {
-    "description": "Tipo perdido",
-    "gender": "M",
-    "baseHealth": 100,
-    "health": 100,
-    "id": 1,
-    "initialLocation": 1001,
-    "name": "Carlos",
-    "type": "userCharacter",
-    "weakAndRes": {},
-    "stateName": "lost",
-    "inventory": [
-      {
-        "description": "Botella de vidrio",
-        "gender": "F",
-        "id": 3004,
-        "itemType": "B",
-        "name": "Botella",
-        "type": "single_container"
-      }
-    ]
-  }
+{
+  "baseHealth": 100,
+  "description": "Tipo perdido",
+  "gender": "M",
+  "health": 100,
+  "id": 1,
+  "initialLocation": "norte",
+  "inventory": {
+    "botella":{
+      "description": "Botella de vidrio",
+      "gender": "F",
+      "itemType": "B",
+      "name": "Botella",
+      "type": "single_container"
+    }
+  },
+  "name": "Carlos",
+  "stateName": "lost",
+  "type": "player",
+  "weakAndRes": {}
+}

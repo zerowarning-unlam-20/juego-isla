@@ -12,7 +12,7 @@ import items.types.Weapon;
 public interface State {
 	public boolean open(GameObject object);
 
-	public boolean unlock(GameObject toUnlock);
+	public boolean unlock(GameObject toUnlock, Item key);
 
 	public boolean look(GameObject object);
 

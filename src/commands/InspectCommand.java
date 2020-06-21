@@ -2,37 +2,31 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
+import island.GameObject;
 import items.Item;
 import items.properties.Inspectable;
 
 public class InspectCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public InspectCommand(UserCharacter character) {
+	public InspectCommand(Player character) {
 		this.character = character;
 	}
 
 	@Override
 	public void perform(Scanner args) {
 		String name = "";
-		while(args.hasNext()) {
+		while (args.hasNext()) {
 			name += args.next();
 		}
-		
-		inspect(name);
-	}
 
-	private void inspect(String name) {
-		Item result = null;
-		for(Item item : character.getLocation().getItems()) {
-			if(item instanceof Inspectable && item.getName().equalsIgnoreCase(name)) {
-				result = item;
-				break;
-			}
+		Item target = null;
+		target = character.getInventory().get(name);
+		if (target == null) {
+			target = character.getLocation().getItems().get(name);
 		}
-		character.inspect(result);
+		character.inspect(target);
 	}
-
 
 }

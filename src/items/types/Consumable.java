@@ -11,9 +11,9 @@ public class Consumable extends Item implements Holdable, Usable{
 	private boolean needsContainer;
 	private ItemEffect itemEffect;
 
-	public Consumable(int id, Gender gender, String name, String description, boolean needsContainer,
+	public Consumable(Gender gender, String name, String description, boolean needsContainer,
 			ItemEffect itemEffect) {
-		super(id, gender, name, description);
+		super(gender, name, description);
 		this.itemEffect = itemEffect;
 		this.needsContainer = needsContainer;
 	}

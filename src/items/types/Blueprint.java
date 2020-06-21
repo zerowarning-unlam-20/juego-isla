@@ -2,7 +2,6 @@ package items.types;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import entities.Entity;
@@ -19,9 +18,9 @@ public class Blueprint extends Item implements Inspectable, Usable, Readablel, H
 	private HashMap<ResourceType, Integer> requirements;
 	private Item result;
 
-	public Blueprint(int id, Gender gender, String name, String description,
-			HashMap<ResourceType, Integer> requirements, Item produces) {
-		super(id, gender, name, description);
+	public Blueprint(Gender gender, String name, String description, HashMap<ResourceType, Integer> requirements,
+			Item produces) {
+		super(gender, name, description);
 		this.requirements = requirements;
 		this.result = produces;
 	}
@@ -34,26 +33,25 @@ public class Blueprint extends Item implements Inspectable, Usable, Readablel, H
 		return result;
 	}
 
-	private Item produce(List<Item> inventory) {
+	private Item produce(HashMap<String, Item> inventory) {
 		HashMap<ResourceType, Integer> mapCount = new HashMap<ResourceType, Integer>();
 		ArrayList<Item> usedItems = new ArrayList<>();
-		for (Item item : inventory) {
+		boolean completed = false;
+
+		for (Item item : inventory.values()) {
 			if (item instanceof Resource) {
 				Resource res = (Resource) item;
 				if (requirements.get(res.getResourceType()) != null) {
-					if (mapCount.get(res.getResourceType()) == null) {
-						usedItems.add(item);
-						mapCount.put(res.getResourceType(), 1);
-					} else {
-						usedItems.add(item);
-						mapCount.put(res.getResourceType(), 1 + mapCount.get(res.getResourceType()));
-					}
+					usedItems.add(item);
+					mapCount.put(res.getResourceType(),
+							mapCount.get(res.getResourceType()) == null ? 1 : mapCount.get(res.getResourceType()) + 1);
 				}
 			}
 		}
+
 		if (mapCount.equals(requirements)) {
 			for (Item item : usedItems) {
-				inventory.remove(item);
+				inventory.remove(item.getName().toLowerCase());
 			}
 			return result;
 		}
@@ -77,8 +75,7 @@ public class Blueprint extends Item implements Inspectable, Usable, Readablel, H
 			entity.addItem(result);
 			entity.removeItem(this);
 			entity.getGameManager().sendMessage(MessageType.EVENT, entity, "Ahora tenes: " + result.getDescription());
-		}
-		else {
+		} else {
 			entity.getGameManager().sendMessage(MessageType.EVENT, entity, "No tenes los elementos necesarios");
 		}
 		return result != null;

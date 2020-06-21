@@ -8,8 +8,8 @@ import tools.Gender;
 
 public class Item extends GameObject implements Inspectable {
 
-	public Item(int id, Gender gender, String name, String description) {
-		super(id, gender, name, description);
+	public Item(Gender gender, String name, String description) {
+		super(gender, name, description);
 	}
 
 	@Override
@@ -20,7 +20,6 @@ public class Item extends GameObject implements Inspectable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Item other = (Item) obj;
 		return true;
 	}
 

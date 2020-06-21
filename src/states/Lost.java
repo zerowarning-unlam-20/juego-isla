@@ -39,7 +39,7 @@ public class Lost implements State {
 		String message = "No se pudo abrir";
 		if (object == null) {
 			message = "No hay nada para abrir";
-		} else if (object.getClass() == Access.class) {
+		} else if (object instanceof Access) {
 			Access access = (Access) object;
 			result = access.open();
 			if (!result) {
@@ -56,23 +56,18 @@ public class Lost implements State {
 	}
 
 	@Override
-	public boolean unlock(GameObject toUnlock) {
+	public boolean unlock(GameObject toUnlock, Item key) {
 		String message = "No hay items para desbloquear ";
 		boolean result = false;
-		if (toUnlock != null && toUnlock.getClass() == Access.class) {
+		if (toUnlock != null && toUnlock instanceof Access) {
 			Access access = (Access) toUnlock;
-			if (!access.isLocked()) {
-				message = access.getSingularName() + " esta bloquead" + access.getTermination();
+			if (key instanceof Key) {
+				access.unlock(key);
+				result = true;
+				message = access.getSingularName() + "se pudo desbloquear";
 			} else {
-				message += access.getSingularName();
-				for (Item item : character.getInventory()) {
-					if (item instanceof Key && access.unlock(item)) {
-						character.removeItem(item);
-						message = access.getSingularName() + " se desbloqueo";
-						result = true;
-						break;
-					}
-				}
+				result = false;
+				message = "Esto no sirve";
 			}
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
@@ -104,7 +99,6 @@ public class Lost implements State {
 	public boolean grab(Item item) {
 		boolean result = false;
 		String message = "No agarre nada";
-
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 			return result;
@@ -113,15 +107,19 @@ public class Lost implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 			return result;
 		}
-
 		if (item instanceof Source) {
-			for (Item container : character.getInventory()) {
-				Source source = (Source) item;
-				if (container instanceof Container && ((Container) container).isEmpty()) {
-					((Container) container).setContent(source.getContent());
-					message = "Se ingreso " + source.getSingularName().toLowerCase() + " en "
-							+ container.getSingularName();
-					result = true;
+			Source source = (Source) item;
+			for (Map.Entry<String, Item> entry : character.getInventory().entrySet()) {
+				if (entry.getValue() instanceof Container) {
+					if (((Container) entry.getValue()).isEmpty()) {
+						((Container) entry.getValue()).setContent(source.getContent());
+						message = "Se ingreso " + source.getContent().getSingularName().toLowerCase() + " en "
+								+ entry.getValue().getSingularName();
+						result = true;
+					} else {
+						message = source.getSingularName().toLowerCase() + " esta llen"
+								+ entry.getValue().getTermination();
+					}
 				}
 			}
 		} else {
@@ -129,8 +127,8 @@ public class Lost implements State {
 			character.getLocation().removeItem(item);
 			message = "Se agarró " + item.getSingularName();
 			result = true;
+			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		}
-		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		return result;
 	}
 
@@ -143,8 +141,8 @@ public class Lost implements State {
 		if (item.getClass() == Container.class) {
 			Container cont = (Container) item;
 			cont.getContent();
-			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getName());
-		} else if (item.getClass() == Consumable.class) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, "tomo " + cont.getContent().getName());
+		} else if (item instanceof Consumable) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Tome " + item.getName());
 		}
 		return this;
@@ -157,36 +155,18 @@ public class Lost implements State {
 
 	@Override
 	public boolean lookAround() {
-		boolean result = true;
-		String message = "No se donde estoy \n";
-		String ent = "";
-		if (!character.getLocation().getEntities().isEmpty()) {
-			for (Map.Entry<Integer, Entity> entry : character.getLocation().getEntities().entrySet()) {
-				ent += entry.getValue().getName() + ": " + entry.getValue().getDescription() + ", ";
-			}
-		}
-		if (ent.contains(", ")) {
-			ent = ent.substring(0, ent.length() - 2);
-			ent += ".\n";
-		}
-		if (!character.getLocation().getItems().isEmpty()) {
-			for (Item item : character.getLocation().getItems()) {
-				message += item.getDescription() + ", ";
-			}
-			if (message.contains(", "))
-				message = message.substring(0, message.length() - 2);
-		}
+		String message = "No se donde estoy \n" + character.getLocation().lookAround();
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character, message);
-		result = true;
-		return result;
+		return true;
 	}
 
 	@Override
 	public boolean lookInventory() {
 		boolean result = true;
 		String message = "";
-		for (Item item : character.getInventory()) {
-			message += item.getName() + ", ";
+
+		for (Map.Entry<String, Item> itemEntry : character.getInventory().entrySet()) {
+			message += itemEntry.getValue().getName() + ", ";
 		}
 		if (message != "")
 			message = message.substring(0, message.length() - 2);

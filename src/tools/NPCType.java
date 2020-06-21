@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public enum NPCType {
 	@SerializedName("passive")
-	PASSIVE("P"), 
+	PASSIVE("passive"), 
 	
 	@SerializedName("aggressive")
-	AGGRESSIVE("A"),
+	AGGRESSIVE("aggresive"),
 	
 	@SerializedName("inanimated")
-	INANIMATED("I");
+	INANIMATED("inanimated");
 
 	private final String value;
 

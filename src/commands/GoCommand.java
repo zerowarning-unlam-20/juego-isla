@@ -2,13 +2,13 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 import island.Location;
 
 public class GoCommand implements ActionCommand {
-	private UserCharacter personaje;
+	private Player personaje;
 
-	public GoCommand(UserCharacter personaje) {
+	public GoCommand(Player personaje) {
 		this.personaje = personaje;
 	}
 
@@ -20,11 +20,7 @@ public class GoCommand implements ActionCommand {
 			lugar += args.next() + " ";
 		}
 		lugar = lugar.trim();
-		Location location = personaje.getGameManager().getGame().getLocationFromString(lugar);
-		if (location == null)
-			personaje.goTo(null);
-		else
-			personaje.goTo(location.getId());
+		personaje.goTo(lugar);
 	}
 
 }

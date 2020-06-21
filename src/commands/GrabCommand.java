@@ -3,15 +3,15 @@ package commands;
 import java.util.List;
 import java.util.Scanner;
 
-import entities.UserCharacter;
+import entities.Player;
 import items.Item;
 import items.types.Container;
 import items.types.Source;
 
 public class GrabCommand implements ActionCommand {
-	private UserCharacter character;
+	private Player character;
 
-	public GrabCommand(UserCharacter character) {
+	public GrabCommand(Player character) {
 		this.character = character;
 	}
 
@@ -24,30 +24,9 @@ public class GrabCommand implements ActionCommand {
 		itemName = itemName.trim();
 		grab(itemName);
 	}
-	
+
 	private void grab(String itemName) {
-		List<Item> items = character.getLocation().getItems();
-		Item item = null;
-		for (Item i : items) {
-			if (i instanceof Container
-					&& (!i.getName().equalsIgnoreCase(itemName) || i.getDescription().equalsIgnoreCase(itemName))) {
-				item = ((Container) i).getContent();
-				if (item.getName().equalsIgnoreCase(itemName)) {
-					item = i;
-				}
-				break;
-			} else if (i instanceof Source
-					&& (!i.getName().equalsIgnoreCase(itemName) || i.getDescription().equalsIgnoreCase(itemName))) {
-				item = ((Source) i).getContent();
-				if (item.getName().equalsIgnoreCase(itemName)) {
-					item = i;
-				}
-				break;
-			} else if (i.getName().equalsIgnoreCase(itemName) || i.getDescription().equalsIgnoreCase(itemName)) {
-				item = i;
-				break;
-			}
-		}
+		Item item = character.getLocation().getItems().get(itemName);
 		character.grab(item);
 	}
 }

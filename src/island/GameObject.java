@@ -3,26 +3,16 @@ package island;
 import tools.Gender;
 
 public abstract class GameObject {
-	protected int id;
 	protected Gender gender;
 	protected String name;
 	protected String description;
 
-	public GameObject(int id, Gender gender, String name, String description) {
-		this.id = id;
+	public GameObject(Gender gender, String name, String description) {
 		this.gender = gender;
 		this.name = name;
 		this.description = description;
 	}
-
-	public GameObject() {
-		
-	}
-
-	public int getId() {
-		return id;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -53,17 +43,6 @@ public abstract class GameObject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -78,8 +57,6 @@ public abstract class GameObject {
 		} else if (!description.equals(other.description))
 			return false;
 		if (gender != other.gender)
-			return false;
-		if (id != other.id)
 			return false;
 		if (name == null) {
 			if (other.name != null)

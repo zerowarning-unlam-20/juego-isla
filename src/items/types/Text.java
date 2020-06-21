@@ -8,8 +8,8 @@ import tools.Gender;
 public class Text extends Item implements Holdable, Readablel {
 	private String content;
 
-	public Text(int id, Gender gender, String name, String description, String content) {
-		super(id, gender, name, description);
+	public Text(Gender gender, String name, String description, String content) {
+		super(gender, name, description);
 		this.content = content;
 	}
 

@@ -11,30 +11,21 @@ import tools.Gender;
 public class Access extends Item implements Opening, Unlockable, Attackable {
 	private boolean opened;
 	private boolean locked;
-	private int idKey;
+	private String keyName;
 	private Location destination;
-	private int idDestination;
+	private String destinationName;
 	private Access linkedWith;
 	private DamageType weakness;
 
-	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
-			Location destination, int idKey, DamageType weakness) {
-		super(id, gender, name, description);
+	public Access(Gender gender, String name, String description, boolean locked, boolean opened, Location destination, String destinationName,
+			String idKey, DamageType weakness) {
+		super(gender, name, description);
 		this.locked = locked;
 		this.opened = opened;
 		this.destination = destination;
-		this.idDestination = destination.getId();
-		this.idKey = idKey;
+		this.destinationName = destinationName;
+		this.keyName = idKey;
 		this.weakness = weakness;
-	}
-
-	public Access(int id, Gender gender, String name, String description, boolean locked, boolean opened,
-			int idDestination, int idKey) {
-		super(id, gender, name, description);
-		this.locked = locked;
-		this.opened = opened;
-		this.idDestination = idDestination;
-		this.idKey = idKey;
 	}
 
 	public void linkWith(Access other) {
@@ -45,7 +36,7 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 	}
 
 	public boolean needsKey() {
-		return idKey != 0;
+		return getKeyName() != "";
 	}
 
 	@Override
@@ -57,7 +48,7 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 
 	@Override
 	public String toString() {
-		return "[" + this.id + " - " + this.name + " destino=" + this.idDestination + "]";
+		return "[" + name + " destino=" + this.destinationName + "]";
 	}
 
 	@Override
@@ -97,8 +88,8 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 		this.destination = other;
 	}
 
-	public int getIdDestination() {
-		return idDestination;
+	public String getDestinationName() {
+		return destinationName;
 	}
 
 	public String getStatus() {
@@ -116,7 +107,7 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 	public boolean unlock(Item keyItem) { // desbloquear con una llave en particular
 		boolean result = false;
 		if (locked) {
-			if (keyItem.getId() == idKey) {
+			if (keyItem.getName().equalsIgnoreCase(getKeyName())) {
 				locked = false;
 			}
 			if (linkedWith != null)
@@ -136,6 +127,10 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 			}
 		}
 		return result;
+	}
+
+	public String getKeyName() {
+		return keyName;
 	}
 
 }

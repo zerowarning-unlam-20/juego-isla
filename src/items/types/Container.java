@@ -9,12 +9,12 @@ import tools.Gender;
 public class Container extends Item implements Holdable, Attackable {
 	private Item content;
 
-	public Container(int id, Gender gender, String name, String description) {
-		super(id, gender, name, description);
+	public Container(Gender gender, String name, String description) {
+		super(gender, name, description);
 	}
 
-	public Container(int id, Gender gender, String name, String description, Item content, boolean infinite) {
-		super(id, gender, name, description);
+	public Container(Gender gender, String name, String description, Item content, boolean infinite) {
+		super(gender, name, description);
 		this.content = content;
 	}
 
