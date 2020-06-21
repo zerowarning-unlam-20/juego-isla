@@ -12,7 +12,9 @@ import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
+import items.properties.Opening;
 import items.properties.Readablel;
+import items.properties.Unlockable;
 import items.properties.Usable;
 import items.types.Consumable;
 import items.types.Container;
@@ -56,12 +58,12 @@ public class Lost implements State {
 	public boolean unlock(GameObject toUnlock, Item key) {
 		String message = "No hay items para desbloquear ";
 		boolean result = false;
-		if (toUnlock != null && toUnlock instanceof Access) {
-			Access access = (Access) toUnlock;
+		if (toUnlock != null && toUnlock instanceof Opening && toUnlock instanceof Unlockable) {
+			Unlockable access = (Unlockable) toUnlock;
 			if (key instanceof Key) {
 				access.unlock(key);
 				result = true;
-				message = access.getSingularName() + "se pudo desbloquear";
+				message = toUnlock.getSingularName() + "se pudo desbloquear";
 			} else {
 				result = false;
 				message = "Esto no sirve";

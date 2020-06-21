@@ -8,6 +8,9 @@ import states.Normal;
 public class ItemEffect {
 	private Double healthChange;
 	private String stateName;
+	// Cuando se consume un item el estado del jugador puede cambiar
+	// Basicamente la brujula, mejor excusa imposible. No tiene sentido meter esto
+	// para matar al jugador, o si? Creo que si jajajaj. Sale consumible veneno.
 
 	public ItemEffect(Double healthChange, String stateChange) {
 		this.healthChange = healthChange;
