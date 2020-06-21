@@ -1,6 +1,5 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Assert;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import entities.NPC;
 import entities.Player;
 import island.Location;
-import items.Access;
 import items.Item;
 import items.ItemEffect;
 import items.types.Consumable;
@@ -18,7 +16,6 @@ import items.types.Container;
 import items.types.Source;
 import manager.Game;
 import manager.GameManager;
-import tools.DamageType;
 import tools.Gender;
 
 class DispensersTest {
@@ -71,7 +68,7 @@ class DispensersTest {
 	@Test
 	public void bottleTest3() { // Put water into a bottle
 		Consumable water = new Consumable(Gender.F, "agua", "Agua de catarata", true, new ItemEffect(0D, null));
-		character.grab(waterfall);
+		character.grab(waterfall, water);
 		Assert.assertEquals(((Container) character.getInventory().get("botella")).getContent(), water);
 	}
 }

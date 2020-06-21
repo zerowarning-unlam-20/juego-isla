@@ -20,7 +20,6 @@ import commands.ReadCommand;
 import commands.UnlockCommand;
 import commands.UseCommand;
 import entities.Entity;
-import items.Item;
 import tools.MessageType;
 import tools.WordBuilder;
 import tools.WorldLoader;

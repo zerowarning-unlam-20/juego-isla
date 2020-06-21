@@ -7,20 +7,17 @@ import entities.Entity;
 import entities.NPC;
 import island.GameObject;
 import island.Location;
+import items.Access;
 import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
-import items.properties.Usable;
-import items.Access;
-import items.types.Blueprint;
-import items.types.Consumable;
-import items.types.Key;
 import items.properties.Readablel;
-import items.types.MapItem;
-import items.types.Source;
+import items.properties.Usable;
+import items.types.Consumable;
 import items.types.Container;
-import items.types.Text;
+import items.types.Key;
+import items.types.Source;
 import items.types.Weapon;
 import tools.MessageType;
 import tools.NPCType;
@@ -96,16 +93,18 @@ public class Lost implements State {
 	}
 
 	@Override
-	public boolean grab(Item item) {
+	public boolean grab(Item item, Item content) {
 		boolean result = false;
 		String message = "No agarre nada";
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 			return result;
-		} else if (!(item instanceof Holdable) && !(item instanceof Dispenser)) {
-			message = "Imposible agarrar " + item.getSingularName();
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
-			return result;
+		} else if (!(item instanceof Holdable)) {
+			if (item instanceof Source && content == null) {
+				message = "Imposible agarrar " + item.getSingularName();
+				character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+				return result;
+			}
 		}
 		if (item instanceof Source) {
 			Source source = (Source) item;
@@ -127,8 +126,9 @@ public class Lost implements State {
 			character.getLocation().removeItem(item);
 			message = "Se agarró " + item.getSingularName();
 			result = true;
-			character.getGameManager().sendMessage(MessageType.EVENT, character, message);
 		}
+		character.getGameManager().sendMessage(MessageType.EVENT, character, message);
+
 		return result;
 	}
 
@@ -175,6 +175,7 @@ public class Lost implements State {
 		return result;
 	}
 
+	@Override
 	public boolean hit(Item tool, GameObject object) {
 		return false;
 	}
@@ -267,11 +268,16 @@ public class Lost implements State {
 	@Override
 	public boolean read(Item item) {
 		boolean result = true;
-		if (item instanceof Readable) {
-			Readablel text = (Readablel) item;
-			character.getGameManager().sendMessage(MessageType.STORY, character,
-					text.read(character.getLocation().isVisible()));
+		String message = "Esto no se puede leer, no hay nada para leer";
+
+		if (item == null) {
+			message = "No hay nada para leer";
 		}
+		if (item instanceof Readablel) {
+			Readablel text = (Readablel) item;
+			message = text.read(character.getLocation().isVisible());
+		}
+		character.getGameManager().sendMessage(MessageType.STORY, character, message);
 		return result;
 	}
 

@@ -5,9 +5,6 @@ import entities.Entity;
 import island.GameObject;
 import island.Location;
 import items.Item;
-import items.ItemEffect;
-import items.properties.Dispenser;
-import items.properties.Inspectable;
 import items.types.Weapon;
 import tools.MessageType;
 
@@ -43,7 +40,7 @@ public class Dead implements State {
 	}
 
 	@Override
-	public boolean grab(Item item) {
+	public boolean grab(Item item, Item content) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
 		return false;
 	}

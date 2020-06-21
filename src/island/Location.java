@@ -1,8 +1,6 @@
 package island;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import entities.Entity;
 import entities.NPC;
@@ -29,6 +27,7 @@ public class Location extends GameObject {
 		this.accesses = accesses;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}

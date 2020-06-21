@@ -77,8 +77,8 @@ public abstract class Entity extends GameObject implements Attackable {
 		return state.goTo(location);
 	}
 
-	public boolean grab(Item item) {
-		return state.grab(item);
+	public boolean grab(Item item, Item content) {
+		return state.grab(item, content);
 	}
 
 	public boolean give(Item item, GameObject gameObject) {
@@ -141,6 +141,7 @@ public abstract class Entity extends GameObject implements Attackable {
 		return state.attack(weapon, target);
 	}
 
+	@Override
 	public boolean recieveAttack(Attack attack) {
 		state = state.recieveAttack(attack);
 		return true;
@@ -151,7 +152,9 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public void onDeath(Attack attack) {
-		attack.getAttacker().inventory.putAll(inventory);
+		for (Item i : inventory.values()) {
+			attack.getAttacker().addItem(i);
+		}
 		inventory.clear();
 	}
 

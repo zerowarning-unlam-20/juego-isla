@@ -1,16 +1,17 @@
 package entities;
 
 import java.util.HashMap;
-import java.util.List;
 
 import island.Location;
 import items.Item;
 import manager.GameManager;
 import states.NPCNormal;
 import tools.Gender;
+import tools.MessageType;
 import tools.NPCType;
 
 public class NPC extends Entity {
+
 	private NPCType npcType;
 	private String idUnlocks;
 	HashMap<String, String> chat;
@@ -42,6 +43,10 @@ public class NPC extends Entity {
 		super.onDeath(attack);
 		if (idUnlocks != null) {
 			location.getAccesses().get(idUnlocks).unlock();
+			location.getAccesses().get(idUnlocks).open();
+			gameManager.sendMessage(MessageType.EVENT, this, "Se libera el camino a "
+					+ location.getAccesses().get(idUnlocks).getDestination().getSingularName());
 		}
+
 	}
 }

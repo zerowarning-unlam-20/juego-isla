@@ -3,9 +3,7 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import island.GameObject;
 import items.Item;
-import items.properties.Inspectable;
 
 public class InspectCommand implements ActionCommand {
 	private Player character;

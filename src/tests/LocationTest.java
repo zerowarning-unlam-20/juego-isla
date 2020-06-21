@@ -1,6 +1,5 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Assert;

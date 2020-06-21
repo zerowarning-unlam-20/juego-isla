@@ -1,9 +1,7 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +35,8 @@ class BookTest {
 		HashMap<String, NPC> npcs = new HashMap<>();
 
 		// Load accesses
-		Access exit = new Access(Gender.F, "salida", "salida de cueva", false, true, null, "afuera", null, DamageType.HACK);
+		Access exit = new Access(Gender.F, "salida", "salida de cueva", false, true, null, "afuera", null,
+				DamageType.HACK);
 		cave.addAccess(exit);
 
 		// Load character

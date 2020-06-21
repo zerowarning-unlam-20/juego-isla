@@ -5,7 +5,7 @@ import items.properties.Holdable;
 import tools.DamageType;
 import tools.Gender;
 
-public class Weapon extends Item implements Holdable{
+public class Weapon extends Item implements Holdable {
 	private Double damage;
 	private DamageType damageType;
 

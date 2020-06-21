@@ -1,13 +1,9 @@
 package commands;
 
-import java.util.Map;
 import java.util.Scanner;
 
-import entities.Entity;
 import entities.Player;
 import island.GameObject;
-import items.Access;
-import items.Item;
 
 public class LookCommand implements ActionCommand {
 	private Player character;

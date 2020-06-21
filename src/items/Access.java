@@ -17,8 +17,8 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 	private Access linkedWith;
 	private DamageType weakness;
 
-	public Access(Gender gender, String name, String description, boolean locked, boolean opened, Location destination, String destinationName,
-			String idKey, DamageType weakness) {
+	public Access(Gender gender, String name, String description, boolean locked, boolean opened, Location destination,
+			String destinationName, String idKey, DamageType weakness) {
 		super(gender, name, description);
 		this.locked = locked;
 		this.opened = opened;

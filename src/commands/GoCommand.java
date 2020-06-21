@@ -3,7 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import island.Location;
 
 public class GoCommand implements ActionCommand {
 	private Player personaje;
