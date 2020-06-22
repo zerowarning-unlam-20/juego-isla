@@ -32,12 +32,12 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 		JsonElement jsonType = jsonObject.get("type");
 		String type = jsonType.getAsString();
 		if (ObjectType.valueOf(type.toUpperCase()).equals(ObjectType.NPC)) {
-			Entity character = context.deserialize(jsonObject, NPC.class);
+			NPC character = context.deserialize(jsonObject, NPC.class);
 			JsonElement stateName = jsonObject.get("stateName");
 			String sn = stateName.getAsString();
 			switch (sn) {
 			case "normal":
-				character.setState(new NPCNormal((NPC) character));
+				character.setState(new NPCNormal(character));
 				break;
 			case "lost":
 				character.setState(new Lost(character));

@@ -52,8 +52,8 @@ class NPCTest {
 		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", DamageType.HACK, 20d);
 		player.addItem(axe);
 		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new HashMap<>(), "s1", NPCType.INANIMATED,
-				null, null);
-		s1.addNpc(tree);
+				null, null, null);
+		s1.addEntity(tree);
 
 		player.attack(axe, tree);
 		Assert.assertEquals(new Double(80d), tree.getHealth());
@@ -64,10 +64,10 @@ class NPCTest {
 		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", DamageType.HACK, 20d);
 		player.addItem(axe);
 		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new HashMap<>(), "s1", NPCType.INANIMATED,
-				null, null);
+				null, null, null);
 
 		tree.addWeakOrRes(DamageType.HACK, 0d);
-		s1.addNpc(tree);
+		s1.addEntity(tree);
 
 		player.attack(axe, tree);
 		Assert.assertEquals(new Double(100d), tree.getHealth());
@@ -78,10 +78,10 @@ class NPCTest {
 		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", DamageType.HACK, 20d);
 		player.addItem(axe);
 		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new HashMap<>(), "s1", NPCType.INANIMATED,
-				null, new HashMap<>());
+				null, new HashMap<>(), null);
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
-		s1.addNpc(tree);
+		s1.addEntity(tree);
 
 		player.attack(axe, tree);
 
@@ -109,10 +109,10 @@ class NPCTest {
 		expected.put(coconut.getName().toLowerCase(), coconut);
 
 		NPC tree = new NPC(gameManager, Gender.M, "Palmera", "test", s1, inventory, "s1", NPCType.INANIMATED, "s2",
-				new HashMap<>());
+				new HashMap<>(), null);
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
-		s1.addNpc(tree);
+		s1.addEntity(tree);
 
 		player.attack(axe, tree);
 
@@ -126,9 +126,9 @@ class NPCTest {
 		player.addItem(axe);
 
 		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", s1, new HashMap<>(), "s1",
-				NPCType.INANIMATED, "s2", new HashMap<>());
+				NPCType.INANIMATED, "s2", new HashMap<>(), null);
 		parkingMeter.addWeakOrRes(DamageType.HACK, 10d);
-		s1.addNpc(parkingMeter);
+		s1.addEntity(parkingMeter);
 
 		player.attack(axe, parkingMeter);
 		Assert.assertEquals(false, player.getLocation().getAccesses().get("s2").isLocked());
@@ -141,7 +141,7 @@ class NPCTest {
 		chat.put("recursos", "Busca algo que sirva como arma");
 		chat.put("デフォールト", "Perdon, no te entendi");
 		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", null, new HashMap<>(), "s1",
-				NPCType.PASSIVE, null, chat);
+				NPCType.PASSIVE, null, chat, null);
 
 		Assert.assertTrue(player.talk(parkingMeter, "escapar"));
 		Assert.assertTrue(player.talk(parkingMeter, "recursos"));
@@ -154,7 +154,7 @@ class NPCTest {
 		HashMap<String, String> chat = new HashMap<>();
 		chat.put("デフォールト", "Perdon, no te entendi");
 		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", null, new HashMap<>(), "s1",
-				NPCType.INANIMATED, null, new HashMap<>());
+				NPCType.INANIMATED, null, new HashMap<>(), null);
 
 		Assert.assertFalse(player.talk(parkingMeter, "escapar"));
 		Assert.assertFalse(player.talk(parkingMeter, "recursos"));

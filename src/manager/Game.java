@@ -1,7 +1,6 @@
 package manager;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import entities.NPC;
 import entities.Player;
@@ -22,9 +21,10 @@ public class Game {
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		this.entities = npcList;
 
-		for (Map.Entry<String, NPC> npcEntry : npcList.entrySet()) {
-			npcEntry.getValue().linkToManager(gameManager);
-			npcEntry.getValue().setLocation(locations.get(npcEntry.getValue().getInitialLocation()));
+		for (NPC npc : npcList.values()) {
+			npc.linkToManager(gameManager);
+			npc.setLocation(locations.get(npc.getInitialLocation()));
+			locations.get(npc.getInitialLocation()).addEntity(npc);
 		}
 		linkLocations();
 	}

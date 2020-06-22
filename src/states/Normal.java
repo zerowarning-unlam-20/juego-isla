@@ -228,6 +228,9 @@ public class Normal implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character, "Cayó " + character.getSingularName());
 			character.onDeath(attack);
 			return new Dead(character);
+		} else {
+			character.getGameManager().sendMessage(MessageType.EVENT, character, String.valueOf(character.getHealth()));
+
 		}
 		return this;
 	}
@@ -312,8 +315,7 @@ public class Normal implements State {
 
 	@Override
 	public void lookState() {
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character,
-				"Estoy un poco perdid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character, "Estoy bien");
 		character.getGameManager().sendMessage(MessageType.EVENT, character, "Vida: " + character.getHealth());
 	}
 

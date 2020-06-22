@@ -24,7 +24,7 @@
       }
     },
     "name": "cadaver",
-    "NPCType": "inanimated",
+    "npcType": "inanimated",
     "stateName": "dead",
     "type": "NPC",
     "weakAndRes": {
@@ -33,6 +33,31 @@
       "SH": 0.0,
       "SL": 0.0
     }
+  },
+  {
+    "baseHealth": 0,
+    "chat": {},
+    "description": "mono de la jungla",
+    "gender": "M",
+    "health": 0,
+    "initialLocation": "sur",
+    "inventory": {
+      "cuchillo": {
+        "damage": 15.0,
+        "damageType": "S",
+        "description": "Cuchillo oxidado hecho con chatarra",
+        "gender": "M",
+        "name": "Cuchillo oxidado",
+        "type": "weapon"
+      }
+    },
+    "name": "mono",
+    "npcType": "aggressive",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+    },
+    "weaponName": "cuchillo"
   },
   {
     "baseHealth": 150,
@@ -59,38 +84,12 @@
       }
     },
     "name": "palmera",
-    "NPCType": "inanimated",
+    "npcType": "inanimated",
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {
       "H": 2,
       "S": 0.1
-    }
-  },
-  {
-    "baseHealth": 200,
-    "chat": {},
-    "description": "Tiburon blanco",
-    "gender": "F",
-    "health": 200,
-    "initialLocation": "mar",
-    "inventory": {
-      "colmillo": {
-        "damage": 32,
-        "damageType": "S",
-        "description": "Colmillo de tiburon",
-        "gender": "M",
-        "name": "Cuchillo",
-        "type": "weapon"
-      }
-    },
-    "name": "palmera",
-    "NPCType": "inanimated",
-    "stateName": "normal",
-    "type": "NPC",
-    "weakAndRes": {
-      "H": 0.3,
-      "S": 0.5
     }
   }
 ]

@@ -2,6 +2,7 @@ package entities;
 
 import java.util.HashMap;
 
+import events.EntityListener;
 import island.GameObject;
 import island.Location;
 import items.Access;
@@ -25,6 +26,7 @@ public abstract class Entity extends GameObject implements Attackable {
 	protected HashMap<DamageType, Double> weakAndRes;
 	protected String initialLocation;
 	protected State state;
+	protected EntityListener entityListener;
 
 	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
 			HashMap<String, Item> inventory, String initialLocation) {
@@ -37,6 +39,14 @@ public abstract class Entity extends GameObject implements Attackable {
 		this.inventory = inventory;
 		weakAndRes = new HashMap<DamageType, Double>();
 		this.initialLocation = initialLocation;
+	}
+
+	public EntityListener getEntityListener() {
+		return entityListener;
+	}
+
+	public void setEntityListener(EntityListener listener) {
+		entityListener = listener;
 	}
 
 	public void setState(State state) {
@@ -95,9 +105,6 @@ public abstract class Entity extends GameObject implements Attackable {
 
 	public void setLocation(Location location) {
 		this.location = location;
-		if (location.getEntities() != null) {
-			location.getEntities().put(this.name, this);
-		}
 	}
 
 	public Location getLocation() {
@@ -152,6 +159,10 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public void onDeath(Attack attack) {
+		if (entityListener != null) {
+			entityListener.onEntityDisappeared(null);
+			entityListener = null;
+		}
 		for (Item i : inventory.values()) {
 			attack.getAttacker().addItem(i);
 		}

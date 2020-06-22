@@ -14,16 +14,18 @@ public class NPC extends Entity {
 
 	private NPCType npcType;
 	private String idUnlocks;
+	private String weaponName;
 	HashMap<String, String> chat;
 
 	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
 			HashMap<String, Item> inventory, String initialLocation, NPCType type, String idUnlocks,
-			HashMap<String, String> chat) {
+			HashMap<String, String> chat, String weaponName) {
 		super(gameManager, gender, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
 		this.idUnlocks = idUnlocks;
 		this.npcType = type;
 		this.chat = chat;
+		this.weaponName = weaponName;
 	}
 
 	public NPCType getType() {
@@ -49,4 +51,9 @@ public class NPC extends Entity {
 		}
 
 	}
+
+	public String getWeaponName() {
+		return weaponName;
+	}
+
 }

@@ -5,9 +5,12 @@ import java.util.HashMap;
 import entities.Entity;
 import entities.NPC;
 import entities.Player;
+import events.AggresiveListener;
 import items.Access;
 import items.Item;
+import states.Dead;
 import tools.Gender;
+import tools.NPCType;
 
 public class Location extends GameObject {
 	private boolean visible;
@@ -103,14 +106,6 @@ public class Location extends GameObject {
 		return entities;
 	}
 
-	public void addNpc(NPC npc) {
-		entities.put(npc.name, npc);
-	}
-
-	public void removeNpc(NPC npc) {
-		entities.remove(npc.name);
-	}
-
 	public boolean isVisible() {
 		return visible;
 	}
@@ -121,9 +116,34 @@ public class Location extends GameObject {
 
 	public void addEntity(Entity entity) {
 		entities.put(entity.name, entity);
+
+		// Exclusivo para NPCs, comportamiento
+		if (entity instanceof NPC && !entity.getState().getClass().equals(Dead.class)) {
+			NPC npc = (NPC) entity;
+			if (npc.getType().equals(NPCType.AGGRESSIVE)) {
+				npc.setEntityListener(new AggresiveListener(npc));
+			}
+		}
+
+		// Le avisamos a todos los que estan quien entró
+
+		for (Entity ent : entities.values()) {
+			if (ent != entity && !ent.getState().getClass().equals(Dead.class)) {
+				if (ent.getEntityListener() != null) {
+					ent.getEntityListener().onEntityAppeared(entity);
+				}
+			}
+		}
 	}
 
 	public void removeEntity(Entity entity) {
 		entities.remove(entity.name);
+		for (Entity ent : entities.values()) {
+			if (ent != entity && !ent.getState().getClass().equals(Dead.class)) {
+				if (ent.getEntityListener() != null) {
+					ent.getEntityListener().onEntityDisappeared(entity);
+				}
+			}
+		}
 	}
 }

@@ -29,6 +29,7 @@ public class GameManager {
 	private WordBuilder wordBuilder;
 	private HashMap<String, ActionCommand> actionCommands;
 	private boolean testMode;
+	private int turn;
 	private static List<String> messageHistory = new ArrayList<String>();
 
 	public GameManager(boolean testMode) {
@@ -73,10 +74,11 @@ public class GameManager {
 	}
 
 	public void reset() {
-		this.game = null;
+		turn = 1;
+		game = null;
 	}
 
-	private void loadCommands() {
+	public void loadCommands() {
 		actionCommands = new HashMap<>();
 		actionCommands.put("drink", new DrinkCommand(game.getCharacter()));
 		actionCommands.put("go", new GoCommand(game.getCharacter()));
@@ -96,7 +98,9 @@ public class GameManager {
 			ActionCommand action = actionCommands.get(wordBuilder.getWord(cmd));
 			if (action != null) {
 				action.perform(strCommand);
-			}
+				turn++;
+			} else
+				sendMessage(MessageType.EVENT, null, "Que?");
 		}
 	}
 
@@ -144,6 +148,18 @@ public class GameManager {
 
 	public void setTestMode(boolean value) {
 		testMode = value;
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void oneMoreTurn() {
+		turn++;
+	}
+
+	public void sendCommand(String value) {
+		processCommand(new Scanner(value));
 	}
 
 }
