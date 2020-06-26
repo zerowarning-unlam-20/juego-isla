@@ -67,11 +67,9 @@ public class Location extends GameObject {
 			ent += ".\n";
 		}
 		message += ent;
-		for (Item item : getAllItems()) {
-			message += item.getDescription() + ", ";
+		for (Area area : areas.values()) {
+			message += area.getContentString();
 		}
-		if (message.length() > 2 && message.substring(message.length() - 2, message.length()).contains(", "))
-			message = message.substring(0, message.length() - 2);
 
 		return message;
 	}

@@ -5,6 +5,7 @@ import java.util.Map;
 import entities.Attack;
 import entities.Entity;
 import entities.NPC;
+import island.Area;
 import island.GameObject;
 import island.Location;
 import items.Access;
@@ -115,6 +116,10 @@ public class Lost implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para ver");
 			return false;
 		}
+		if (object instanceof Area) {
+			Area area = (Area) object;
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), area.getContentString());
+		}
 		if (object instanceof Access
 				|| object instanceof Location && (object.getName().contains("norte") || object.getName().contains("sur")
 						|| object.getName().contains("este") || object.getName().contains("oeste"))) {
@@ -175,7 +180,7 @@ public class Lost implements State {
 		}
 
 		character.addItem(item);
-		character.getLocation().getLastArea().removeItem(item.getName());
+		character.getLocation().getLastArea().removeItem(item.getName().toLowerCase());
 		character.getLocation().clearLastArea();
 
 		message = "Se agarró " + item.getSingularName();

@@ -31,7 +31,7 @@
     "areas": {
       "campo": {
         "description": "Campo abierto",
-        "gender": "F",
+        "gender": "M",
         "items": {
           "botella": {
             "description": "Botella de vidrio",
@@ -41,7 +41,7 @@
             "type": "single_container"
           },
           "brujula": {
-            "description": "brujula gastada, todavia funciona",
+            "description": "brujula gastada, todavia funciona.",
             "gender": "F",
             "itemEffect": {
               "healthChange": 0,
@@ -262,7 +262,13 @@
                   "rope": 1,
                   "wood": 2
                 },
-                "type": "blueprint"
+                "type": "blueprint",
+                "result": {
+                  "description": "balsa de madera",
+                  "gender": "F",
+                  "name": "balsa",
+                  "type": "single_use_item"
+                }
               }
             ],
             "description": "Cofre de madera sellado",
@@ -280,7 +286,7 @@
                 "damageType": "S",
                 "description": "Cuchillo de acero inoxidable",
                 "gender": "M",
-                "name": "Cuchillo",
+                "name": "Cuchillo de acero",
                 "type": "weapon"
               },
               {
@@ -291,10 +297,10 @@
                 "type": "text"
               }
             ],
-            "description": "Cofre de madera sellado",
+            "description": "Esqueleto tirado",
             "gender": "M",
             "locked": true,
-            "name": "cofre",
+            "name": "esqueleto",
             "type": "box",
             "weakness": "H"
           }

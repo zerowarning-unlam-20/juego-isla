@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import commands.ActionCommand;
+import commands.AttackCommand;
 import commands.DrinkCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
-import commands.HitCommand;
 import commands.InspectCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
@@ -87,7 +87,7 @@ public class GameManager {
 		actionCommands.put("look", new LookCommand(game.getCharacter()));
 		actionCommands.put("open", new OpenCommand(game.getCharacter()));
 		actionCommands.put("unlock", new UnlockCommand(game.getCharacter()));
-		actionCommands.put("hit", new HitCommand(game.getCharacter()));
+		actionCommands.put("attack", new AttackCommand(game.getCharacter()));
 		actionCommands.put("use", new UseCommand(game.getCharacter()));
 		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
 		actionCommands.put("read", new ReadCommand(game.getCharacter()));
@@ -157,6 +157,10 @@ public class GameManager {
 	}
 
 	public void sendCommand(String value) {
+		// Se agrega salir?
+		//
+		//
+		//
 		if (value.trim().equalsIgnoreCase("ayuda") || value.trim().equalsIgnoreCase("help")) {
 			sendMessage(MessageType.STORY, null, helpCommands);
 		} else

@@ -17,12 +17,12 @@ public class Area extends GameObject {
 		return getItems().get(name);
 	}
 
-	public Item removeItem(String name) {
-		return getItems().get(name);
+	public void removeItem(String name) {
+		getItems().remove(name);
 	}
 
 	public String getContentString() {
-		String message = this.getSingularName() + ", " + description + ".\n";
+		String message = description + ":\n";
 		String content = "";
 		for (Item item : items.values()) {
 			content += item.getDescription() + " ";

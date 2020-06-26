@@ -1,6 +1,12 @@
 [
   {
+    "message": "Ahora podes",
+    "name": "balsa_use_message",
+    "type": "story_event"
+  },
+  {
     "name": "entities.player_balsa_use",
+    "nextEvent": "balsa_use_message",
     "type": "access_event",
     "unlocks": "costa"
   },
@@ -9,7 +15,7 @@
     "type": "end_event"
   },
   {
-    "message": "Bienvenido al himalaya",
+    "message": "Wow, una cueva",
     "name": "entities.player_goto_cueva",
     "type": "story_event"
   }

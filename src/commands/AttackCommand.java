@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 import entities.Player;
 
-public class HitCommand implements ActionCommand {
+public class AttackCommand implements ActionCommand {
 	private Player character;
 
-	public HitCommand(Player character) {
+	public AttackCommand(Player character) {
 		this.character = character;
 	}
 

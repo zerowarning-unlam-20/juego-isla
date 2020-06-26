@@ -13,8 +13,7 @@ public abstract class Event {
 		this.gameManager = gameManager;
 	}
 
-	public void execute() {
-	}
+	public abstract void execute();
 
 	public void linkManager(GameManager gameManager) {
 		this.gameManager = gameManager;

@@ -46,7 +46,6 @@ public class Blueprint extends Item implements Usable, Readablel, Holdable {
 				}
 			}
 		}
-
 		if (mapCount.equals(requirements)) {
 			for (Item item : usedItems) {
 				inventory.remove(item.getName().toLowerCase());

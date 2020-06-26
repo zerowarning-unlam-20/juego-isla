@@ -21,6 +21,7 @@ import items.types.Food;
 import items.types.Liquid;
 import items.types.MapItem;
 import items.types.Resource;
+import items.types.SingleUseItem;
 import items.types.Source;
 import items.types.Text;
 import items.types.Weapon;
@@ -56,6 +57,9 @@ public enum ObjectType {
 
 	@SerializedName("item")
 	ITEM(Item.class),
+
+	@SerializedName("single_use_item")
+	SINGLE_USE_ITEM(SingleUseItem.class),
 
 	@SerializedName("weapon")
 	WEAPON(Weapon.class),
