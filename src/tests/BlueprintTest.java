@@ -56,20 +56,20 @@ class BlueprintTest {
 		player.addItem(crossBlueprint);
 
 		// Load game
-		Game game = new Game(gameManager, player, locations, npcs);
+		Game game = new Game(gameManager, player, locations, npcs, null);
 		gameManager.setInternalGame(game);
 	}
 
 	@Test
 	public void blueprintTest1() {
-		player.use(player.getInventory().get("plano de ballesta"));
+		player.use("plano de ballesta");
 		Assert.assertEquals(crossbow, player.getInventory().get("ballesta"));
 	}
 
 	@Test
 	public void blueprintTest2() {
 		player.removeItem(player.getInventory().get("madera de palmera"));
-		Assert.assertFalse(player.use(player.getInventory().get("plano de ballesta")));
+		Assert.assertFalse(player.use("plano de ballesta"));
 		Assert.assertNotEquals(crossbow, player.getInventory().get("ballesta"));
 	}
 

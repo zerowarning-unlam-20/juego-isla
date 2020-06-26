@@ -2,39 +2,55 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
-import items.Item;
-import items.types.Source;
+import entities.Entity;
 
 public class GrabCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public GrabCommand(Player character) {
+	public GrabCommand(Entity character) {
 		this.character = character;
 	}
 
 	@Override
 	public void perform(Scanner args) {
 		String itemName = "";
-		while (args.hasNext()) {
-			itemName += args.next() + " ";
+		String aux = "";
+
+		// Item a agarrar
+		while (args.hasNext() && !aux.equalsIgnoreCase("de")) {
+			itemName += aux + " ";
+			aux = args.next();
+		}
+		if (!aux.equalsIgnoreCase("de")) {
+			itemName += aux;
 		}
 		itemName = itemName.trim();
-		grab(itemName);
-	}
-
-	private void grab(String name) {
-		Item item = character.getLocation().getItems().get(name);
-		Item content = null;
-		if (item == null) {
-			for (Item i : character.getLocation().getItems().values()) {
-				if (i instanceof Source && ((Source) i).getContent().getName().equalsIgnoreCase(name)) {
-					item = i;
-					content = ((Source) i).getContent();
-					break;
+		if (!aux.equalsIgnoreCase("de") || !args.hasNext()) {
+			character.grab(itemName);
+		} else {
+			// Lugar de donde se agarra
+			String item2Name = "";
+			aux = "";
+			while (args.hasNext() && !aux.equalsIgnoreCase("con")) {
+				item2Name += aux + " ";
+				aux = args.next();
+			}
+			item2Name = item2Name.trim();
+			if (!aux.equalsIgnoreCase("con") || !args.hasNext()) {
+				if (!aux.equalsIgnoreCase("con")) {
+					item2Name += aux;
 				}
+				character.grab(item2Name, itemName);
+			} else {
+
+				// Con que se agarra (Caso particular)
+				String containerName = "";
+				while (args.hasNext()) {
+					containerName += " " + args.next();
+				}
+				character.grab(itemName, item2Name, containerName.trim());
 			}
 		}
-		character.grab(item, content);
 	}
+
 }

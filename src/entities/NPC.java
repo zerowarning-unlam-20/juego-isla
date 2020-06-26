@@ -7,25 +7,31 @@ import items.Item;
 import manager.GameManager;
 import states.NPCNormal;
 import tools.Gender;
-import tools.MessageType;
 import tools.NPCType;
 
 public class NPC extends Entity {
 
 	private NPCType npcType;
-	private String idUnlocks;
 	private String weaponName;
 	HashMap<String, String> chat;
+	protected EntityListener entityListener;
 
 	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
-			HashMap<String, Item> inventory, String initialLocation, NPCType type, String idUnlocks,
-			HashMap<String, String> chat, String weaponName) {
+			HashMap<String, Item> inventory, String initialLocation, NPCType type, HashMap<String, String> chat,
+			String weaponName) {
 		super(gameManager, gender, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
-		this.idUnlocks = idUnlocks;
 		this.npcType = type;
 		this.chat = chat;
 		this.weaponName = weaponName;
+	}
+
+	public EntityListener getEntityListener() {
+		return entityListener;
+	}
+
+	public void setEntityListener(EntityListener listener) {
+		entityListener = listener;
 	}
 
 	public NPCType getType() {
@@ -36,20 +42,14 @@ public class NPC extends Entity {
 		return chat.get(message);
 	}
 
-	public String getIdUnlocks() {
-		return idUnlocks;
-	}
-
 	@Override
 	public void onDeath(Attack attack) {
-		super.onDeath(attack);
-		if (idUnlocks != null) {
-			location.getAccesses().get(idUnlocks).unlock();
-			location.getAccesses().get(idUnlocks).open();
-			gameManager.sendMessage(MessageType.EVENT, this, "Se libera el camino a "
-					+ location.getAccesses().get(idUnlocks).getDestination().getSingularName());
+		if (entityListener != null) {
+			entityListener.onEntityDisappeared(null);
+			entityListener = null;
 		}
-
+		super.onDeath(attack);
+		gameManager.getGame().pullTrigger(this.getClass().getName() + "_" + this.name + "_" + "dead");
 	}
 
 	public String getWeaponName() {

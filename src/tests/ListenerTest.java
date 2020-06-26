@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import entities.NPC;
 import entities.Player;
+import island.Area;
 import island.Location;
 import items.Access;
 import items.Item;
@@ -26,12 +27,11 @@ class ListenerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		gameManager = new GameManager();
-
 		// Load locations
-		Location s1 = new Location(Gender.M, "s1", "Inicio", true, new HashMap<String, Item>(),
+		Location s1 = new Location(Gender.M, "s1", "Inicio", true, new HashMap<String, Area>(),
 				new HashMap<String, Access>());
 		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta azul", false, true, null, "s2", null, DamageType.HACK));
-		Location s2 = new Location(Gender.M, "s2", "Segundo lugar", true, new HashMap<String, Item>(),
+		Location s2 = new Location(Gender.M, "s2", "Segundo lugar", true, new HashMap<String, Area>(),
 				new HashMap<String, Access>());
 		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta azul", false, true, null, "s1", null, DamageType.HACK));
 
@@ -50,12 +50,12 @@ class ListenerTest {
 		chat.put("デフォールト", "Enemigo a la vista");
 
 		npc = new NPC(gameManager, Gender.F, "Enemigo", "test", s2, new HashMap<>(), "s2", NPCType.AGGRESSIVE, null,
-				null, "hacha");
+				"hacha");
 		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", DamageType.HACK, 20d);
 		npc.addItem(axe);
 		s2.addEntity(npc);
 
-		Game game = new Game(gameManager, player, locations, npcs);
+		Game game = new Game(gameManager, player, locations, npcs, null);
 		gameManager.setInternalGame(game);
 		gameManager.loadCommands();
 		gameManager.sendCommand("ir s2");

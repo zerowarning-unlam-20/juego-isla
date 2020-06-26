@@ -1,11 +1,13 @@
 package island;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import entities.AggresiveListener;
 import entities.Entity;
 import entities.NPC;
 import entities.Player;
-import events.AggresiveListener;
 import items.Access;
 import items.Item;
 import states.Dead;
@@ -14,18 +16,18 @@ import tools.NPCType;
 
 public class Location extends GameObject {
 	private boolean visible;
-	// Todo se maneja con strings como clave unica, y fue. Esto es lo más facil que
-	// hay. creo.
-	private HashMap<String, Item> items;
+
+	private HashMap<String, Area> areas;
+	private Area lastAccessed;
 
 	private HashMap<String, Access> accesses;
 
 	private HashMap<String, Entity> entities;
 
-	public Location(Gender gender, String name, String description, boolean visible, HashMap<String, Item> items,
+	public Location(Gender gender, String name, String description, boolean visible, HashMap<String, Area> areas,
 			HashMap<String, Access> accesses) {
 		super(gender, name, description);
-		this.items = items;
+		this.areas = areas;
 		this.visible = visible;
 		this.entities = new HashMap<String, Entity>();
 		this.accesses = accesses;
@@ -36,11 +38,9 @@ public class Location extends GameObject {
 		return description;
 	}
 
-	public String lookAround() { // Barrido de location
+	public String lookAccesses() {
 		String acc = "";
-		String ent = "";
 		String message = "";
-
 		for (Access access : accesses.values()) {
 			acc += access.getDescription() + ", ";
 		}
@@ -51,6 +51,13 @@ public class Location extends GameObject {
 		if (!acc.isEmpty()) {
 			message += "Se ve: " + acc;
 		}
+		return message;
+	}
+
+	public String lookAround() { // Barrido de location
+		String ent = "";
+		String message = "";
+
 		for (Entity entity : entities.values()) {
 			if (!entity.getClass().equals(Player.class))
 				ent += entity.getDescription() + ", ";
@@ -60,7 +67,7 @@ public class Location extends GameObject {
 			ent += ".\n";
 		}
 		message += ent;
-		for (Item item : items.values()) {
+		for (Item item : getAllItems()) {
 			message += item.getDescription() + ", ";
 		}
 		if (message.length() > 2 && message.substring(message.length() - 2, message.length()).contains(", "))
@@ -69,17 +76,36 @@ public class Location extends GameObject {
 		return message;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + name + "]";
+	public Item getItemFromAreas(String name) {
+		Item result = null;
+		for (Area area : areas.values()) {
+			result = area.getItem(name);
+			if (result != null) {
+				lastAccessed = area;
+				break;
+			}
+		}
+		return result;
 	}
 
-	public HashMap<String, Item> getItems() {
-		return items;
+	public List<Item> getAllItems() {
+		ArrayList<Item> result = new ArrayList<>();
+		for (Area area : areas.values()) {
+			result.addAll(area.getItems().values());
+		}
+		return result;
 	}
 
-	public HashMap<String, Access> getAccesses() {
-		return accesses;
+	public Area getArea(String name) {
+		return areas.get(name);
+	}
+
+	public Area getLastArea() {
+		return lastAccessed;
+	}
+
+	public Access getAccess(String name) {
+		return accesses.get(name);
 	}
 
 	public void addAccess(Access access) {
@@ -90,16 +116,12 @@ public class Location extends GameObject {
 		Access access = accesses.get(other.name);
 		if (access != null) {
 			access.setDestination(other);
-			Access b = access.getDestination().getAccesses().get(this.name);
+			Access b = access.getDestination().getAccess(this.name);
 			if (b != null)
 				b.setDestination(this);
 			return true;
 		}
 		return false;
-	}
-
-	public void removeItem(Item i) {
-		items.remove(i.name);
 	}
 
 	public HashMap<String, Entity> getEntities() {
@@ -110,12 +132,8 @@ public class Location extends GameObject {
 		return visible;
 	}
 
-	public void addItem(Item item) {
-		items.put(item.name, item);
-	}
-
 	public void addEntity(Entity entity) {
-		entities.put(entity.name, entity);
+		entities.put(entity.name.toLowerCase(), entity);
 
 		// Exclusivo para NPCs, comportamiento
 		if (entity instanceof NPC && !entity.getState().getClass().equals(Dead.class)) {
@@ -128,9 +146,9 @@ public class Location extends GameObject {
 		// Le avisamos a todos los que estan quien entró
 
 		for (Entity ent : entities.values()) {
-			if (ent != entity && !ent.getState().getClass().equals(Dead.class)) {
-				if (ent.getEntityListener() != null) {
-					ent.getEntityListener().onEntityAppeared(entity);
+			if (ent != entity && ent instanceof NPC && !ent.getState().getClass().equals(Dead.class)) {
+				if (((NPC) ent).getEntityListener() != null) {
+					((NPC) ent).getEntityListener().onEntityAppeared(entity);
 				}
 			}
 		}
@@ -139,11 +157,19 @@ public class Location extends GameObject {
 	public void removeEntity(Entity entity) {
 		entities.remove(entity.name);
 		for (Entity ent : entities.values()) {
-			if (ent != entity && !ent.getState().getClass().equals(Dead.class)) {
-				if (ent.getEntityListener() != null) {
-					ent.getEntityListener().onEntityDisappeared(entity);
+			if (ent != entity && ent instanceof NPC && !ent.getState().getClass().equals(Dead.class)) {
+				if (((NPC) ent).getEntityListener() != null) {
+					((NPC) ent).getEntityListener().onEntityDisappeared(entity);
 				}
 			}
 		}
+	}
+
+	public HashMap<String, Access> getAccesses() {
+		return accesses;
+	}
+
+	public void clearLastArea() {
+		lastAccessed = null;
 	}
 }

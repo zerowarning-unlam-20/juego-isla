@@ -1,9 +1,5 @@
-package events;
+package entities;
 
-import entities.Entity;
-import entities.NPC;
-import entities.Player;
-import items.types.Weapon;
 import states.Dead;
 
 public class AggresiveListener implements EntityListener, Runnable {
@@ -35,13 +31,12 @@ public class AggresiveListener implements EntityListener, Runnable {
 	@Override
 	public void run() {
 		while (!thread.isInterrupted() && !npc.getState().getClass().equals(Dead.class)
-				&& npc.getLocation().getEntities().get(player.getName()) != null
+				&& npc.getLocation().getEntities().get(player.getName().toLowerCase()) != null
 				&& !player.getState().getClass().equals(Dead.class)) {
 			int newTurn = npc.getGameManager().getTurn();
 			if (turn != newTurn) {
 				if (playerAppeared && turn != newTurn) {
-					Weapon weapon = (Weapon) npc.getInventory().get(npc.getWeaponName());
-					npc.attack(weapon, player);
+					npc.attack(npc.getWeaponName().toLowerCase(), player.getName().toLowerCase());
 				}
 				playerAppeared = true;
 				turn = npc.getGameManager().getTurn();
@@ -59,6 +54,7 @@ public class AggresiveListener implements EntityListener, Runnable {
 			if (thread != null) {
 				thread.interrupt();
 			}
+		thread = null;
 		playerAppeared = false;
 	}
 

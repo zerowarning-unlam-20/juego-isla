@@ -3,7 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import items.Item;
 
 public class DrinkCommand implements ActionCommand {
 	private Player character;
@@ -15,15 +14,19 @@ public class DrinkCommand implements ActionCommand {
 	@Override
 	public void perform(Scanner args) {
 		String itemName = "";
-		while (args.hasNext()) {
-			itemName = args.next();
+		String contName = "";
+		String aux = "";
+		while (args.hasNext() && !aux.equalsIgnoreCase("de")) {
+			itemName += " " + aux;
+			aux = args.next();
 		}
-		drink(itemName.trim());
-	}
+		itemName = itemName.trim();
+		while (args.hasNext()) {
+			contName += " " + args.next();
+		}
+		contName = contName.trim();
 
-	private void drink(String itemName) {
-		Item item = character.getInventory().get(itemName);
-		character.drink(item);
+		character.drink(itemName, contName);
 	}
 
 }

@@ -2,10 +2,6 @@ package states;
 
 import entities.Attack;
 import entities.Entity;
-import island.GameObject;
-import island.Location;
-import items.Item;
-import items.types.Weapon;
 import tools.MessageType;
 
 public class Dead implements State {
@@ -16,121 +12,129 @@ public class Dead implements State {
 	}
 
 	@Override
-	public boolean open(GameObject item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean open(String objectName) {
+
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean unlock(GameObject toUnlock, Item key) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean unlock(String toUnlockName, String keyName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean look(GameObject object) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean look(String objectName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean goTo(Location location) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean goTo(String locationName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean grab(Item item, Item content) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean grab(String itemName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public State drink(Item item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
-		return this;
+	public boolean grab(String sourceName, String itemName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
+		return false;
 	}
 
 	@Override
-	public boolean give(Item item, GameObject gameObject) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean grab(String itemName, String sourceName, String containerName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean lookAround() {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public boolean lookInventory() {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean hit(Item item, GameObject gameObject) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean attack(String weaponName, String targetName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
-	}
-
-	@Override
-	public void heal(Double points) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
 	}
 
 	@Override
 	public State recieveAttack(Attack attack) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return this;
 	}
 
 	@Override
-	public boolean attack(Weapon weapon, GameObject objective) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean talk(String otherName, String messageName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean talk(Entity other, String message) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean listen(String otherName, String messageName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean listen(Entity other, String message) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean use(String itemName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean use(Item item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean read(String itemName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
-	public boolean read(Item item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
-		return false;
-	}
-
-	@Override
-	public boolean create(Item item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+	public boolean inspect(String itemName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 		return false;
 	}
 
 	@Override
 	public void lookState() {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
 	}
 
 	@Override
-	public boolean inspect(Item item) {
-		character.getGameManager().sendMessage(MessageType.EVENT, character, "Caid" + character.getTermination());
-		return false;
+	public State drink(String name, String dispenserName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
+		return this;
 	}
 
 }

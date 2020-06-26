@@ -3,7 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import items.Item;
 
 public class InspectCommand implements ActionCommand {
 	private Player character;
@@ -18,13 +17,7 @@ public class InspectCommand implements ActionCommand {
 		while (args.hasNext()) {
 			name += args.next();
 		}
-
-		Item target = null;
-		target = character.getInventory().get(name);
-		if (target == null) {
-			target = character.getLocation().getItems().get(name);
-		}
-		character.inspect(target);
+		character.inspect(name);
 	}
 
 }

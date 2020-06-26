@@ -7,14 +7,13 @@ import java.util.Map;
 import entities.Entity;
 import items.Item;
 import items.properties.Holdable;
-import items.properties.Inspectable;
 import items.properties.Readablel;
 import items.properties.Usable;
 import tools.Gender;
 import tools.MessageType;
 import tools.ResourceType;
 
-public class Blueprint extends Item implements Inspectable, Usable, Readablel, Holdable {
+public class Blueprint extends Item implements Usable, Readablel, Holdable {
 	private HashMap<ResourceType, Integer> requirements;
 	private Item result;
 
@@ -62,20 +61,16 @@ public class Blueprint extends Item implements Inspectable, Usable, Readablel, H
 	}
 
 	@Override
-	public boolean use() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean use(Entity entity) {
 		Item result = this.produce(entity.getInventory());
 		if (result != null) {
 			entity.addItem(result);
 			entity.removeItem(this);
-			entity.getGameManager().sendMessage(MessageType.EVENT, entity, "Ahora tenes: " + result.getDescription());
+			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
+					"Ahora tenes: " + result.getDescription());
 		} else {
-			entity.getGameManager().sendMessage(MessageType.EVENT, entity, "No tenes los elementos necesarios");
+			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
+					"No tenes los elementos necesarios");
 		}
 		return result != null;
 	}

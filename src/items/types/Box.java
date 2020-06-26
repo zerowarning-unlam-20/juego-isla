@@ -67,7 +67,8 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 		if (!locked) {
 			result = !content.isEmpty();
 			if (content.isEmpty()) {
-				entity.getGameManager().sendMessage(MessageType.EVENT, entity, "Esta vaci" + this.getTermination());
+				entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
+						"Esta vaci" + this.getTermination());
 			}
 			for (Item item : content) {
 				entity.addItem(item);
@@ -75,7 +76,7 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 			content.clear();
 		}
 		if (locked)
-			entity.getGameManager().sendMessage(MessageType.EVENT, entity, "No se puede inspeccionar");
+			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(), "No se puede inspeccionar");
 		return result;
 	}
 

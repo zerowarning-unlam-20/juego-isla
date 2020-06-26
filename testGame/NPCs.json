@@ -1,45 +1,10 @@
 [
   {
-    "baseHealth": 0,
-    "chat": {},
-    "description": "cadaver, es puro huesitos",
-    "gender": "M",
-    "health": 0,
-    "initialLocation": "cueva",
-    "inventory": {
-      "cuchillo": {
-        "damage": 25.0,
-        "damageType": "S",
-        "description": "Cuchillo de acero inoxidable",
-        "gender": "M",
-        "name": "Cuchillo",
-        "type": "weapon"
-      },
-      "hoja": {
-        "content": "Diario de Krafle: Hoy estuve recorriendo alrededor de la *isla Pájaros*, he notado un clima muy cálido, en el este de esta observé cocodrilos que hace semanas que no comen y en el sur está la Antártida a muchísimos kilómetros. \n Estoy muy emocionado por la belleza de este lugar, por suerte no va a llover en muchos días y estoy a corta distancia de tierra firme. \n Se necesita un poco de suministro para el viaje",
-        "description": "Hoja gastada",
-        "gender": "M",
-        "name": "Hoja",
-        "type": "text"
-      }
-    },
-    "name": "cadaver",
-    "npcType": "inanimated",
-    "stateName": "dead",
-    "type": "NPC",
-    "weakAndRes": {
-      "B": 0.0,
-      "H": 0.0,
-      "SH": 0.0,
-      "SL": 0.0
-    }
-  },
-  {
-    "baseHealth": 0,
+    "baseHealth": 80,
     "chat": {},
     "description": "mono de la jungla",
     "gender": "M",
-    "health": 0,
+    "health": 80,
     "initialLocation": "sur",
     "inventory": {
       "cuchillo": {
@@ -91,5 +56,58 @@
       "H": 2,
       "S": 0.1
     }
+  },
+  {
+    "baseHealth": 50,
+    "chat": {},
+    "description": "lianas colgando",
+    "gender": "F",
+    "health": 50,
+    "initialLocation": "sur",
+    "inventory": {
+      "liana": {
+        "description": "Liana en buen estado",
+        "gender": "F",
+        "name": "liana cortada",
+        "resourceType": "rope",
+        "type": "resource"
+      }
+    },
+    "name": "liana",
+    "npcType": "inanimated",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 0,
+      "S": 1
+    }
+  },
+  {
+    "baseHealth": 200,
+    "chat": {},
+    "description": "tiburon blanco hambriento",
+    "gender": "M",
+    "health": 200,
+    "initialLocation": "mar",
+    "inventory": {
+      "colmillo": {
+        "damage": 40.0,
+        "damageType": "S",
+        "description": "Colmillo afilado de tiburon",
+        "gender": "M",
+        "name": "Colmillo de tiburon",
+        "type": "weapon"
+      }
+    },
+    "name": "tiburon blanco",
+    "npcType": "aggressive",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "B": 0.0,
+      "H": 0.6,
+      "S": 0.6
+    },
+    "weaponName": "colmillo"
   }
 ]

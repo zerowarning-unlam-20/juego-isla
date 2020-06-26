@@ -19,7 +19,6 @@ import commands.OpenCommand;
 import commands.ReadCommand;
 import commands.UnlockCommand;
 import commands.UseCommand;
-import entities.Entity;
 import tools.MessageType;
 import tools.WordBuilder;
 import tools.WorldLoader;
@@ -27,6 +26,7 @@ import tools.WorldLoader;
 public class GameManager {
 	private Game game;
 	private WordBuilder wordBuilder;
+	private String helpCommands;
 	private HashMap<String, ActionCommand> actionCommands;
 	private boolean testMode;
 	private int turn;
@@ -34,6 +34,7 @@ public class GameManager {
 
 	public GameManager(boolean testMode) {
 		try {
+			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,6 +46,7 @@ public class GameManager {
 
 	public GameManager() {
 		try {
+			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,16 +62,15 @@ public class GameManager {
 
 	public void consoleRun() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		String comando = "";
+		String command = "";
 
-		while (comando != "-") {
+		while (command != "-") {
 			try {
-				comando = reader.readLine().toLowerCase();
+				command = reader.readLine().toLowerCase();
 			} catch (IOException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
-			Scanner cmdScanner = new Scanner(comando);
-			processCommand(cmdScanner);
+			sendCommand(command);
 		}
 	}
 
@@ -104,15 +105,16 @@ public class GameManager {
 		}
 	}
 
-	public void sendMessage(MessageType type, Entity sender, String message) {
-		getMessageHistory().add(message);
+	public void sendMessage(MessageType type, String otherName, String mes) {
+		String message = mes.replaceAll("a el", "al");
+		messageHistory.add(message);
 		if (testMode == false) {
 			switch (type.getValue()) {
 			case ("E"):
 				System.out.println("//" + message + "//");
 				break;
 			case ("C"):
-				System.out.println(sender.getName() + ": " + message);
+				System.out.println(otherName + ": " + message);
 				break;
 			case ("S"):
 				System.out.println(message);
@@ -133,7 +135,7 @@ public class GameManager {
 		try {
 			reset();
 			game = new Game(this, WorldLoader.loadCharacter(folder), WorldLoader.loadLocations(folder),
-					WorldLoader.loadEntities(folder));
+					WorldLoader.loadEntities(folder), WorldLoader.loadEvents(folder));
 			loadCommands();
 			sendMessage(MessageType.STORY, null, WorldLoader.loadInitialMessage(folder));
 			game.getCharacter().lookAround();
@@ -154,12 +156,11 @@ public class GameManager {
 		return turn;
 	}
 
-	public void oneMoreTurn() {
-		turn++;
-	}
-
 	public void sendCommand(String value) {
-		processCommand(new Scanner(value));
+		if (value.trim().equalsIgnoreCase("ayuda") || value.trim().equalsIgnoreCase("help")) {
+			sendMessage(MessageType.STORY, null, helpCommands);
+		} else
+			processCommand(new Scanner(value));
 	}
 
 }

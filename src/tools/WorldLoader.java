@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import entities.NPC;
 import entities.Player;
+import events.Event;
 import island.GameObject;
 import island.Location;
 import items.Item;
@@ -84,6 +85,34 @@ public class WorldLoader {
 		return results;
 	}
 
+	public static HashMap<String, Event> loadEvents(String folder) throws IOException, FileNotFoundException {
+		File file = new File(folder + "/events.json");
+		InputStream is;
+
+		is = new FileInputStream(file);
+
+		Writer writer = new StringWriter();
+		char[] buffer = new char[1024];
+
+		Reader reader = new BufferedReader(new InputStreamReader(is));
+		int n;
+		while ((n = reader.read(buffer)) != -1) {
+			writer.write(buffer, 0, n);
+		}
+		reader.close();
+		String result = writer.toString();
+
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Event.class, new EventDeserializer());
+		Gson gson = gsonBuilder.create();
+		List<Event> events = Arrays.asList(gson.fromJson(result, Event[].class));
+		HashMap<String, Event> results = new HashMap<>();
+		for (Event evt : events) {
+			results.put(evt.getName(), evt);
+		}
+		return results;
+	}
+
 	public static Player loadCharacter(String folder) throws IOException, FileNotFoundException {
 		File file = new File(folder + "/character.json");
 		InputStream is;
@@ -110,6 +139,24 @@ public class WorldLoader {
 
 	public static String loadInitialMessage(String folder) throws IOException {
 		File file = new File(folder + "/initialMessage.start");
+		InputStream is;
+
+		is = new FileInputStream(file);
+
+		Writer writer = new StringWriter();
+		char[] buffer = new char[1024];
+
+		Reader reader = new BufferedReader(new InputStreamReader(is));
+		int n;
+		while ((n = reader.read(buffer)) != -1) {
+			writer.write(buffer, 0, n);
+		}
+		reader.close();
+		return writer.toString();
+	}
+
+	public static String getHelpCommands() throws IOException {
+		File file = new File("commands.help");
 		InputStream is;
 
 		is = new FileInputStream(file);

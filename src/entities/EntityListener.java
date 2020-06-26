@@ -1,6 +1,4 @@
-package events;
-
-import entities.Entity;
+package entities;
 
 public interface EntityListener {
 	public void onEntityAppeared(Entity entity);

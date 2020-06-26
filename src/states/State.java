@@ -1,50 +1,41 @@
 package states;
 
 import entities.Attack;
-import entities.Entity;
-import island.GameObject;
-import island.Location;
-import items.Item;
-import items.types.Weapon;
 
 public interface State {
-	public boolean open(GameObject object);
+	public boolean open(String objectName);
 
-	public boolean unlock(GameObject toUnlock, Item key);
+	public boolean unlock(String toUnlockName, String keyName);
 
-	public boolean look(GameObject object);
+	public boolean look(String objectName);
 
-	public boolean goTo(Location location);
+	public boolean goTo(String locationName);
 
-	public boolean grab(Item item, Item content);
+	public boolean grab(String itemName);
 
-	public State drink(Item item);
+	public boolean grab(String sourceName, String itemName);
 
-	public boolean give(Item item, GameObject gameObject);
+	public boolean grab(String itemName, String sourceName, String containerName);
 
 	public boolean lookAround();
 
 	public boolean lookInventory();
 
-	public boolean hit(Item item, GameObject gameObject);
-
-	public void heal(Double points);
-
-	public boolean attack(Weapon weapon, GameObject target);
+	public boolean attack(String weaponName, String targetName);
 
 	public State recieveAttack(Attack attack);
 
-	public boolean talk(Entity other, String message);
+	public boolean talk(String otherName, String messageName);
 
-	public boolean listen(Entity other, String message);
+	public boolean listen(String otherName, String messageName);
 
-	public boolean use(Item item);
+	public boolean use(String itemName);
 
-	public boolean read(Item item);
+	public boolean read(String itemName);
 
-	public boolean create(Item item);
-
-	public boolean inspect(Item item);
+	public boolean inspect(String itemName);
 
 	public void lookState();
+
+	public State drink(String name, String dispenserName);
 }

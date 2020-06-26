@@ -1,19 +1,20 @@
 package items.types;
 
-import entities.Attack;
+import entities.Entity;
 import items.Item;
-import items.properties.Attackable;
+import items.properties.Consumable;
+import items.properties.Dispenser;
 import items.properties.Holdable;
 import tools.Gender;
 
-public class Container extends Item implements Holdable, Attackable {
+public class Bottle extends Item implements Holdable, Dispenser {
 	private Item content;
 
-	public Container(Gender gender, String name, String description) {
+	public Bottle(Gender gender, String name, String description) {
 		super(gender, name, description);
 	}
 
-	public Container(Gender gender, String name, String description, Item content, boolean infinite) {
+	public Bottle(Gender gender, String name, String description, Item content, boolean infinite) {
 		super(gender, name, description);
 		this.content = content;
 	}
@@ -47,8 +48,10 @@ public class Container extends Item implements Holdable, Attackable {
 	}
 
 	@Override
-	public boolean recieveAttack(Attack attack) {
+	public boolean giveItems(Entity entity) {
+		if (content == null)
+			return false;
+		((Consumable) content).consume(entity);
 		return true;
 	}
-
 }

@@ -3,7 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import items.Item;
 
 public class ReadCommand implements ActionCommand {
 	private Player character;
@@ -19,12 +18,6 @@ public class ReadCommand implements ActionCommand {
 			name += args.next();
 		}
 
-		read(name);
+		character.read(name);
 	}
-
-	private void read(String name) {
-		Item result = character.getInventory().get(name);
-		character.read(result);
-	}
-
 }

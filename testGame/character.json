@@ -6,12 +6,13 @@
   "id": 1,
   "initialLocation": "norte",
   "inventory": {
-    "botella":{
-      "description": "Botella de vidrio",
+    "mano": {
+      "damage": 10.0,
+      "damageType": "B",
+      "description": "La mano",
       "gender": "F",
-      "itemType": "B",
-      "name": "Botella",
-      "type": "single_container"
+      "name": "mano",
+      "type": "weapon"
     }
   },
   "name": "Carlos",

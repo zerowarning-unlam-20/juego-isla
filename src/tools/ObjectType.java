@@ -4,15 +4,21 @@ import com.google.gson.annotations.SerializedName;
 
 import entities.NPC;
 import entities.Player;
+import events.AccessEvent;
+import events.EndEvent;
+import events.PlayerEvent;
+import events.StoryEvent;
+import island.Area;
 import island.GameObject;
 import island.Location;
 import items.Access;
+import items.Effect;
 import items.Item;
-import items.ItemEffect;
 import items.types.Blueprint;
+import items.types.Bottle;
 import items.types.Box;
-import items.types.Consumable;
-import items.types.Container;
+import items.types.Food;
+import items.types.Liquid;
 import items.types.MapItem;
 import items.types.Resource;
 import items.types.Source;
@@ -37,7 +43,7 @@ public enum ObjectType {
 	RESOURCE(Resource.class),
 
 	@SerializedName("single_container")
-	SINGLE_CONTAINER(Container.class),
+	SINGLE_CONTAINER(Bottle.class),
 
 	@SerializedName("access")
 	ACCESS(Access.class),
@@ -46,7 +52,7 @@ public enum ObjectType {
 	MAP_ITEM(MapItem.class),
 
 	@SerializedName("item_effect")
-	ITEM_EFFECT(ItemEffect.class),
+	ITEM_EFFECT(Effect.class),
 
 	@SerializedName("item")
 	ITEM(Item.class),
@@ -57,8 +63,14 @@ public enum ObjectType {
 	@SerializedName("blueprint")
 	BLUEPRINT(Blueprint.class),
 
-	@SerializedName("consumable")
-	CONSUMABLE(Consumable.class),
+	@SerializedName("food")
+	FOOD(Food.class),
+
+	@SerializedName("area")
+	AREA(Area.class),
+
+	@SerializedName("liquid")
+	LIQUID(Liquid.class),
 
 	@SerializedName("gameObject")
 	GAMEOBJECT(GameObject.class),
@@ -73,7 +85,19 @@ public enum ObjectType {
 	LOCATION(Location.class),
 
 	@SerializedName("text")
-	TEXT(Text.class);
+	TEXT(Text.class),
+
+	@SerializedName("access_event")
+	ACCESS_EVENT(AccessEvent.class),
+
+	@SerializedName("story_event")
+	STORY_EVENT(StoryEvent.class),
+
+	@SerializedName("player_event")
+	PLAYER_EVENT(PlayerEvent.class),
+
+	@SerializedName("end_event")
+	END_EVENT(EndEvent.class);
 
 	public final Class<?> clazz;
 

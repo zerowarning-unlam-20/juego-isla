@@ -4,15 +4,16 @@ import entities.Entity;
 import states.Dead;
 import states.Lost;
 import states.Normal;
+import states.State;
 
-public class ItemEffect {
+public class Effect {
 	private Double healthChange;
 	private String stateName;
 	// Cuando se consume un item el estado del jugador puede cambiar
 	// Basicamente la brujula, mejor excusa imposible. No tiene sentido meter esto
 	// para matar al jugador, o si? Creo que si jajajaj. Sale consumible veneno.
 
-	public ItemEffect(Double healthChange, String stateChange) {
+	public Effect(Double healthChange, String stateChange) {
 		this.healthChange = healthChange;
 		this.stateName = stateChange;
 	}
@@ -21,19 +22,29 @@ public class ItemEffect {
 		return healthChange;
 	}
 
-	public void apply(Entity character) {
+	public State apply(Entity character) {
+		State resultState = character.getState();
 		if (stateName != null) {
 			if (stateName.contentEquals("dead")) {
-				character.setState(new Dead(character));
+				resultState = new Dead(character);
 			}
 			if (stateName.contentEquals("normal")) {
-				character.setState(new Normal(character));
+				resultState = new Normal(character);
 			}
 			if (stateName.contentEquals("lost")) {
-				character.setState(new Lost(character));
+				resultState = new Lost(character);
 			}
 		}
-		if (!character.getState().getClass().equals(Dead.class))
-			character.setHealth(character.getHealth() + healthChange);
+
+		if (!character.getState().getClass().equals(Dead.class)) {
+			if (character.getHealth() + healthChange > character.getBaseHealth()) {
+				character.setHealth(character.getBaseHealth());
+			} else if (character.getHealth() + healthChange <= 0) {
+				character.setState(new Dead(character));
+			} else
+				character.setHealth(character.getHealth() + healthChange);
+
+		}
+		return resultState;
 	}
 }

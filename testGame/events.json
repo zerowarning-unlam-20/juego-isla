@@ -1,0 +1,16 @@
+[
+  {
+    "name": "entities.player_balsa_use",
+    "type": "access_event",
+    "unlocks": "costa"
+  },
+  {
+    "name": "entities.player_dead",
+    "type": "end_event"
+  },
+  {
+    "message": "Bienvenido al himalaya",
+    "name": "entities.player_goto_cueva",
+    "type": "story_event"
+  }
+]

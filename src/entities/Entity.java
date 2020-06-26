@@ -2,15 +2,11 @@ package entities;
 
 import java.util.HashMap;
 
-import events.EntityListener;
 import island.GameObject;
 import island.Location;
-import items.Access;
 import items.Item;
 import items.properties.Attackable;
-import items.types.Weapon;
 import manager.GameManager;
-import states.Dead;
 import states.Normal;
 import states.State;
 import tools.DamageType;
@@ -26,7 +22,6 @@ public abstract class Entity extends GameObject implements Attackable {
 	protected HashMap<DamageType, Double> weakAndRes;
 	protected String initialLocation;
 	protected State state;
-	protected EntityListener entityListener;
 
 	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
 			HashMap<String, Item> inventory, String initialLocation) {
@@ -39,14 +34,6 @@ public abstract class Entity extends GameObject implements Attackable {
 		this.inventory = inventory;
 		weakAndRes = new HashMap<DamageType, Double>();
 		this.initialLocation = initialLocation;
-	}
-
-	public EntityListener getEntityListener() {
-		return entityListener;
-	}
-
-	public void setEntityListener(EntityListener listener) {
-		entityListener = listener;
 	}
 
 	public void setState(State state) {
@@ -83,24 +70,24 @@ public abstract class Entity extends GameObject implements Attackable {
 		return item;
 	}
 
-	public boolean goTo(Location location) {
-		return state.goTo(location);
+	public boolean grab(String item) {
+		return state.grab(item);
 	}
 
-	public boolean grab(Item item, Item content) {
-		return state.grab(item, content);
+	public boolean grab(String source, String name) {
+		return state.grab(source, name);
 	}
 
-	public boolean give(Item item, GameObject gameObject) {
-		return state.give(item, gameObject);
+	public boolean grab(String name, String source, String container) {
+		return state.grab(name, source, container);
 	}
 
-	public boolean unlock(GameObject toUnlock, Item key) {
-		return state.unlock(toUnlock, key);
+	public boolean unlock(String toUnlock, String keyName) {
+		return state.unlock(toUnlock, keyName);
 	}
 
-	public boolean read(Item item) {
-		return state.read(item);
+	public boolean read(String itemName) {
+		return state.read(itemName);
 	}
 
 	public void setLocation(Location location) {
@@ -115,24 +102,20 @@ public abstract class Entity extends GameObject implements Attackable {
 		return health;
 	}
 
-	public boolean drink(Item item) {
-		state = state.drink(item);
-		if (item != null || state.getClass() == Dead.class) {
-			return false;
-		}
-		return true;
+	public State drink(String name, String dispenserName) {
+		return state.drink(name, dispenserName);
 	}
 
-	public boolean look(GameObject gameObject) {
-		return state.look(gameObject);
+	public boolean look(String objectName) {
+		return state.look(objectName);
 	}
 
-	public boolean open(GameObject item) {
+	public boolean open(String item) {
 		return state.open(item);
 	}
 
 	public void addItem(Item item) {
-		gameManager.sendMessage(MessageType.EVENT, this, "Recibido: " + item.getName());
+		gameManager.sendMessage(MessageType.EVENT, this.name, "Recibido: " + item.getName());
 		inventory.put(item.getName().toLowerCase(), item);
 	}
 
@@ -141,10 +124,18 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public void setHealth(Double health) {
+		if (this.health > health) {
+			this.getGameManager().sendMessage(MessageType.EVENT, name,
+					name + " recibio " + (this.health - health) + " de daño");
+		} else if (this.health < health) {
+			this.getGameManager().sendMessage(MessageType.EVENT, name,
+					name + " recupero " + (health - this.health) + " de salud");
+		} else
+			this.getGameManager().sendMessage(MessageType.EVENT, name, "No veo ningun cambio");
 		this.health = health;
 	}
 
-	public boolean attack(Weapon weapon, GameObject target) {
+	public boolean attack(String weapon, String target) {
 		return state.attack(weapon, target);
 	}
 
@@ -154,26 +145,18 @@ public abstract class Entity extends GameObject implements Attackable {
 		return true;
 	}
 
-	public boolean create(Item item) {
-		return state.create(item);
-	}
-
 	public void onDeath(Attack attack) {
-		if (entityListener != null) {
-			entityListener.onEntityDisappeared(null);
-			entityListener = null;
-		}
 		for (Item i : inventory.values()) {
 			attack.getAttacker().addItem(i);
 		}
 		inventory.clear();
 	}
 
-	public boolean talk(Entity other, String message) {
+	public boolean talk(String other, String message) {
 		return state.talk(other, message);
 	}
 
-	public boolean listen(Entity other, String message) {
+	public boolean listen(String other, String message) {
 		return state.listen(other, message);
 	}
 
@@ -194,25 +177,18 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public boolean goTo(String name) {
-		boolean result = false;
-		Access access = location.getAccesses().get(name);
-		if (access != null && access.getDestination() != null) {
-			result = state.goTo(access.getDestination());
-		} else
-			state.goTo(null);
-		return result;
+		return state.goTo(name);
 	}
 
-	public boolean use(Item item) {
-		return state.use(item);
+	public boolean use(String itemName) {
+		return state.use(itemName);
 	}
 
 	public void lookState() {
 		state.lookState();
 	}
 
-	public void inspect(Item result) {
-		state.inspect(result);
+	public boolean inspect(String name) {
+		return state.inspect(name);
 	}
-
 }

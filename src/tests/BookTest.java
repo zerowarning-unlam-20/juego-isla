@@ -43,7 +43,7 @@ class BookTest {
 		character = new Player(gameManager, cave);
 
 		// Load game
-		Game game = new Game(gameManager, character, locations, npcs);
+		Game game = new Game(gameManager, character, locations, npcs, null);
 		gameManager.setInternalGame(game);
 	}
 
@@ -52,7 +52,7 @@ class BookTest {
 		Text note = new Text(Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
-		Assert.assertFalse(character.look(note));
+		Assert.assertFalse(character.look("hoja"));
 	}
 
 	@Test
@@ -60,8 +60,8 @@ class BookTest {
 		Text note = new Text(Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
 				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
 		character.addItem(note);
-		character.goTo(character.getLocation().getAccesses().get("afuera").getDestination());
-		Assert.assertTrue(character.read(note));
+		character.goTo("afuera");
+		Assert.assertTrue(character.read("hoja"));
 	}
 
 }
