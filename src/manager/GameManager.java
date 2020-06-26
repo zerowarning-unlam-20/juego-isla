@@ -31,6 +31,8 @@ public class GameManager {
 	private boolean testMode;
 	private int turn;
 	private static List<String> messageHistory = new ArrayList<String>();
+	private String currentCommand;
+	private boolean gameOver;
 
 	public GameManager(boolean testMode) {
 		try {
@@ -62,15 +64,15 @@ public class GameManager {
 
 	public void consoleRun() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		String command = "";
+		currentCommand = "";
 
-		while (command != "-") {
+		while (currentCommand != "salir del juego") {
 			try {
-				command = reader.readLine().toLowerCase();
+				currentCommand = reader.readLine().toLowerCase();
 			} catch (IOException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
-			sendCommand(command);
+			sendCommand(currentCommand);
 		}
 	}
 
@@ -165,6 +167,20 @@ public class GameManager {
 			sendMessage(MessageType.STORY, null, helpCommands);
 		} else
 			processCommand(new Scanner(value));
+	}
+
+	public void endGame() {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			System.out.println("Error al salir del juego: " + e.getMessage());
+		}
+		currentCommand = "salir del juego";
+		gameOver = true;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
 	}
 
 }

@@ -189,15 +189,6 @@
   },
   {
     "accesses": {
-      "costa": {
-        "description": "costa",
-        "destinationName": "mar",
-        "gender": "F",
-        "locked": true,
-        "name": "costa",
-        "opened": true,
-        "type": "access"
-      },
       "este": {
         "description": "Camino este",
         "destinationName": "este",
@@ -205,6 +196,15 @@
         "locked": false,
         "name": "este",
         "opened": true,
+        "type": "access"
+      },
+      "mar": {
+        "description": "costa",
+        "destinationName": "mar",
+        "gender": "F",
+        "locked": true,
+        "name": "costa",
+        "opened": false,
         "type": "access"
       },
       "norte": {
@@ -305,8 +305,7 @@
             "weakness": "H"
           }
       },
-        "name": "esquina",
-        "type": "area"
+        "name": "esquina"
       }
     },
     "description": "Cueva oscura",

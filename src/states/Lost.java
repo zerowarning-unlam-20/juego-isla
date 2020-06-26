@@ -112,21 +112,26 @@ public class Lost implements State {
 		}
 
 		boolean result = false;
+		String message = "";
 		if (object == null) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para ver");
+			message = "No hay nada para ver";
 			return false;
-		}
-		if (object instanceof Area) {
+		} else if (object instanceof Area) {
 			Area area = (Area) object;
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), area.getContentString());
-		}
-		if (object instanceof Access
+			message = area.getContentString();
+		} else if (object instanceof Access
 				|| object instanceof Location && (object.getName().contains("norte") || object.getName().contains("sur")
 						|| object.getName().contains("este") || object.getName().contains("oeste"))) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "Donde es eso?");
+			message = "Donde es eso?";
 			return false;
+		} else if (object instanceof Entity) {
+			Entity entity = (Entity) object;
+			message = entity.getDescription();
+			message += (entity.getState().getClass() == Dead.class) ? ", esta muert" + entity.getTermination() : "";
+		} else {
+			message = object.getDescription();
 		}
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), object.getDescription());
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return result;
 	}
 
@@ -274,19 +279,26 @@ public class Lost implements State {
 		if (tgt == null) {
 			tgt = character.getLocation().getItemFromAreas(targetName);
 		}
-		Weapon weapon = (Weapon) character.getInventory().get(weaponName);
+		Item item = character.getInventory().get(weaponName);
 
-		if (tgt == null || weapon == null) {
+		if (tgt == null || item == null) {
 			if (tgt == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						"No le puedo pegar a nadie");
 			}
-			if (weapon == null) {
+			if (item == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						" No tengo con que pegar");
 			}
 			return false;
 		}
+		if (!(item instanceof Weapon)) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo pegar con " + item.getSingularName() + ", no es un arma.");
+			return false;
+		}
+		Weapon weapon = (Weapon) item;
+
 		// Attack begins, checks objective
 		if (tgt instanceof Attackable) {
 			Attackable target = (Attackable) tgt;
@@ -295,6 +307,9 @@ public class Lost implements State {
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
 			target.recieveAttack(attack);
 			return true;
+		} else {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo golpear a " + tgt.getSingularName());
 		}
 
 		return false;
@@ -434,9 +449,9 @@ public class Lost implements State {
 						dispenser.getSingularName() + " Esta vaci" + dispenser.getTermination());
 			} else {
 				resultState = ((Liquid) item).consume(character);
-				cont.empty();
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						"tomo " + cont.getContent().getName());
+				cont.empty();
 			}
 		} else if (dispenser instanceof Source) {
 			Source src = (Source) dispenser;

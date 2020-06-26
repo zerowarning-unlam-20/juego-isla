@@ -26,6 +26,10 @@ public class Player extends Entity {
 		super(gameManager, gender, name, description, null, inventory, initialLocation);
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public void onDeath(Attack attack) {
 		super.onDeath(attack);

@@ -30,17 +30,22 @@ public class AggresiveListener implements EntityListener, Runnable {
 	// Mandale
 	@Override
 	public void run() {
-		while (!thread.isInterrupted() && !npc.getState().getClass().equals(Dead.class)
-				&& npc.getLocation().getEntities().get(player.getName().toLowerCase()) != null
-				&& !player.getState().getClass().equals(Dead.class)) {
-			int newTurn = npc.getGameManager().getTurn();
-			if (turn != newTurn) {
-				if (playerAppeared && turn != newTurn) {
-					npc.attack(npc.getWeaponName().toLowerCase(), player.getName().toLowerCase());
+		try {
+			while (thread != null && !thread.isInterrupted() && !npc.getState().getClass().equals(Dead.class)
+					&& npc.getLocation().getEntities().get(player.getName().toLowerCase()) != null
+					&& !player.getState().getClass().equals(Dead.class)) {
+				int newTurn = npc.getGameManager().getTurn();
+				if (turn != newTurn) {
+					if (playerAppeared && turn != newTurn) {
+						npc.attack(npc.getWeaponName().toLowerCase(), player.getName().toLowerCase());
+					}
+					playerAppeared = true;
+					turn = npc.getGameManager().getTurn();
 				}
-				playerAppeared = true;
-				turn = npc.getGameManager().getTurn();
 			}
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -54,7 +59,8 @@ public class AggresiveListener implements EntityListener, Runnable {
 			if (thread != null) {
 				thread.interrupt();
 			}
-		thread = null;
+		if (thread != null && thread.isInterrupted())
+			thread = null;
 		playerAppeared = false;
 	}
 

@@ -99,12 +99,12 @@
         "type": "weapon"
       }
     },
-    "name": "tiburon blanco",
+    "name": "tiburon",
     "npcType": "aggressive",
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {
-      "B": 0.0,
+      "B": 20.0,
       "H": 0.6,
       "S": 0.6
     },

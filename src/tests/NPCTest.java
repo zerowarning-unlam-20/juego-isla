@@ -150,7 +150,6 @@ class NPCTest {
 
 	@Test
 	public void talkTest2() { // Talk to an NPC, this wont understand
-		gameManager.setTestMode(false);
 		HashMap<String, String> chat = new HashMap<>();
 		chat.put("デフォールト", "Perdon, no te entendi");
 		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", s1, new HashMap<>(), "s1",
@@ -159,7 +158,6 @@ class NPCTest {
 		Assert.assertFalse(player.talk("parquimetro", "escapar"));
 		Assert.assertFalse(player.talk("parquimetro", "recursos"));
 		Assert.assertFalse(player.talk("parquimetro", "lol"));
-		gameManager.setTestMode(true);
 	}
 
 }

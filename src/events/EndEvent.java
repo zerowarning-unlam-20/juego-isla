@@ -11,8 +11,9 @@ public class EndEvent extends Event {
 
 	@Override
 	public void execute() {
-		gameManager.sendMessage(MessageType.STORY, "trigger", "Fin del juego");
-		gameManager.getGame().pullTrigger(nextEvent);
+		gameManager.sendMessage(MessageType.STORY, "trigger", "-Game over-");
+		gameManager.sendMessage(MessageType.STORY, "trigger", "¡Gracias por jugar!");
+		gameManager.endGame();
 	}
 
 	@Override

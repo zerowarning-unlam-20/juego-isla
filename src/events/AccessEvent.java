@@ -17,8 +17,9 @@ public class AccessEvent extends Event {
 		Access access = gameManager.getGame().getAccesses().get(unlocks);
 		if (access != null) {
 			access.unlock();
+			access.open();
 		}
-		gameManager.getGame().pullTrigger(name);
+		gameManager.getGame().pullTrigger(nextEvent);
 	}
 
 	@Override

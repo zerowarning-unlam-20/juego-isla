@@ -15,6 +15,8 @@ public class Game {
 	private HashMap<String, Event> events;
 	private Player character;
 
+	// Cuando se construye game asignar el nombre del jugador que vino del gson
+
 	public Game(GameManager gameManager, Player character, HashMap<String, Location> locations,
 			HashMap<String, NPC> npcList, HashMap<String, Event> events) {
 		accesses = new HashMap<>();
