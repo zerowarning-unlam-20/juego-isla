@@ -26,7 +26,7 @@ class ListenerTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		gameManager = new GameManager();
+		gameManager = new GameManager(true);
 		// Load locations
 		Location s1 = new Location(Gender.M, "s1", "Inicio", true, new HashMap<String, Area>(),
 				new HashMap<String, Access>());
