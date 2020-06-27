@@ -2,13 +2,12 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
-import island.GameObject;
+import entities.Entity;
 
 public class LookCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public LookCommand(Player character) {
+	public LookCommand(Entity character) {
 		this.character = character;
 	}
 
@@ -21,9 +20,8 @@ public class LookCommand implements ActionCommand {
 	}
 
 	private void look(String name) {
-		GameObject result = null;
 		if (!name.isEmpty()) {
-			if (name.equalsIgnoreCase("alrededor") || name.equalsIgnoreCase(character.getLocation().getName())) {
+			if (name.equalsIgnoreCase("alrededor")) {
 				character.lookAround();
 				return;
 			} else if (name.equalsIgnoreCase("inventario")) {
@@ -33,18 +31,8 @@ public class LookCommand implements ActionCommand {
 				character.lookState();
 				return;
 			} else {
-				result = character.getInventory().get(name);
-				if (result == null) {
-					result = character.getLocation().getItems().get(name);
-				}
-				if (result == null) {
-					result = character.getLocation().getAccesses().get(name);
-				}
-				if (result == null) {
-					result = character.getLocation().getEntities().get(name);
-				}
+				character.look(name);
 			}
 		}
-		character.look(result);
 	}
 }

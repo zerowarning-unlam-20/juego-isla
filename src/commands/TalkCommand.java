@@ -2,18 +2,30 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
+import entities.Entity;
 
 public class TalkCommand implements ActionCommand { // Uh falto implementar talk
-	private Player character;
+	private Entity character; // TODO: Talk
 
-	public TalkCommand(Player character) {
+	public TalkCommand(Entity character) {
 		this.character = character;
 	}
 
 	@Override
 	public void perform(Scanner args) {
-		// TODO Auto-generated method stub
+		String objective = "";
+		String aux = "";
+		while (args.hasNext() && !aux.contentEquals(",")) {
+			objective += aux + " ";
+			aux += args.next() + " ";
+		}
+		objective = objective.trim();
+		String message = "";
+		aux = "";
+		while (args.hasNext() && !aux.contentEquals(",")) {
+			message += aux + " ";
+			aux += args.next() + " ";
+		}
+		character.talk(objective, message);
 	}
-
 }

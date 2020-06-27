@@ -7,7 +7,7 @@ public enum NPCType {
 	PASSIVE("passive"),
 
 	@SerializedName("aggressive") // Pega
-	AGGRESSIVE("aggresive"),
+	AGGRESSIVE("aggressive"),
 
 	@SerializedName("inanimated") // Plantas, cadaveres y esas cosas que no respiran
 	INANIMATED("inanimated");

@@ -3,7 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import items.Item;
 
 public class UseCommand implements ActionCommand {
 	private Player character;
@@ -19,11 +18,6 @@ public class UseCommand implements ActionCommand {
 			itemName += args.next() + " ";
 		}
 		itemName = itemName.trim();
-		use(itemName);
-	}
-
-	private void use(String itemName) {
-		Item item = character.getInventory().get(itemName);
-		character.use(item);
+		character.use(itemName);
 	}
 }

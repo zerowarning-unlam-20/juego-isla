@@ -2,14 +2,13 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
-import items.Item;
+import entities.Entity;
 
 public class ReadCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public ReadCommand(Player personaje) {
-		this.character = personaje;
+	public ReadCommand(Entity character) {
+		this.character = character;
 	}
 
 	@Override
@@ -19,12 +18,6 @@ public class ReadCommand implements ActionCommand {
 			name += args.next();
 		}
 
-		read(name);
+		character.read(name);
 	}
-
-	private void read(String name) {
-		Item result = character.getInventory().get(name);
-		character.read(result);
-	}
-
 }

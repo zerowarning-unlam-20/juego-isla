@@ -1,0 +1,34 @@
+[
+  {
+    "message": "Ahora podes ir al mar",
+    "name": "balsa_use_message",
+    "type": "story_event"
+  },
+  {
+    "name": "entities.player_use_balsa",
+    "nextEvent": "balsa_use_message",
+    "type": "access_event",
+    "unlocks": "mar"
+  },
+  {
+    "name": "end_game",
+    "type": "end_event"
+  },
+  {
+    "message": "Maté al tiburon, ahora puedo navegar!\nSe viene la segunda parte, creo.",
+    "name": "entities.NPC_tiburon_dead",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "Me estoy muriendo...",
+    "name": "entities.player_dead",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "Wow, una cueva",
+    "name": "entities.player_goto_cueva",
+    "type": "story_event"
+  }
+]

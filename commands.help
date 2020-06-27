@@ -1,0 +1,18 @@
+Comandos
+-----------------------------------------------
+Abrir: "abrir [acceso]"
+Agarrar: "agarrar [ítem]"
+Tomar: "tomar [ítem]"
+Revisar: "revisar [ítem]"
+Comer: "comer [ítem]"
+Leer: "leer [ítem]"
+Ver: "ver [ítem]"
+Usar: "usar [ítem]"
+Ir:"ir [ubicación]"
+Atacar: "golpear [objeto del juego] con [ítem]"
+
+Comandos especiales
+-----------------------------------------------
+ver alrededor: visualiza el entorno.
+ver inventario: visualiza el inventario.
+ver estado: ver el estado de salud del jugador.

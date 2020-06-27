@@ -3,8 +3,6 @@ package commands;
 import java.util.Scanner;
 
 import entities.Player;
-import items.Access;
-import items.Item;
 
 public class UnlockCommand implements ActionCommand {
 	private Player character;
@@ -32,13 +30,7 @@ public class UnlockCommand implements ActionCommand {
 
 			toUnlock += aux;
 			toUnlock = toUnlock.trim();
-			unlockSearch(toUnlock.toLowerCase(), key.toLowerCase());
+			character.unlock(toUnlock.toLowerCase(), key.toLowerCase());
 		}
-	}
-
-	private void unlockSearch(String toUnlock, String keyName) {
-		Access access = character.getLocation().getAccesses().get(toUnlock);
-		Item key = character.getInventory().get(keyName);
-		character.unlock(access, key);
 	}
 }

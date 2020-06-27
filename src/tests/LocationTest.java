@@ -66,7 +66,7 @@ class LocationTest {
 		HashMap<String, NPC> npcs = new HashMap<>();
 
 		// Load game
-		Game game = new Game(gameManager, character, locations, npcs);
+		Game game = new Game(gameManager, character, locations, npcs, null);
 		gameManager.setInternalGame(game);
 
 		initialLocation = s1;
@@ -74,35 +74,35 @@ class LocationTest {
 
 	@Test
 	void moveTest1() {
-		character.goTo(character.getLocation().getAccesses().get("s2").getDestination());
+		character.goTo("s2");
 		Assert.assertEquals("s2", character.getLocation().getName());
 	}
 
 	@Test
 	void moveTest2() {
-		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s6")));
+		Assert.assertFalse(character.goTo("s6"));
 	}
 
 	@Test
 	void moveTest3() {
-		character.goTo(character.getGameManager().getGame().getLocations().get("s2"));
-		character.goTo(character.getGameManager().getGame().getLocations().get("s5"));
-		Assert.assertTrue(character.goTo(character.getGameManager().getGame().getLocations().get("s4")));
+		character.goTo("s2");
+		character.goTo("s5");
+		Assert.assertTrue(character.goTo("s4"));
 		Assert.assertEquals("s4", character.getLocation().getName());
 	}
 
 	@Test
 	void moveTest4() {
-		character.goTo(character.getGameManager().getGame().getLocations().get("s2"));
-		character.goTo(character.getGameManager().getGame().getLocations().get("s5"));
-		character.goTo(character.getGameManager().getGame().getLocations().get("s4"));
-		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s2")));
-		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s1")));
+		character.goTo("s2");
+		character.goTo("s5");
+		character.goTo("s4");
+		Assert.assertFalse(character.goTo("s2"));
+		Assert.assertFalse(character.goTo("s1"));
 	}
 
 	@Test
 	void moveTest5() {
-		Assert.assertFalse(character.goTo(character.getGameManager().getGame().getLocations().get("s16")));
+		Assert.assertFalse(character.goTo("s16"));
 	}
 
 }

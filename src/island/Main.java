@@ -8,6 +8,7 @@ public class Main { // Quedo main porque es mas prolijo, no me gusta ver todo pe
 		GameManager game = new GameManager();
 		game.loadGame("testGame");
 		game.consoleRun();
+
 	}
 
 }
