@@ -2,12 +2,12 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
+import entities.Entity;
 
 public class InspectCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public InspectCommand(Player character) {
+	public InspectCommand(Entity character) {
 		this.character = character;
 	}
 

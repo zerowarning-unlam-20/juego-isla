@@ -8,7 +8,7 @@
     "initialLocation": "sur",
     "inventory": {
       "cuchillo": {
-        "damage": 15.0,
+        "damage": 25.0,
         "damageType": "S",
         "description": "Cuchillo oxidado hecho con chatarra",
         "gender": "M",

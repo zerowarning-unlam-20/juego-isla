@@ -12,7 +12,6 @@ public class MapItem extends Item implements Usable, Holdable {
 
 	public MapItem(Gender gender, String name, String description) {
 		super(gender, name, description);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

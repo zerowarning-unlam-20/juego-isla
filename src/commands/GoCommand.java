@@ -2,13 +2,13 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
+import entities.Entity;
 
 public class GoCommand implements ActionCommand {
-	private Player personaje;
+	private Entity character;
 
-	public GoCommand(Player personaje) {
-		this.personaje = personaje;
+	public GoCommand(Entity character) {
+		this.character = character;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class GoCommand implements ActionCommand {
 			lugar += args.next() + " ";
 		}
 		lugar = lugar.trim();
-		personaje.goTo(lugar);
+		character.goTo(lugar);
 	}
 
 }

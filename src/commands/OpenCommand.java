@@ -2,12 +2,12 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
+import entities.Entity;
 
 public class OpenCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public OpenCommand(Player character) {
+	public OpenCommand(Entity character) {
 		this.character = character;
 	}
 

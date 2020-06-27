@@ -17,11 +17,13 @@ import commands.InspectCommand;
 import commands.LookCommand;
 import commands.OpenCommand;
 import commands.ReadCommand;
+import commands.TalkCommand;
 import commands.UnlockCommand;
 import commands.UseCommand;
 import tools.MessageType;
 import tools.WordBuilder;
 import tools.WorldLoader;
+import tools.ui.Sound;
 
 public class GameManager {
 	private Game game;
@@ -33,14 +35,15 @@ public class GameManager {
 	private static List<String> messageHistory = new ArrayList<String>();
 	private String currentCommand;
 	private boolean gameOver;
+	private Sound soundManager;
 
 	public GameManager(boolean testMode) {
 		try {
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error archivos iniciales: " + e.getMessage());
+			System.exit(-1);
 		}
 		messageHistory = new ArrayList<String>();
 		this.testMode = testMode;
@@ -51,8 +54,8 @@ public class GameManager {
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error archivos iniciales: " + e.getMessage());
+			System.exit(-1);
 		}
 		messageHistory = new ArrayList<String>();
 	}
@@ -63,6 +66,14 @@ public class GameManager {
 	}
 
 	public void consoleRun() {
+		try {
+			Sound.filePath = "sounds/back.wav";
+			soundManager = new Sound();
+			soundManager.play();
+		} catch (Exception ex) {
+			System.out.println("Error sonido :" + ex.getMessage());
+			ex.printStackTrace();
+		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
 
@@ -70,7 +81,8 @@ public class GameManager {
 			try {
 				currentCommand = reader.readLine().toLowerCase();
 			} catch (IOException e) {
-				System.out.println("Error: " + e.getMessage());
+				System.out.println("Error en entrada: " + e.getMessage());
+				System.exit(-1);
 			}
 			sendCommand(currentCommand);
 		}
@@ -93,6 +105,7 @@ public class GameManager {
 		actionCommands.put("use", new UseCommand(game.getCharacter()));
 		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
 		actionCommands.put("read", new ReadCommand(game.getCharacter()));
+		actionCommands.put("talk", new TalkCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
@@ -142,7 +155,8 @@ public class GameManager {
 			sendMessage(MessageType.STORY, null, WorldLoader.loadInitialMessage(folder));
 			game.getCharacter().lookAround();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error al cargar el juego" + e.getMessage());
+			System.exit(-1);
 		}
 	}
 
@@ -174,6 +188,7 @@ public class GameManager {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			System.out.println("Error al salir del juego: " + e.getMessage());
+			System.exit(-1);
 		}
 		currentCommand = "salir del juego";
 		gameOver = true;
@@ -181,6 +196,10 @@ public class GameManager {
 
 	public boolean isGameOver() {
 		return gameOver;
+	}
+
+	public Sound getSoundManager() {
+		return soundManager;
 	}
 
 }

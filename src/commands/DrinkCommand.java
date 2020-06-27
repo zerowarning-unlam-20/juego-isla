@@ -7,8 +7,8 @@ import entities.Player;
 public class DrinkCommand implements ActionCommand {
 	private Player character;
 
-	public DrinkCommand(Player personaje) {
-		this.character = personaje;
+	public DrinkCommand(Player character) {
+		this.character = character;
 	}
 
 	@Override

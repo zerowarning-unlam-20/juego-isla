@@ -2,12 +2,12 @@ package commands;
 
 import java.util.Scanner;
 
-import entities.Player;
+import entities.Entity;
 
 public class LookCommand implements ActionCommand {
-	private Player character;
+	private Entity character;
 
-	public LookCommand(Player character) {
+	public LookCommand(Entity character) {
 		this.character = character;
 	}
 

@@ -115,7 +115,6 @@ public class Lost implements State {
 		String message = "";
 		if (object == null) {
 			message = "No hay nada para ver";
-			return false;
 		} else if (object instanceof Area) {
 			Area area = (Area) object;
 			message = area.getContentString();
@@ -123,7 +122,6 @@ public class Lost implements State {
 				|| object instanceof Location && (object.getName().contains("norte") || object.getName().contains("sur")
 						|| object.getName().contains("este") || object.getName().contains("oeste"))) {
 			message = "Donde es eso?";
-			return false;
 		} else if (object instanceof Entity) {
 			Entity entity = (Entity) object;
 			message = entity.getDescription();
@@ -359,6 +357,10 @@ public class Lost implements State {
 		}
 		if (other == null) {
 			other = character.getLocation().getItemFromAreas(otherName);
+		}
+		if (other == null) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), "¿Eh?");
+			return false;
 		}
 
 		if (other instanceof NPC) {

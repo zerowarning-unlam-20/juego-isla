@@ -1,12 +1,17 @@
 package entities;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import island.Location;
 import items.Item;
 import manager.GameManager;
 import states.State;
 import tools.Gender;
+import tools.ui.Sound;
 
 public class Player extends Entity {
 
@@ -33,6 +38,16 @@ public class Player extends Entity {
 	@Override
 	public void onDeath(Attack attack) {
 		super.onDeath(attack);
+		Sound.filePath = "sounds/dark.wav";
+		try {
+			gameManager.getSoundManager().stop();
+			gameManager.getSoundManager().resetAudioStream();
+			gameManager.getSoundManager().play();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			System.out.println("Error en sonido, ondeath: " + e.getMessage());
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		gameManager.getGame().pullTrigger(this.getClass().getName() + "_" + "dead");
 	}
 
