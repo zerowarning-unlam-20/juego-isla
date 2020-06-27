@@ -128,6 +128,10 @@ public class Lost implements State {
 			Entity entity = (Entity) object;
 			message = entity.getDescription();
 			message += (entity.getState().getClass() == Dead.class) ? ", esta muert" + entity.getTermination() : "";
+		} else if (object instanceof Bottle) {
+			message = object.getDescription();
+			message += ((Bottle) object).getContent() == null ? " vacia"
+					: " llena de " + ((Bottle) object).getContent().getDescription();
 		} else {
 			message = object.getDescription();
 		}
@@ -200,12 +204,14 @@ public class Lost implements State {
 
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
-		if (!(src instanceof Holdable)) {
-			Source source = (Source) src;
-			if (!(source.getContent() instanceof Liquid)) {
-				result = source.giveItems(character);
-			} else
-				message = "Necesito un recipiente o algo para agarrarlo.";
+		if (src != null) {
+			if (!(src instanceof Holdable)) {
+				Source source = (Source) src;
+				if (!(source.getContent() instanceof Liquid)) {
+					result = source.giveItems(character);
+				} else
+					message = "Necesito un recipiente o algo para agarrarlo.";
+			}
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return result;
@@ -323,13 +329,14 @@ public class Lost implements State {
 			totalDamage = modifier * attack.getDamage();
 		else
 			totalDamage = attack.getDamage();
-
-		character.setHealth(character.getHealth() - totalDamage);
+		if (character.getHealth() - totalDamage < 0)
+			character.setHealth(0d);
+		else
+			character.setHealth(character.getHealth() - totalDamage);
 
 		if (character.getHealth() <= 0) {
-			character.setHealth(0d);
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					"Cayó " + character.getSingularName());
+					"Cayo " + character.getSingularName());
 			character.onDeath(attack);
 			return new Dead(character);
 		}
@@ -411,6 +418,7 @@ public class Lost implements State {
 
 	@Override
 	public boolean inspect(String itemName) {
+		boolean result = false;
 		Item item = null;
 		item = character.getInventory().get(itemName);
 		if (item == null) {
@@ -418,9 +426,15 @@ public class Lost implements State {
 		}
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para revisar");
-			return false;
-		}
-		return ((Dispenser) item).giveItems(character);
+		} else if (item instanceof Readablel) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
+					((Readablel) item).read(character.getLocation().isVisible()));
+			return true;
+		} else if (item instanceof Dispenser) {
+			result = ((Dispenser) item).giveItems(character);
+		} else
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), item.getDescription());
+		return result;
 	}
 
 	@Override

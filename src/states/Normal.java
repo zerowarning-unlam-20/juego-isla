@@ -153,7 +153,7 @@ public class Normal implements State {
 		}
 
 		character.addItem(item);
-		character.getLocation().getLastArea().removeItem(item.getName());
+		character.getLocation().getLastArea().removeItem(item.getName().toLowerCase());
 		character.getLocation().clearLastArea();
 
 		message = "Se agarró " + item.getSingularName();
@@ -248,19 +248,26 @@ public class Normal implements State {
 		if (tgt == null) {
 			tgt = character.getLocation().getItemFromAreas(targetName);
 		}
-		Weapon weapon = (Weapon) character.getInventory().get(weaponName);
+		Item item = character.getInventory().get(weaponName);
 
-		if (tgt == null || weapon == null) {
+		if (tgt == null || item == null) {
 			if (tgt == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						"No le puedo pegar a nadie");
 			}
-			if (weapon == null) {
+			if (item == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						" No tengo con que pegar");
 			}
 			return false;
 		}
+		if (!(item instanceof Weapon)) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo pegar con " + item.getSingularName() + ", no es un arma.");
+			return false;
+		}
+		Weapon weapon = (Weapon) item;
+
 		// Attack begins, checks objective
 		if (tgt instanceof Attackable) {
 			Attackable target = (Attackable) tgt;
@@ -269,6 +276,9 @@ public class Normal implements State {
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
 			target.recieveAttack(attack);
 			return true;
+		} else {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo golpear a " + tgt.getSingularName());
 		}
 
 		return false;
@@ -282,11 +292,12 @@ public class Normal implements State {
 			totalDamage = modifier * attack.getDamage();
 		else
 			totalDamage = attack.getDamage();
-
-		character.setHealth(character.getHealth() - totalDamage);
+		if (character.getHealth() - totalDamage < 0)
+			character.setHealth(0d);
+		else
+			character.setHealth(character.getHealth() - totalDamage);
 
 		if (character.getHealth() <= 0) {
-			character.setHealth(0d);
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 					"Cayó " + character.getSingularName());
 			character.onDeath(attack);
@@ -370,6 +381,7 @@ public class Normal implements State {
 
 	@Override
 	public boolean inspect(String itemName) {
+		boolean result = false;
 		Item item = null;
 		item = character.getInventory().get(itemName);
 		if (item == null) {
@@ -377,9 +389,15 @@ public class Normal implements State {
 		}
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para revisar");
-			return false;
-		}
-		return ((Dispenser) item).giveItems(character);
+		} else if (item instanceof Readablel) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
+					((Readablel) item).read(character.getLocation().isVisible()));
+			return true;
+		} else if (item instanceof Dispenser) {
+			result = ((Dispenser) item).giveItems(character);
+		} else
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), item.getDescription());
+		return result;
 	}
 
 	@Override

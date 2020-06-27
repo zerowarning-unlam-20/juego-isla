@@ -150,8 +150,11 @@ public class NPCNormal implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
 			return result;
 		}
+
 		character.addItem(item);
-		character.getLocation().getLastArea().removeItem(item.getName());
+		character.getLocation().getLastArea().removeItem(item.getName().toLowerCase());
+		character.getLocation().clearLastArea();
+
 		message = "Se agarró " + item.getSingularName();
 		result = true;
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
@@ -179,7 +182,7 @@ public class NPCNormal implements State {
 	public boolean grab(String itemName, String sourceName, String containerName) {
 		Item src = character.getLocation().getItemFromAreas(sourceName);
 		Item container = character.getInventory().get(containerName);
-
+		Item content = null;
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
 		if (!(container instanceof Bottle)) {
@@ -201,19 +204,25 @@ public class NPCNormal implements State {
 		Source source = (Source) src;
 
 		if (source.getContent() instanceof Liquid) {
-			cont.setContent(source.getContent());
-			message = "se lleno " + container.getSingularName() + " con " + cont.getContent().getName();
+			content = source.getContent();
+			message = "se lleno " + container.getSingularName() + " con " + content.getName();
 		} else {
 			message = "No necesito algo para agarrarlo.";
 		}
+		cont.setContent(source.getContent());
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return result;
 	}
 
 	@Override
 	public boolean lookAround() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = true;
+		String message = character.getLocation().getDescription() + "\n";
+		message += character.getLocation().lookAround();
+		message += character.getLocation().lookAccesses();
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
+		result = true;
+		return result;
 	}
 
 	@Override
@@ -238,27 +247,37 @@ public class NPCNormal implements State {
 		if (tgt == null) {
 			tgt = character.getLocation().getItemFromAreas(targetName);
 		}
-		Weapon weapon = (Weapon) character.getInventory().get(weaponName);
+		Item item = character.getInventory().get(weaponName);
 
-		if (tgt == null || weapon == null) {
+		if (tgt == null || item == null) {
 			if (tgt == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						"No le puede pegar a nadie");
+						"No le puedo pegar a nadie");
 			}
-			if (weapon == null) {
+			if (item == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						" No tiene con que pegar");
+						" No tengo con que pegar");
 			}
 			return false;
 		}
+		if (!(item instanceof Weapon)) {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo pegar con " + item.getSingularName() + ", no es un arma.");
+			return false;
+		}
+		Weapon weapon = (Weapon) item;
+
 		// Attack begins, checks objective
 		if (tgt instanceof Attackable) {
 			Attackable target = (Attackable) tgt;
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					character.getName() + " le pego a " + tgt.getSingularName() + " con " + weapon.getSingularName());
+					character.getName() + " Le pego a " + tgt.getSingularName() + " con " + weapon.getSingularName());
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
 			target.recieveAttack(attack);
 			return true;
+		} else {
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No puedo golpear a " + tgt.getSingularName());
 		}
 
 		return false;
@@ -272,11 +291,12 @@ public class NPCNormal implements State {
 			totalDamage = modifier * attack.getDamage();
 		else
 			totalDamage = attack.getDamage();
-
-		character.setHealth(character.getHealth() - totalDamage);
+		if (character.getHealth() - totalDamage < 0)
+			character.setHealth(0d);
+		else
+			character.setHealth(character.getHealth() - totalDamage);
 
 		if (character.getHealth() <= 0) {
-			character.setHealth(0d);
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 					"Cayó " + character.getSingularName());
 			character.onDeath(attack);
@@ -338,6 +358,7 @@ public class NPCNormal implements State {
 			Usable usable = (Usable) item;
 			usable.use(character);
 		}
+
 		return false;
 	}
 
@@ -360,6 +381,7 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean inspect(String itemName) {
+		boolean result = false;
 		Item item = null;
 		item = character.getInventory().get(itemName);
 		if (item == null) {
@@ -367,9 +389,15 @@ public class NPCNormal implements State {
 		}
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para revisar");
-			return false;
-		}
-		return ((Dispenser) item).giveItems(character);
+		} else if (item instanceof Readablel) {
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
+					((Readablel) item).read(character.getLocation().isVisible()));
+			return true;
+		} else if (item instanceof Dispenser) {
+			result = ((Dispenser) item).giveItems(character);
+		} else
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), item.getDescription());
+		return result;
 	}
 
 	@Override
@@ -398,9 +426,9 @@ public class NPCNormal implements State {
 						dispenser.getSingularName() + " Esta vaci" + dispenser.getTermination());
 			} else {
 				resultState = ((Liquid) item).consume(character);
-				cont.empty();
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 						"tomo " + cont.getContent().getName());
+				cont.empty();
 			}
 		} else if (dispenser instanceof Source) {
 			Source src = (Source) dispenser;
