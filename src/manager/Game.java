@@ -7,6 +7,7 @@ import entities.Player;
 import events.Event;
 import island.Location;
 import items.Access;
+import tools.Gender;
 
 public class Game {
 	private HashMap<String, NPC> entities;
@@ -23,6 +24,29 @@ public class Game {
 		this.events = events;
 		this.locations = locations;
 		this.character = character;
+		this.character.linkToManager(gameManager);
+
+		this.character.setLocation(locations.get(character.getInitialLocation()));
+		locations.get(character.getInitialLocation()).addEntity(character);
+		this.entities = npcList;
+
+		for (NPC npc : npcList.values()) {
+			npc.linkToManager(gameManager);
+			npc.setLocation(locations.get(npc.getInitialLocation()));
+			locations.get(npc.getInitialLocation()).addEntity(npc);
+		}
+		linkLocations();
+
+		linkTriggers(gameManager);
+	}
+
+	public Game(GameManager gameManager, String name, Gender gender, Player character,
+			HashMap<String, Location> locations, HashMap<String, NPC> npcList, HashMap<String, Event> events) {
+
+		accesses = new HashMap<>();
+		this.events = events;
+		this.locations = locations;
+		this.character = new Player(character, name, gender);
 		this.character.linkToManager(gameManager);
 
 		this.character.setLocation(locations.get(character.getInitialLocation()));

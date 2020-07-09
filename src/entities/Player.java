@@ -31,6 +31,11 @@ public class Player extends Entity {
 		super(gameManager, gender, name, description, null, inventory, initialLocation);
 	}
 
+	public Player(Player character, String name, Gender gender) {
+		super(character.gameManager, gender, name, character.description, null, character.inventory,
+				character.initialLocation);
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}

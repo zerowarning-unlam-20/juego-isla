@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +27,14 @@ import items.Item;
 
 public class WorldLoader {
 
-	public static HashMap<String, Location> loadLocations(String folder) throws IOException, FileNotFoundException {
-		File file = new File(folder + "/zones.json");
+	private String path;
+
+	public WorldLoader(String path) {
+		this.path = path;
+	}
+
+	public HashMap<String, Location> loadLocations() throws IOException, FileNotFoundException {
+		File file = new File("games/" + path + "/zones.json");
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -56,8 +63,8 @@ public class WorldLoader {
 		return results;
 	}
 
-	public static HashMap<String, NPC> loadEntities(String folder) throws IOException, FileNotFoundException {
-		File file = new File(folder + "/NPCs.json");
+	public HashMap<String, NPC> loadEntities() throws IOException, FileNotFoundException {
+		File file = new File("games/" + path + "/NPCs.json");
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -85,8 +92,8 @@ public class WorldLoader {
 		return results;
 	}
 
-	public static HashMap<String, Event> loadEvents(String folder) throws IOException, FileNotFoundException {
-		File file = new File(folder + "/events.json");
+	public HashMap<String, Event> loadEvents() throws IOException, FileNotFoundException {
+		File file = new File("games/" + path + "/events.json");
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -113,8 +120,8 @@ public class WorldLoader {
 		return results;
 	}
 
-	public static Player loadCharacter(String folder) throws IOException, FileNotFoundException {
-		File file = new File(folder + "/character.json");
+	public Player loadCharacter() throws IOException, FileNotFoundException {
+		File file = new File("games/" + path + "/character.json");
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -137,8 +144,8 @@ public class WorldLoader {
 		return (Player) gson.fromJson(result, GameObject.class);
 	}
 
-	public static String loadInitialMessage(String folder) throws IOException {
-		File file = new File(folder + "/initialMessage.start");
+	public String loadInitialMessage() throws IOException {
+		File file = new File("games/" + path + "/initialMessage.start");
 		InputStream is;
 
 		is = new FileInputStream(file);
@@ -171,6 +178,16 @@ public class WorldLoader {
 		}
 		reader.close();
 		return writer.toString();
+	}
+
+	public static List<String> listFolders(final File folder) {
+		ArrayList<String> folders = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				folders.add(fileEntry.getName());
+			}
+		}
+		return folders;
 	}
 
 }

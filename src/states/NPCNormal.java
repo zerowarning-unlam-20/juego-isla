@@ -21,7 +21,6 @@ import items.types.Liquid;
 import items.types.Source;
 import items.types.Weapon;
 import tools.MessageType;
-import tools.NPCType;
 
 public class NPCNormal implements State {
 	private NPC character;
@@ -311,32 +310,7 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean talk(String otherName, String message) {
-		GameObject other;
-		other = character.getLocation().getEntities().get(otherName);
-		if (other == null) {
-			other = character.getLocation().getAccesses().get(otherName);
-		}
-		if (other == null) {
-			other = character.getInventory().get(otherName);
-		}
-		if (other == null) {
-			other = character.getLocation().getItemFromAreas(otherName);
-		}
-
-		if (other instanceof NPC) {
-			NPC npc = (NPC) other;
-			if (npc.getType() == NPCType.INANIMATED) {
-				character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-						"No puedo hablar con " + other.getOnlyName());
-				return false;
-			} else {
-				return npc.listen(character.getName(), message);
-			}
-		} else {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-					"No puedo hablar con " + other.getOnlyName());
-		}
-		return false;
+		return true;
 	}
 
 	@Override

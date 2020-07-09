@@ -27,8 +27,20 @@
     "type": "story_event"
   },
   {
-    "message": "Wow, una cueva",
+    "message": "¡Wow, una cueva! Tiene que haber algo de utilidad",
     "name": "entities.player_goto_cueva",
+    "type": "story_event"
+  },
+  {
+    "message": "mono: Hablas?! \n Perdon, estoy tan solo que cada vez que aparece alguien tengo que estar a la defensiva.\n Hay una canoa a 2 kilometros de aca, usala para irte de este lugar horrible. \n No me des las gracias, solamente no hables de este lugar.",
+    "name": "entities.player_talk_mono",
+    "nextEvent": "escape_event",
+    "type": "story_event"
+  },
+  {
+    "message": "¿Que es lo que acabo de soñar?",
+    "name": "escape_event",
+    "nextEvent": "end_game",
     "type": "story_event"
   }
 ]

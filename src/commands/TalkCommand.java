@@ -17,7 +17,7 @@ public class TalkCommand implements ActionCommand { // Uh falto implementar talk
 		String aux = "";
 		while (args.hasNext() && !aux.contentEquals(",")) {
 			objective += aux + " ";
-			aux += args.next() + " ";
+			aux = args.next();
 		}
 		objective = objective.trim();
 		String message = "";

@@ -466,7 +466,7 @@ public class Lost implements State {
 			} else {
 				resultState = ((Liquid) item).consume(character);
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						"tomo " + cont.getContent().getName());
+						"tomo " + item.getName());
 				cont.empty();
 			}
 		} else if (dispenser instanceof Source) {
