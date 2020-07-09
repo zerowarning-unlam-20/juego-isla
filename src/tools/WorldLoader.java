@@ -183,9 +183,8 @@ public class WorldLoader {
 	public static List<String> listFolders(final File folder) {
 		ArrayList<String> folders = new ArrayList<>();
 		for (final File fileEntry : folder.listFiles()) {
-			if (fileEntry.isDirectory()) {
-				folders.add(fileEntry.getName());
-			}
+			if (fileEntry.listFiles().length > 0)
+                folders.add(fileEntry.getName());
 		}
 		return folders;
 	}
