@@ -1,0 +1,48 @@
+[
+  {
+    "message": "- '¡Me encanta la cerveza de raiz!' El pirata fantasma se veía entusiasmado por tu ofrecimiento... sin embargo, cuando lo rociaste comenzó a desintegrarse. La mitad de arriba de su cuerpo se desvaneció, y las piernas inmediatamente echaron a correr.",
+    "name": "rociador_attack_message",
+    "nextEvent": "unlock_taberna",
+    "type": "story_event"
+  },
+  {
+    "name": "unlock_taberna",
+    "type": "access_event",
+    "unlocks": "taberna"
+  },
+  {
+    "name": "end_game",
+    "type": "end_event"
+  },
+  {
+    "message": "Me estoy muriendo...",
+    "name": "entities.player_dead",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas.",
+    "name": "entities.player_goto_taberna",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!",
+    "name": "entities.player_look_espejo",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!",
+    "name": "entities.player_inspect_espejo",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  },
+  {
+    "message": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!",
+    "name": "entities.player_use_espejo",
+    "nextEvent": "end_game",
+    "type": "story_event"
+  }
+
+]

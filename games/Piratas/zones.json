@@ -1,0 +1,73 @@
+[
+  {
+    "accesses": {
+      "taberna": {
+        "description": "Camino a la taberna",
+        "destinationName": "taberna",
+        "gender": "M",
+        "locked": true,
+        "name": "camino a la taberna",
+        "opened": false,
+        "type": "access"
+      }
+    },
+    "areas": {
+      "suelo": {
+        "description": "suelo de concreto",
+        "gender": "M",
+        "items": {
+          "barreta": {
+            "damage": 30.0,
+            "damageType": "B",
+            "description": "barreta improvisada",
+            "gender": "F",
+            "name": "barreta",
+            "type": "weapon"
+          },
+          "espejo": {
+            "damage": 30.0,
+            "damageType": "B",
+            "description": "espejo de vidrio",
+            "gender": "M",
+            "name": "espejo",
+            "type": "single_use_item"
+          },
+          "rociador": {
+            "damage": 30.0,
+            "damageType": "SH",
+            "description": "rociador con cerveza de raiz",
+            "gender": "F",
+            "name": "rociador",
+            "type": "weapon"
+          }
+        },
+        "name": "campo abierto",
+        "type": "area"
+      }
+    },
+    "description": "Estás en un muelle",
+    "entities": {},
+    "gender": "M",
+    "name": "muelle",
+    "type": "location"
+  },
+  {
+    "accesses": {
+      "muelle": {
+        "description": "Camino al muelle",
+        "destinationName": "muelle",
+        "gender": "M",
+        "locked": false,
+        "name": "camino al muelle",
+        "opened": true,
+        "type": "access"
+      }
+    },
+    "areas": {},
+    "description": "Estás en una sucia taberna",
+    "entities": {},
+    "gender": "F",
+    "name": "taberna",
+    "type": "location"
+  }
+]

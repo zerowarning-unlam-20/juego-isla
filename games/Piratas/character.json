@@ -1,0 +1,22 @@
+{
+  "baseHealth": 100,
+  "description": "tipazo",
+  "gender": "M",
+  "health": 100,
+  "id": 1,
+  "initialLocation": "muelle",
+  "inventory": {
+    "mano": {
+      "damage": 10.0,
+      "damageType": "B",
+      "description": "La mano",
+      "gender": "F",
+      "name": "mano",
+      "type": "weapon"
+    }
+  },
+  "name": "Guybrush Threepwood",
+  "stateName": "normal",
+  "type": "player",
+  "weakAndRes": {}
+}
