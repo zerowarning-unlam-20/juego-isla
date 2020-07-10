@@ -2,10 +2,11 @@ package items.types;
 
 import entities.Entity;
 import items.Item;
+import items.properties.Holdable;
 import items.properties.Usable;
 import tools.Gender;
 
-public class SingleUseItem extends Item implements Usable {
+public class SingleUseItem extends Item implements Usable, Holdable {
 
 	public SingleUseItem(Gender gender, String name, String description, String unlocks) {
 		super(gender, name, description);

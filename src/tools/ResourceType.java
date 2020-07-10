@@ -13,10 +13,10 @@ import com.google.gson.annotations.SerializedName;
 public enum ResourceType {
 
 	@SerializedName("wood")
-	WOOD("wood"), @SerializedName("rope")
-	ROPE("rope"), @SerializedName("stone")
-	STONE("stone"), @SerializedName("food")
-	FOOD("food");
+	WOOD("madera"), @SerializedName("rope")
+	ROPE("cuerda"), @SerializedName("stone")
+	STONE("piedra"), @SerializedName("food")
+	FOOD("comida");
 
 	private final String value;
 

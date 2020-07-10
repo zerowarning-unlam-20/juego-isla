@@ -151,7 +151,7 @@ public class GameManager {
 		messageHistory.add(message);
 	}
 
-	public static List<Message> getMessageHistory() {
+	public List<Message> getMessageHistory() {
 		return messageHistory;
 	}
 
@@ -220,6 +220,7 @@ public class GameManager {
 					((NPC) entity).getEntityListener().onEntityDisappeared(game.getCharacter());
 				}
 			}
+			reset();
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			System.out.println("Error al salir del juego: " + e.getMessage());

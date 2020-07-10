@@ -25,11 +25,12 @@ public class Area extends GameObject {
 		String message = description + ":\n";
 		String content = "";
 		for (Item item : items.values()) {
-			content += item.getDescription() + " ";
+			content += item.getDescription() + ", ";
 		}
 		if (content.isEmpty()) {
 			content = "No hay nada aqui";
-		}
+		} else
+			content = content.substring(0, content.length() - 2);
 		return message + content;
 	}
 

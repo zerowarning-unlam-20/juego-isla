@@ -8,6 +8,7 @@ import island.Location;
 import items.types.Bottle;
 import items.types.Weapon;
 import manager.GameManager;
+import states.Lost;
 
 class CommandTest {
 	GameManager game;
@@ -15,7 +16,7 @@ class CommandTest {
 	@BeforeEach
 	public void load() {
 		game = new GameManager(true);
-		game.loadGame("testGame");
+		game.loadGame("Blue Hawaii");
 	}
 
 	@Test
@@ -25,6 +26,15 @@ class CommandTest {
 		game.sendCommand("ir oeste");
 		Location location = game.getGame().getCharacter().getLocation();
 		Assert.assertEquals("Oeste", location.getName());
+	}
+
+	@Test
+	public void testBrujula() {
+		game.sendCommand("agarrar brujula");
+		game.sendCommand("usar brujula");
+		Assert.assertNotNull(game.getGame().getCharacter().getInventory().get("brujula"));
+		Lost lost = (Lost) game.getGame().getCharacter().getState();
+		Assert.assertEquals(false, lost.getCompletelyLost());
 	}
 
 	@Test
@@ -60,6 +70,21 @@ class CommandTest {
 		game.sendCommand("ir mar");
 		game.sendCommand("atacar tiburon con mano");
 		Assert.assertTrue(game.isGameOver());
+	}
+
+	@Test
+	public void testOutOfPlace() {
+		game.sendCommand("golpear mono con hacha");
+		game.sendCommand("golpear mono con hacha");
+		game.sendCommand("golpear mono con hacha");
+		game.sendCommand("golpear mono con hacha");
+		Assert.assertNull(game.getGame().getCharacter().getInventory().get("cuchillo oxidado"));
+	}
+
+	@Test
+	public void testWhat() {
+		game.sendCommand("dalsidjwoidjawiodjawiodjawiodja");
+		Assert.assertEquals("Que?", game.getMessageHistory().get(game.getMessageHistory().size() - 1).getContent());
 	}
 
 	@Test

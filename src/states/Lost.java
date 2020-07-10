@@ -202,14 +202,12 @@ public class Lost implements State {
 
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
-		if (src != null) {
-			if (!(src instanceof Holdable)) {
-				Source source = (Source) src;
-				if (!(source.getContent() instanceof Liquid)) {
-					result = source.giveItems(character);
-				} else
-					message = "Necesito un recipiente o algo para agarrarlo.";
-			}
+		if (src != null && !(src instanceof Holdable)) {
+			Source source = (Source) src;
+			if (!(source.getContent() instanceof Liquid)) {
+				result = source.giveItems(character);
+			} else
+				message = "Necesito un recipiente o algo para agarrarlo.";
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return result;
@@ -392,11 +390,12 @@ public class Lost implements State {
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para usar");
 			return false;
-		}
-		if (item instanceof Usable) {
+		} else if (item instanceof Usable) {
 			Usable usable = (Usable) item;
 			usable.use(character);
-		}
+		} else
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No le encuentro ningun uso");
 
 		return false;
 	}
@@ -486,6 +485,10 @@ public class Lost implements State {
 
 	public void setCompletelyLost(boolean completelyLost) {
 		this.completelyLost = completelyLost;
+	}
+
+	public Object getCompletelyLost() {
+		return completelyLost;
 	}
 
 }

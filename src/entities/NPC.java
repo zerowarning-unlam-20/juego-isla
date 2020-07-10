@@ -50,6 +50,8 @@ public class NPC extends Entity {
 		}
 		super.onDeath(attack);
 		gameManager.getGame().pullTrigger(this.getClass().getName() + "_" + this.name + "_" + "dead");
+		this.location.removeEntity(this);
+		this.location = null;
 	}
 
 	public String getWeaponName() {

@@ -310,13 +310,17 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean talk(String otherName, String message) {
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return true;
 	}
 
 	@Override
 	public boolean listen(String otherName, String message) {
 		String answer = character.getChat(message);
-		talk(otherName.toLowerCase(), (answer != null) ? answer : character.getChat("デフォールト"));
+		if (answer == null) {
+			answer = character.getChat("ddefaultt");
+		}
+		talk(otherName.toLowerCase(), answer);
 		return answer != null;
 	}
 

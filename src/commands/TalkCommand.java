@@ -22,10 +22,13 @@ public class TalkCommand implements ActionCommand { // Uh falto implementar talk
 		objective = objective.trim();
 		String message = "";
 		aux = "";
-		while (args.hasNext() && !aux.contentEquals(",")) {
+		while (args.hasNext()) {
 			message += aux + " ";
-			aux += args.next() + " ";
+			aux = args.next();
 		}
+		message += aux;
+		message = message.trim();
+
 		character.talk(objective, message);
 	}
 }

@@ -168,7 +168,7 @@ public class Normal implements State {
 
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
-		if (!(src instanceof Holdable)) {
+		if (src != null && !(src instanceof Holdable)) {
 			Source source = (Source) src;
 			if (!(source.getContent() instanceof Liquid)) {
 				result = source.giveItems(character);
@@ -335,7 +335,7 @@ public class Normal implements State {
 			}
 		} else {
 			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-					"No puedo hablar con " + other.getOnlyName());
+					"No puedo hablar con " + otherName);
 		}
 		return false;
 	}
@@ -353,11 +353,12 @@ public class Normal implements State {
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para usar");
 			return false;
-		}
-		if (item instanceof Usable) {
+		} else if (item instanceof Usable) {
 			Usable usable = (Usable) item;
 			usable.use(character);
-		}
+		} else
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No le encuentro ningun uso");
 
 		return false;
 	}

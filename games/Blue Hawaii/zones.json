@@ -275,7 +275,7 @@
             "gender": "M",
             "locked": true,
             "name": "cofre",
-            "type": "box",
+            "type": "key_box",
             "weakness": "H"
           }
         ,
@@ -299,7 +299,7 @@
             ],
             "description": "Esqueleto tirado",
             "gender": "M",
-            "locked": true,
+            "locked": false,
             "name": "esqueleto",
             "type": "box",
             "weakness": "H"

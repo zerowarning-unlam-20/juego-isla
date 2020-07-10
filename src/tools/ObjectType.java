@@ -18,6 +18,7 @@ import items.types.Blueprint;
 import items.types.Bottle;
 import items.types.Box;
 import items.types.Food;
+import items.types.KeyBox;
 import items.types.Liquid;
 import items.types.MapItem;
 import items.types.Resource;
@@ -39,6 +40,9 @@ public enum ObjectType {
 
 	@SerializedName("box")
 	BOX(Box.class),
+
+	@SerializedName("key_box")
+	KEY_BOX(KeyBox.class),
 
 	@SerializedName("resource")
 	RESOURCE(Resource.class),
