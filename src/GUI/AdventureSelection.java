@@ -30,6 +30,9 @@ import java.awt.event.*;
 public class AdventureSelection extends JFrame implements ActionListener{
 
 	private String nombre;
+	private String gender;
+	private String adventureName;
+	
 	private AdventureSelection aventuraFrame;
 	private JPanel contentPane;
 	private JTextField aventurero;
@@ -57,6 +60,10 @@ public class AdventureSelection extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public AdventureSelection(String nombre, String gender) {
+		
+		this.nombre = nombre;
+		this.gender = gender;
+		
 		setTitle("ZeroWarning - Zork - Adventure Choice");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -119,7 +126,8 @@ public class AdventureSelection extends JFrame implements ActionListener{
 	    //Si clic en boton  => abrir la ventana principal del juego
 	    if(e.getSource() == btnNewButton){
 	    	
-	        GameInterface ventanaPrincipal = new GameInterface();
+	    	this.adventureName = comboBox.getSelectedItem().toString();
+	        GameInterface ventanaPrincipal = new GameInterface(this.nombre, this.gender, this.adventureName);
 	        //ventanaPrincipal.setResizable(false);
 	        ventanaPrincipal.setLocationRelativeTo(null);
 	        ventanaPrincipal.setVisible(true);

@@ -12,6 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 
 import javax.swing.event.*; //Para trabajar con eventos
+
+import manager.GameManager;
+import tools.Gender;
+
 import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Color;
@@ -43,7 +47,8 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 	/**
 	 * Create the frame.
 	 */
-	public GameInterface() {
+	public GameInterface(String name, String gender, String adventure) {
+		inicializarJuego(name, gender, adventure);
 		setTitle("ZeroWarning - Zork");
 		setForeground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,4 +103,11 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		} 
 	  } 
 	  
+	  public void inicializarJuego(String name, String gender, String adventure) {
+		  
+			GameManager game = new GameManager(false, false); //descative consola
+			//deberiamos setear el nombre de jugador
+			game.loadGame(adventure,name, Gender.valueOf(gender));
+			
+	  }
 }
