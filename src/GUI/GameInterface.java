@@ -57,6 +57,7 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 18));
 		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 		scroll = new JScrollPane(textArea);
 //		textArea.setBounds(12, 13, 408, 197);
 		scroll.setBounds(12, 13, 408, 197);
