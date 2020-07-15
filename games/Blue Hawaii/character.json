@@ -6,14 +6,17 @@
   "id": 1,
   "initialLocation": "norte",
   "inventory": {
-    "mano": {
-      "damage": 10.0,
-      "damageType": "B",
-      "description": "La mano",
-      "gender": "F",
-      "name": "mano",
-      "type": "weapon"
-    }
+    "items": {
+      "mano": {
+        "damage": 10.0,
+        "damageType": "B",
+        "description": "La mano",
+        "gender": "F",
+        "name": "mano",
+        "type": "weapon"
+      }
+    },
+    "type": "inventory"
   },
   "name": "Carlos",
   "stateName": "lost",

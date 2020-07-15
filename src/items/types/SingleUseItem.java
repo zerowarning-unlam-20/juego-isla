@@ -8,8 +8,8 @@ import tools.Gender;
 
 public class SingleUseItem extends Item implements Usable, Holdable {
 
-	public SingleUseItem(Gender gender, String name, String description, String unlocks) {
-		super(gender, name, description);
+	public SingleUseItem(Gender gender, String name, String description, int price, String unlocks) {
+		super(gender, name, description, price);
 	}
 
 	@Override

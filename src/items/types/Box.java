@@ -16,8 +16,9 @@ public class Box extends Item implements Dispenser, Attackable {
 	protected List<Item> content;
 	protected DamageType weakness;
 
-	public Box(Gender gender, String name, String description, boolean locked, String idKey, List<Item> items) {
-		super(gender, name, description);
+	public Box(Gender gender, String name, String description, int price, boolean locked, String idKey,
+			List<Item> items) {
+		super(gender, name, description, price);
 		this.locked = locked;
 		this.content = items;
 	}

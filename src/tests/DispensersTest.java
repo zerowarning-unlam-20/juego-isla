@@ -11,7 +11,7 @@ import entities.Player;
 import island.Area;
 import island.Location;
 import items.Effect;
-import items.Item;
+import items.Inventory;
 import items.types.Bottle;
 import items.types.Liquid;
 import items.types.Source;
@@ -32,22 +32,22 @@ class DispensersTest {
 		HashMap<String, Area> areas = new HashMap<>();
 		areas.put(itemArea.getName(), itemArea);
 		// Load locations
-		Location s1 = new Location(Gender.M, "s1", "Inicio", true, areas, new HashMap<>());
+		Location s1 = new Location(Gender.M, "s1", "Inicio", true, true, areas, new HashMap<>());
 		HashMap<String, Location> locations = new HashMap<>();
 		locations.put(s1.getName().toLowerCase(), s1);
 
 		// Add waterfall to location
-		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", new Effect(0D, null));
-		waterfall = new Source(Gender.F, "catarata", "Cataratas con mucha agua", water);
+		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", 0, new Effect(0D, null));
+		waterfall = new Source(Gender.F, "catarata", "Cataratas con mucha agua", water, 0);
 		s1.getArea("itemarea").addItem(waterfall);
 
 		// Load empty NPCs
 		HashMap<String, NPC> npcs = new HashMap<>();
 
 		// Load character
-		HashMap<String, Item> inventory = new HashMap<>();
-		bottle = new Bottle(Gender.F, "Botella", "Botella de vidrio");
-		inventory.put(bottle.getName().toLowerCase(), bottle);
+		Inventory inventory = new Inventory();
+		bottle = new Bottle(Gender.F, "Botella", "Botella de vidrio", 0);
+		inventory.addItem(bottle);
 		character = new Player(gameManager, Gender.M, "TestName", "test", s1, inventory, "s1");
 
 		// Load game
@@ -63,15 +63,15 @@ class DispensersTest {
 
 	@Test
 	public void bottleTest2() {
-		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", new Effect(0D, null));
+		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", 0, new Effect(0D, null));
 		bottle.setContent(water);
 		Assert.assertEquals(bottle.getContent(), water);
 	}
 
 	@Test
 	public void bottleTest3() { // Put water into a bottle
-		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", new Effect(0D, null));
+		Liquid water = new Liquid(Gender.F, "agua", "Agua de catarata", 0, new Effect(0D, null));
 		character.grab("agua", "catarata", "botella");
-		Assert.assertEquals(water, ((Bottle) character.getInventory().get("botella")).getContent());
+		Assert.assertEquals(water, ((Bottle) character.getInventory().getItem("botella")).getContent());
 	}
 }

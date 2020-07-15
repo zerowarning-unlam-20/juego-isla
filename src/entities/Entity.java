@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import island.GameObject;
 import island.Location;
+import items.Inventory;
 import items.Item;
 import items.properties.Attackable;
 import manager.GameManager;
@@ -18,13 +19,13 @@ public abstract class Entity extends GameObject implements Attackable {
 	protected Double baseHealth;
 	protected Double health;
 	protected Location location;
-	protected HashMap<String, Item> inventory;
+	protected Inventory inventory;
 	protected HashMap<DamageType, Double> weakAndRes;
 	protected String initialLocation;
 	protected State state;
 
 	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
-			HashMap<String, Item> inventory, String initialLocation) {
+			Inventory inventory, String initialLocation) {
 		super(gender, name, description);
 		this.baseHealth = 100d;
 		this.health = 100d;
@@ -61,13 +62,8 @@ public abstract class Entity extends GameObject implements Attackable {
 		return state.lookInventory();
 	}
 
-	public HashMap<String, Item> getInventory() {
+	public Inventory getInventory() {
 		return inventory;
-	}
-
-	public Item removeItem(Item item) {
-		inventory.remove(item.getName().toLowerCase());
-		return item;
 	}
 
 	public boolean grab(String item) {
@@ -116,7 +112,7 @@ public abstract class Entity extends GameObject implements Attackable {
 
 	public void addItem(Item item) {
 		gameManager.sendMessage(MessageType.EVENT, this.name, "Recibido: " + item.getName());
-		inventory.put(item.getName().toLowerCase(), item);
+		inventory.recieveItem(item);
 	}
 
 	public boolean lookAround() {
@@ -141,15 +137,12 @@ public abstract class Entity extends GameObject implements Attackable {
 
 	@Override
 	public boolean recieveAttack(Attack attack) {
-		state = state.recieveAttack(attack);
+		state = state.receiveAttack(attack);
 		return true;
 	}
 
 	public void onDeath(Attack attack) {
-		for (Item i : inventory.values()) {
-			attack.getAttacker().addItem(i);
-		}
-		inventory.clear();
+		inventory.giveAllItems(attack.getAttacker());
 	}
 
 	public boolean talk(String other, String message) {
@@ -190,5 +183,17 @@ public abstract class Entity extends GameObject implements Attackable {
 
 	public boolean inspect(String name) {
 		return state.inspect(name);
+	}
+
+	public boolean drop(String item) {
+		return state.drop(item);
+	}
+
+	public State eat(String name) {
+		return state.eat(name);
+	}
+
+	public void removeItem(Item item) {
+		inventory.removeItem(item);
 	}
 }

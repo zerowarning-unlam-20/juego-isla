@@ -9,8 +9,9 @@ import tools.Gender;
 public class KeyBox extends Box implements Unlockable {
 	private String idKey;
 
-	public KeyBox(Gender gender, String name, String description, boolean locked, String idKey, List<Item> items) {
-		super(gender, name, description, locked, idKey, items);
+	public KeyBox(Gender gender, String name, String description, int price, boolean locked, String idKey,
+			List<Item> items) {
+		super(gender, name, description, price, locked, idKey, items);
 	}
 
 	@Override

@@ -79,6 +79,7 @@
       }
     },
     "description": "norte de la isla",
+    "canDrop": true,
     "entities": {
     },
     "gender": "M",
@@ -180,6 +181,7 @@
         "name": "pastizal"
       }
     },
+    "canDrop": true,
     "description": "Oeste de la isla",
     "entities": {},
     "gender": "M",
@@ -227,6 +229,7 @@
       }
     },
     "areas": {},
+    "canDrop": true,
     "description": "Sur de la isla",
     "entities": {},
     "gender": "M",
@@ -277,8 +280,7 @@
             "name": "cofre",
             "type": "key_box",
             "weakness": "H"
-          }
-        ,
+          },
           "esqueleto": {
             "content": [
               {
@@ -304,10 +306,11 @@
             "type": "box",
             "weakness": "H"
           }
-      },
+        },
         "name": "esquina"
       }
     },
+    "canDrop": true,
     "description": "Cueva oscura",
     "entities": {
     },

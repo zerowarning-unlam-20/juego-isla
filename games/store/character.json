@@ -1,0 +1,29 @@
+{
+  "baseHealth": 100,
+  "description": "tipazo",
+  "gender": "M",
+  "health": 100,
+  "initialLocation": "tienda",
+  "inventory": {
+    "mano": {
+      "damage": 10.0,
+      "damageType": "B",
+      "description": "La mano",
+      "gender": "F",
+      "name": "mano",
+      "type": "weapon"
+    },
+    "dinero": {
+      "description": "dinero, gastalo que se devalua",
+      "gender": "M",
+      "name": "dinero",
+      "quantity": 200,
+      "resourceType": "currency",
+      "type": "resource"
+    }
+  },
+  "name": "Guybrush Threepwood",
+  "stateName": "normal",
+  "type": "player",
+  "weakAndRes": {}
+}

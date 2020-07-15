@@ -9,8 +9,8 @@ public class Weapon extends Item implements Holdable {
 	private Double damage;
 	private DamageType damageType;
 
-	public Weapon(Gender gender, String name, String description, DamageType damageType, Double damage) {
-		super(gender, name, description);
+	public Weapon(Gender gender, String name, String description, int price, DamageType damageType, Double damage) {
+		super(gender, name, description, price);
 		this.damageType = damageType;
 		this.damage = damage;
 	}

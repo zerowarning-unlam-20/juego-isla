@@ -5,6 +5,7 @@ import states.Dead;
 import states.Lost;
 import states.Normal;
 import states.State;
+import tools.MessageType;
 
 public class Effect {
 	private Double healthChange;
@@ -26,6 +27,8 @@ public class Effect {
 		State resultState = character.getState();
 		if (stateName != null) {
 			if (stateName.contentEquals("dead")) {
+				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+						character.getName() + " se murio");
 				resultState = new Dead(character);
 			}
 			if (stateName.contentEquals("normal")) {
@@ -40,6 +43,8 @@ public class Effect {
 			if (character.getHealth() + healthChange > character.getBaseHealth()) {
 				character.setHealth(character.getBaseHealth());
 			} else if (character.getHealth() + healthChange <= 0) {
+				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+						character.getName() + " se murio");
 				character.setState(new Dead(character));
 			} else
 				character.setHealth(character.getHealth() + healthChange);

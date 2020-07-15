@@ -10,12 +10,12 @@ import tools.Gender;
 public class Bottle extends Item implements Holdable, Dispenser {
 	private Item content;
 
-	public Bottle(Gender gender, String name, String description) {
-		super(gender, name, description);
+	public Bottle(Gender gender, String name, String description, int price) {
+		super(gender, name, description, price);
 	}
 
-	public Bottle(Gender gender, String name, String description, Item content, boolean infinite) {
-		super(gender, name, description);
+	public Bottle(Gender gender, String name, String description, int price, Item content, boolean infinite) {
+		super(gender, name, description, price);
 		this.content = content;
 	}
 

@@ -12,6 +12,8 @@ import java.util.Scanner;
 import commands.ActionCommand;
 import commands.AttackCommand;
 import commands.DrinkCommand;
+import commands.DropCommand;
+import commands.EatCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
 import commands.InspectCommand;
@@ -38,12 +40,14 @@ public class GameManager {
 	private boolean consoleMode;
 	private int turn;
 	private static List<Message> messageHistory = new ArrayList<>();
+	private String lastCommand;
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
 
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
+			lastCommand = "";
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
@@ -57,6 +61,7 @@ public class GameManager {
 
 	public GameManager(boolean consoleMode) {
 		try {
+			lastCommand = "";
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
@@ -78,7 +83,6 @@ public class GameManager {
 			soundManager.play();
 		} catch (Exception ex) {
 			System.out.println("Error sonido :" + ex.getMessage());
-			ex.printStackTrace();
 		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
@@ -112,6 +116,8 @@ public class GameManager {
 		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
 		actionCommands.put("read", new ReadCommand(game.getCharacter()));
 		actionCommands.put("talk", new TalkCommand(game.getCharacter()));
+		actionCommands.put("drop", new DropCommand(game.getCharacter()));
+		actionCommands.put("eat", new EatCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
@@ -204,6 +210,14 @@ public class GameManager {
 	public void sendCommand(String value) {
 		String normalize = Normalizer.normalize(value, Normalizer.Form.NFD);
 		value = normalize.replaceAll("[^\\p{ASCII}]", "");
+		if (value.trim().equalsIgnoreCase("rc")) {
+			Scanner scanner = new Scanner(lastCommand);
+			processCommand(scanner);
+			scanner.close();
+			return;
+		} else {
+			lastCommand = value;
+		}
 		if (value.trim().equalsIgnoreCase("pausar musica")) {
 			soundManager.pause();
 			sendMessage(MessageType.STORY, null, "Musica pausada");

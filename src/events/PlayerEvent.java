@@ -12,9 +12,9 @@ public class PlayerEvent extends Event {
 	private Effect effect;
 	private ArrayList<Item> addedItems;
 
-	public PlayerEvent(String name, String nextEvent, GameManager gameManager, Effect effect,
+	public PlayerEvent(String name, String nextEvent, GameManager gameManager, boolean allowNormalAction, Effect effect,
 			ArrayList<Item> addedItems) {
-		super(name, nextEvent, gameManager);
+		super(name, nextEvent, gameManager, allowNormalAction);
 		this.effect = effect;
 		this.addedItems = addedItems;
 	}

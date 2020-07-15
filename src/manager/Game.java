@@ -73,14 +73,14 @@ public class Game {
 		}
 	}
 
-	public boolean pullTrigger(String name) {
+	public Event pullTrigger(String name) {
 		Event event = events.get(name);
 		if (event != null) {
 			event.execute();
 			events.remove(name);
-			return true;
+			return event;
 		}
-		return false;
+		return null;
 	}
 
 	private void linkLocations() {
