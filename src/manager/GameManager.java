@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JTextArea;
+
+import GUI.GameInterface;
 import commands.ActionCommand;
 import commands.AttackCommand;
 import commands.DrinkCommand;
@@ -41,7 +44,7 @@ public class GameManager {
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
-
+	
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
 			helpCommands = WorldLoader.getHelpCommands();
@@ -80,6 +83,7 @@ public class GameManager {
 			System.out.println("Error sonido :" + ex.getMessage());
 			ex.printStackTrace();
 		}
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
 
@@ -94,6 +98,20 @@ public class GameManager {
 		}
 	}
 
+	public void interfaceRun(String msg) {
+		try {
+			Sound.filePath = "sounds/back.wav";
+			soundManager = new Sound();
+			soundManager.play();
+		} catch (Exception ex) {
+			System.out.println("Error sonido :" + ex.getMessage());
+			ex.printStackTrace();
+		}
+		System.out.println(msg);
+		sendCommand(msg.toLowerCase());
+
+	}
+	
 	public void reset() {
 		turn = 1;
 		game = null;
@@ -122,10 +140,10 @@ public class GameManager {
 				action.perform(strCommand);
 				turn++;
 			} else
-				sendMessage(MessageType.EVENT, null, "Que?");
+			    sendMessage(MessageType.EVENT, null, "Que?");
 		}
 	}
-
+	
 	public void sendMessage(MessageType type, String otherName, String mes) {
 		String content = mes.replaceAll("a el", "al");
 		Message message = null;
@@ -135,22 +153,29 @@ public class GameManager {
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println("//" + content + "//");
+				else
+					setMsgInterface("//" + content + "//");//
 				break;
 			case ("C"):
 				message = new Message(otherName + ": " + content, type);
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
+				else
+					setMsgInterface(otherName + ": " + content);//
 				break;
 			case ("S"):
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println(content);
+				else
+					setMsgInterface(content);//
 				break;
 			}
 		}
 		messageHistory.add(message);
 	}
 
+	
 	public List<Message> getMessageHistory() {
 		return messageHistory;
 	}
@@ -180,9 +205,30 @@ public class GameManager {
 			reset();
 			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
 					worldLoader.loadEntities(), worldLoader.loadEvents());
+			
 			loadCommands();
 			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
 			game.getCharacter().lookAround();
+		} catch (IOException e) {
+			System.out.println("Error al cargar el juego" + e.getMessage());
+			System.exit(-1);
+		}
+	}
+	
+	//
+	public void loadGameInterface(String folder, String name, Gender gender) {
+		WorldLoader worldLoader = new WorldLoader(folder);
+		try {
+			reset();
+			
+			/*game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
+					worldLoader.loadEvents());*/
+			
+			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());
+			loadCommands();
+			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());		
+			//game.getCharacter().lookAround();
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());
 			System.exit(-1);
@@ -212,6 +258,8 @@ public class GameManager {
 		} else
 			processCommand(new Scanner(value));
 	}
+	//
+	//
 
 	public void endGame() {
 		try {
@@ -236,5 +284,17 @@ public class GameManager {
 	public Sound getSoundManager() {
 		return soundManager;
 	}
+	////////////////////////////////////////////////////////////////////
+	private String msgInterface;
+	
+	public String getMsgInterface() {
+		return msgInterface;
+	}
+
+	public void setMsgInterface(String msgInterface) {
+		this.msgInterface = msgInterface;
+	}
+
+
 
 }
