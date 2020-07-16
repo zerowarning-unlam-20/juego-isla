@@ -5,22 +5,25 @@
   "health": 100,
   "initialLocation": "tienda",
   "inventory": {
-    "mano": {
-      "damage": 10.0,
-      "damageType": "B",
-      "description": "La mano",
-      "gender": "F",
-      "name": "mano",
-      "type": "weapon"
+    "items": {
+      "mano": {
+        "damage": 10.0,
+        "damageType": "B",
+        "description": "La mano",
+        "gender": "F",
+        "name": "mano",
+        "type": "weapon"
+      },
+      "dinero": {
+        "description": "dinero, gastalo que se devalua",
+        "gender": "M",
+        "name": "dinero",
+        "quantity": 200,
+        "resourceType": "currency",
+        "type": "resource"
+      }
     },
-    "dinero": {
-      "description": "dinero, gastalo que se devalua",
-      "gender": "M",
-      "name": "dinero",
-      "quantity": 200,
-      "resourceType": "currency",
-      "type": "resource"
-    }
+    "type": "inventory"
   },
   "name": "Guybrush Threepwood",
   "stateName": "normal",
