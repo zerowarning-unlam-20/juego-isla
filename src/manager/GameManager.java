@@ -223,18 +223,12 @@ public class GameManager {
 	}
 
 	public void endGame() {
-		try {
-			for (Entity entity : game.getEntities().values()) {
-				if (entity instanceof NPC && ((NPC) entity).getEntityListener() != null) {
-					((NPC) entity).getEntityListener().onEntityDisappeared(game.getCharacter());
-				}
+		for (Entity entity : game.getEntities().values()) {
+			if (entity instanceof NPC && ((NPC) entity).getEntityListener() != null) {
+				((NPC) entity).getEntityListener().onEntityDisappeared(game.getCharacter());
 			}
-			reset();
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			System.out.println("Error al salir del juego: " + e.getMessage());
-			System.exit(-1);
 		}
+		reset();
 		gameOver = true;
 	}
 
