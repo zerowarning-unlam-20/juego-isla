@@ -165,21 +165,16 @@ public class GameManager {
 		return testMode;
 	}
 
-	public void loadGame(String folder) {
-		WorldLoader worldLoader = new WorldLoader(folder);
-		try {
-			reset();
-			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
-					worldLoader.loadEvents());
-			loadCommands();
-			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
-			game.getCharacter().lookAround();
-		} catch (IOException e) {
-			System.out.println("Error al cargar el juego" + e.getMessage());
-			System.exit(-1);
-		}
-	}
-
+	/*
+	 * public void loadGame(String folder) { WorldLoader worldLoader = new
+	 * WorldLoader(folder); try { reset(); game = new Game(this,
+	 * worldLoader.loadCharacter(), worldLoader.loadLocations(),
+	 * worldLoader.loadEntities(), worldLoader.loadEvents()); loadCommands();
+	 * sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
+	 * game.getCharacter().lookAround(); } catch (IOException e) {
+	 * System.out.println("Error al cargar el juego" + e.getMessage());
+	 * System.exit(-1); } }
+	 */
 	public void loadGame(String folder, String name, Gender gender) {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
@@ -187,7 +182,7 @@ public class GameManager {
 			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
 					worldLoader.loadEntities(), worldLoader.loadEvents());
 			loadCommands();
-			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
+			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
 			game.getCharacter().lookAround();
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());

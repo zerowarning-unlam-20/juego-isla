@@ -26,16 +26,6 @@ public class Player extends Entity {
 		super(gameManager, gender, name, description, null, inventory, initialLocation);
 	}
 
-	public Player(GameManager gameManager, Gender gender, String name, String description, Location location,
-			Inventory inventory, String initialLocation) {
-		super(gameManager, gender, name, description, null, inventory, initialLocation);
-	}
-
-	public Player(Player character, String name, Gender gender) {
-		super(character.gameManager, gender, name, character.description, null, character.inventory,
-				character.initialLocation);
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -160,5 +150,9 @@ public class Player extends Entity {
 		if (event == null || event.isNormalActionAllowed())
 			return state.eat(itemName);
 		return state;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 }

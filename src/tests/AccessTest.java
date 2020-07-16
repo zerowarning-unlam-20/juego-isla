@@ -71,7 +71,7 @@ class AccessTest {
 		character.addItem(key);
 		character.goTo("s2");
 		character.unlock("s3", key.getName().toLowerCase());
-		character.open("s3");
+		character.open("puerta azul");
 		Assert.assertTrue(character.goTo("s3"));
 	}
 

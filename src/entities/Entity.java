@@ -37,6 +37,19 @@ public abstract class Entity extends GameObject implements Attackable {
 		this.initialLocation = initialLocation;
 	}
 
+	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
+			Inventory inventory, String initialLocation, State state) {
+		super(gender, name, description);
+		this.baseHealth = 100d;
+		this.health = 100d;
+		this.gameManager = gameManager;
+		this.location = location;
+		this.inventory = inventory;
+		weakAndRes = new HashMap<DamageType, Double>();
+		this.initialLocation = initialLocation;
+		this.state = state;
+	}
+
 	public void setState(State state) {
 		this.state = state;
 	}

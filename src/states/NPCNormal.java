@@ -9,7 +9,6 @@ import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
-import items.properties.Opening;
 import items.properties.Readablel;
 import items.properties.Unlockable;
 import items.properties.Usable;
@@ -55,11 +54,14 @@ public class NPCNormal implements State {
 	@Override
 	public boolean unlock(String toUnlockName, String keyName) {
 		Access toUnlock = character.getLocation().getAccesses().get(toUnlockName);
+		if (toUnlock == null) {
+			toUnlock = character.getLocation().getAccessForUse(toUnlockName);
+		}
 		Item key = character.getInventory().getItem(keyName);
 
-		String message = "No hay items para desbloquear ";
+		String message = "No hay items para desbloquear";
 		boolean result = false;
-		if (toUnlock != null && toUnlock instanceof Opening && toUnlock instanceof Unlockable) {
+		if (toUnlock instanceof Unlockable) {
 			Unlockable access = toUnlock;
 			if (key instanceof Key) {
 				access.unlock(key);

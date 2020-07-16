@@ -10,6 +10,7 @@ import items.types.Bottle;
 import items.types.Weapon;
 import manager.GameManager;
 import states.Lost;
+import tools.Gender;
 
 class CommandTest {
 	GameManager game;
@@ -18,7 +19,7 @@ class CommandTest {
 	@BeforeEach
 	public void load() {
 		game = new GameManager(true);
-		game.loadGame("Blue Hawaii");
+		game.loadGame("Blue Hawaii", "carlos", Gender.M);
 		player = game.getGame().getCharacter();
 	}
 
@@ -29,6 +30,14 @@ class CommandTest {
 		game.sendCommand("ir oeste");
 		Location location = game.getGame().getCharacter().getLocation();
 		Assert.assertEquals("Oeste", location.getName());
+	}
+
+	@Test
+	public void testGoto2() {
+		game.sendCommand("agarrar brujula");
+		game.sendCommand("ir oeste");
+		Location location = game.getGame().getCharacter().getLocation();
+		Assert.assertNotEquals("Oeste", location.getName());
 	}
 
 	@Test

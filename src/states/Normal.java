@@ -70,9 +70,12 @@ public class Normal implements State {
 	@Override
 	public boolean unlock(String toUnlockName, String keyName) {
 		Access toUnlock = character.getLocation().getAccesses().get(toUnlockName);
+		if (toUnlock == null) {
+			toUnlock = character.getLocation().getAccessForUse(toUnlockName);
+		}
 		Item key = character.getInventory().getItem(keyName);
 
-		String message = "No hay items para desbloquear ";
+		String message = "No hay items para desbloquear";
 		boolean result = false;
 		if (toUnlock instanceof Unlockable) {
 			Unlockable access = toUnlock;

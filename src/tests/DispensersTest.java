@@ -48,7 +48,7 @@ class DispensersTest {
 		Inventory inventory = new Inventory();
 		bottle = new Bottle(Gender.F, "Botella", "Botella de vidrio", 0);
 		inventory.addItem(bottle);
-		character = new Player(gameManager, Gender.M, "TestName", "test", s1, inventory, "s1");
+		character = new Player(gameManager, Gender.M, "TestName", "test", inventory, "s1");
 
 		// Load game
 		Game game = new Game(gameManager, character, locations, npcs, null);
