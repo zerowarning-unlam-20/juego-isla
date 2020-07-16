@@ -40,7 +40,8 @@ public class Box extends Item implements Dispenser, Attackable {
 			}
 			return message + contentMessage;
 		}
-		return ("No se puede ver lo que está dentro de " + this.getSingularName());
+		return ("No se puede ver lo que está dentro de " + this.getSingularName() + ", esta bloquead"
+				+ this.getTermination());
 	}
 
 	@Override
