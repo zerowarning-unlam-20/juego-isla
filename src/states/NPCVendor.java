@@ -1,5 +1,6 @@
 package states;
 
+import entities.AggressiveListener;
 import entities.Attack;
 import entities.NPC;
 import entities.Player;
@@ -101,6 +102,8 @@ public class NPCVendor implements State {
 		} else {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), " Ahora vas a ver");
 			character.setState(new NPCNormal(character));
+			character.setEntityListener(new AggressiveListener(character));
+			character.getEntityListener().onEntityAppeared(attack.getAttacker());
 		}
 
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),

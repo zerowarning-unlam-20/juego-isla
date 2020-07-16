@@ -10,17 +10,20 @@
     "health": 80,
     "initialLocation": "tienda",
     "inventory": {
-      "fulbito": {
-        "description": "fulbito antes de la anmat",
-        "gender": "M",
-        "itemEffect": {
-          "healthChange": -100,
-          "type": "item_effect"
-        },
-        "name": "fulbito",
-        "type": "food",
-        "value": 15
-      }
+      "items": {
+        "fulbito": {
+          "description": "fulbito antes de la anmat",
+          "gender": "M",
+          "itemEffect": {
+            "healthChange": -100,
+            "type": "item_effect"
+          },
+          "name": "fulbito",
+          "type": "food",
+          "value": 15
+        }
+      },
+      "type": "inventory"
     },
     "name": "vendedor",
     "npcType": "passive",
