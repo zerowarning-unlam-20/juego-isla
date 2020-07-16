@@ -15,6 +15,7 @@ import island.GameObject;
 import states.Dead;
 import states.Lost;
 import states.NPCNormal;
+import states.NPCVendor;
 import states.Normal;
 
 public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
@@ -36,6 +37,9 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 			JsonElement stateName = jsonObject.get("stateName");
 			String sn = stateName.getAsString();
 			switch (sn) {
+			case "vendor":
+				character.setState(new NPCVendor(character));
+				break;
 			case "normal":
 				character.setState(new NPCNormal(character));
 				break;

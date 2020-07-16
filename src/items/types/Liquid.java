@@ -1,8 +1,8 @@
 package items.types;
 
 import entities.Entity;
-import items.Item;
 import items.Effect;
+import items.Item;
 import items.properties.Consumable;
 import states.State;
 import tools.Gender;
@@ -10,8 +10,8 @@ import tools.Gender;
 public class Liquid extends Item implements Consumable {
 	private Effect itemEffect;
 
-	public Liquid(Gender gender, String name, String description, Effect itemEffect) {
-		super(gender, name, description);
+	public Liquid(Gender gender, String name, String description, int price, Effect itemEffect) {
+		super(gender, name, description, price);
 		this.itemEffect = itemEffect;
 	}
 

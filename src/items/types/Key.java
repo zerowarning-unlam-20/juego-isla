@@ -6,8 +6,8 @@ import tools.Gender;
 
 public class Key extends Item implements Installable {
 
-	public Key(Gender gender, String name, String description) {
-		super(gender, name, description);
+	public Key(Gender gender, String name, String description, int price) {
+		super(gender, name, description, price);
 	}
 
 }

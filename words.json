@@ -23,6 +23,8 @@
   "pegar": "attack",
   "recoger": "grab",
   "revisar": "inspect",
+  "revolear": "drop",
+  "tirar": "drop",
   "tomar": "drink",
   "usar": "use",
   "ver": "look"

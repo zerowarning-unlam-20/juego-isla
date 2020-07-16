@@ -25,8 +25,8 @@ class BookTest {
 		gameManager = new GameManager(true);
 
 		// Load environment
-		Location cave = new Location(Gender.M, "cueva", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location outside = new Location(Gender.M, "afuera", "afuera", true, new HashMap<>(), new HashMap<>());
+		Location cave = new Location(Gender.M, "cueva", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location outside = new Location(Gender.M, "afuera", "afuera", true, true, new HashMap<>(), new HashMap<>());
 		HashMap<String, Location> locations = new HashMap<>();
 		locations.put(cave.getName().toLowerCase(), cave);
 		locations.put(outside.getName().toLowerCase(), outside);
@@ -35,7 +35,7 @@ class BookTest {
 		HashMap<String, NPC> npcs = new HashMap<>();
 
 		// Load accesses
-		Access exit = new Access(Gender.F, "salida", "salida de cueva", false, true, null, "afuera", null,
+		Access exit = new Access(Gender.F, "salida", "salida de cueva", 0, false, true, null, "afuera", null,
 				DamageType.HACK);
 		cave.addAccess(exit);
 
@@ -50,7 +50,7 @@ class BookTest {
 	@Test
 	public void bookTest1() {
 		Text note = new Text(Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
-				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
+				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo", 0);
 		character.addItem(note);
 		Assert.assertFalse(character.look("hoja"));
 	}
@@ -58,7 +58,7 @@ class BookTest {
 	@Test
 	public void bookTest2() {
 		Text note = new Text(Gender.F, "Hoja", "Hoja del viajero", "Se necesitan troncos y "
-				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo");
+				+ "lianas para poder armar la canoa. " + "Tambien llevar provisiones (IMPORTANTE COMIDA) y un remo", 0);
 		character.addItem(note);
 		character.goTo("afuera");
 		Assert.assertTrue(character.read("hoja"));

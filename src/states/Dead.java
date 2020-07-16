@@ -83,7 +83,7 @@ public class Dead implements State {
 	}
 
 	@Override
-	public State recieveAttack(Attack attack) {
+	public State receiveAttack(Attack attack) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 				"Ya esta caid" + character.getTermination());
 		return this;
@@ -132,6 +132,20 @@ public class Dead implements State {
 
 	@Override
 	public State drink(String name, String dispenserName) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
+		return this;
+	}
+
+	@Override
+	public boolean drop(String item) {
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+				"Ya esta caid" + character.getTermination());
+		return false;
+	}
+
+	@Override
+	public State eat(String name) {
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 				"Ya esta caid" + character.getTermination());
 		return this;

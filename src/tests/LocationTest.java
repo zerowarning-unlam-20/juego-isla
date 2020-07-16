@@ -25,31 +25,31 @@ class LocationTest {
 		gameManager = new GameManager(true);
 
 		// Load locations
-		Location s1 = new Location(Gender.M, "s1", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location s2 = new Location(Gender.M, "s2", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location s3 = new Location(Gender.M, "s3", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location s4 = new Location(Gender.M, "s4", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location s5 = new Location(Gender.M, "s5", "Inicio", true, new HashMap<>(), new HashMap<>());
-		Location s6 = new Location(Gender.M, "s6", "Inicio", true, new HashMap<>(), new HashMap<>());
+		Location s1 = new Location(Gender.M, "s1", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s2 = new Location(Gender.M, "s2", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s3 = new Location(Gender.M, "s3", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s4 = new Location(Gender.M, "s4", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s5 = new Location(Gender.M, "s5", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s6 = new Location(Gender.M, "s6", "Inicio", true, true, new HashMap<>(), new HashMap<>());
 
 		// Load accesses
-		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
+		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
 
-		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s1", null, DamageType.BLUNT));
-		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s3", null, DamageType.BLUNT));
-		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s5", null, DamageType.BLUNT));
-		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s6", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s1", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s3", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s5", null, DamageType.BLUNT));
+		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s6", null, DamageType.BLUNT));
 
-		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
-		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s4", null, DamageType.BLUNT));
+		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
+		s3.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s4", null, DamageType.BLUNT));
 
-		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s3", null, DamageType.BLUNT));
-		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s5", null, DamageType.BLUNT));
+		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s3", null, DamageType.BLUNT));
+		s4.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s5", null, DamageType.BLUNT));
 
-		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s4", null, DamageType.BLUNT));
-		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
+		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s4", null, DamageType.BLUNT));
+		s5.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
 
-		s6.addAccess(new Access(Gender.F, "Puerta", "Puerta", false, true, null, "s2", null, DamageType.BLUNT));
+		s6.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
 
 		HashMap<String, Location> locations = new HashMap<>();
 		locations.put(s1.getName().toLowerCase(), s1);

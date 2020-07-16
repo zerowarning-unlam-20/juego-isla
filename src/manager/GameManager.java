@@ -15,6 +15,8 @@ import GUI.GameInterface;
 import commands.ActionCommand;
 import commands.AttackCommand;
 import commands.DrinkCommand;
+import commands.DropCommand;
+import commands.EatCommand;
 import commands.GoCommand;
 import commands.GrabCommand;
 import commands.InspectCommand;
@@ -41,12 +43,14 @@ public class GameManager {
 	private boolean consoleMode;
 	private int turn;
 	private static List<Message> messageHistory = new ArrayList<>();
+	private String lastCommand;
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
 	
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
+			lastCommand = "";
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
@@ -60,6 +64,7 @@ public class GameManager {
 
 	public GameManager(boolean consoleMode) {
 		try {
+			lastCommand = "";
 			helpCommands = WorldLoader.getHelpCommands();
 			wordBuilder = new WordBuilder("words.json");
 		} catch (IOException e) {
@@ -81,7 +86,6 @@ public class GameManager {
 			soundManager.play();
 		} catch (Exception ex) {
 			System.out.println("Error sonido :" + ex.getMessage());
-			ex.printStackTrace();
 		}
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -131,6 +135,8 @@ public class GameManager {
 		actionCommands.put("inspect", new InspectCommand(game.getCharacter()));
 		actionCommands.put("read", new ReadCommand(game.getCharacter()));
 		actionCommands.put("talk", new TalkCommand(game.getCharacter()));
+		actionCommands.put("drop", new DropCommand(game.getCharacter()));
+		actionCommands.put("eat", new EatCommand(game.getCharacter()));
 	}
 
 	private void processCommand(Scanner strCommand) {
@@ -188,25 +194,17 @@ public class GameManager {
 		return testMode;
 	}
 
-	public void loadGame(String folder) {
-		WorldLoader worldLoader = new WorldLoader(folder);
-		try {
-			reset();
-		    game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
-					worldLoader.loadEvents());
-		    
-			/*game = new Game(this, "matias",Gender.valueOf("M"), worldLoader.loadCharacter(), worldLoader.loadLocations(),
-					worldLoader.loadEntities(), worldLoader.loadEvents());*/
-			
-			loadCommands();
-			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
-			game.getCharacter().lookAround();
-		} catch (IOException e) {
-			System.out.println("Error al cargar el juego" + e.getMessage());
-			System.exit(-1);
-		}
-	}
 
+	/*
+	 * public void loadGame(String folder) { WorldLoader worldLoader = new
+	 * WorldLoader(folder); try { reset(); game = new Game(this,
+	 * worldLoader.loadCharacter(), worldLoader.loadLocations(),
+	 * worldLoader.loadEntities(), worldLoader.loadEvents()); loadCommands();
+	 * sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
+	 * game.getCharacter().lookAround(); } catch (IOException e) {
+	 * System.out.println("Error al cargar el juego" + e.getMessage());
+	 * System.exit(-1); } }
+	 */
 	public void loadGame(String folder, String name, Gender gender) {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
@@ -218,7 +216,7 @@ public class GameManager {
 					worldLoader.loadEvents());
 			
 			loadCommands();
-			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
+			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
 			game.getCharacter().lookAround();
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());
@@ -262,6 +260,14 @@ public class GameManager {
 	public void sendCommand(String value) {
 		String normalize = Normalizer.normalize(value, Normalizer.Form.NFD);
 		value = normalize.replaceAll("[^\\p{ASCII}]", "");
+		if (value.trim().equalsIgnoreCase("rc")) {
+			Scanner scanner = new Scanner(lastCommand);
+			processCommand(scanner);
+			scanner.close();
+			return;
+		} else {
+			lastCommand = value;
+		}
 		if (value.trim().equalsIgnoreCase("pausar musica")) {
 			soundManager.pause();
 			sendMessage(MessageType.STORY, null, "Musica pausada");
@@ -274,18 +280,12 @@ public class GameManager {
 	//
 
 	public void endGame() {
-		try {
-			for (Entity entity : game.getEntities().values()) {
-				if (entity instanceof NPC && ((NPC) entity).getEntityListener() != null) {
-					((NPC) entity).getEntityListener().onEntityDisappeared(game.getCharacter());
-				}
+		for (Entity entity : game.getEntities().values()) {
+			if (entity instanceof NPC && ((NPC) entity).getEntityListener() != null) {
+				((NPC) entity).getEntityListener().onEntityDisappeared(game.getCharacter());
 			}
-			reset();
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			System.out.println("Error al salir del juego: " + e.getMessage());
-			System.exit(-1);
 		}
+		reset();
 		gameOver = true;
 	}
 

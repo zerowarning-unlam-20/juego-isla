@@ -45,6 +45,7 @@
         "type": "area"
       }
     },
+    "canDrop": true,
     "description": "Estás en un muelle",
     "entities": {},
     "gender": "M",
@@ -64,6 +65,7 @@
       }
     },
     "areas": {},
+    "canDrop": true,
     "description": "Estás en una sucia taberna",
     "entities": {},
     "gender": "F",

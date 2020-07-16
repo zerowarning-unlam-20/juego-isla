@@ -7,22 +7,24 @@
     "health": 80,
     "initialLocation": "sur",
     "inventory": {
-      "cuchillo": {
-        "damage": 25.0,
-        "damageType": "S",
-        "description": "Cuchillo oxidado hecho con chatarra",
-        "gender": "M",
-        "name": "Cuchillo oxidado",
-        "type": "weapon"
-      }
+      "items": {
+        "cuchillo oxidado": {
+          "damage": 25.0,
+          "damageType": "S",
+          "description": "Cuchillo oxidado hecho con chatarra",
+          "gender": "M",
+          "name": "Cuchillo oxidado",
+          "type": "weapon"
+        }
+      },
+      "type": "inventory"
     },
     "name": "mono",
     "npcType": "aggressive",
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {
-    },
-    "weaponName": "cuchillo"
+    }
   },
   {
     "baseHealth": 150,
@@ -32,31 +34,27 @@
     "health": 150,
     "initialLocation": "este",
     "inventory": {
-      "madera doblada": {
-        "description": "Madera doblada",
-        "gender": "F",
-        "itemType": "R",
-        "name": "Madera doblada",
-        "resourceType": "wood",
-        "type": "resource"
+      "items": {
+        "madera en buen estado": {
+          "description": "Madera en buen estado",
+          "gender": "F",
+          "name": "Madera en buen estado",
+          "quantity": 2,
+          "resourceType": "wood",
+          "type": "resource"
+        }
       },
-      "madera en buen estado": {
-        "description": "Madera en buen estado",
-        "gender": "F",
-        "name": "Madera en buen estado",
-        "resourceType": "wood",
-        "type": "resource"
+      "type": "inventory"
+    },
+      "name": "palmera",
+      "npcType": "inanimated",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "H": 2,
+        "S": 0.1
       }
     },
-    "name": "palmera",
-    "npcType": "inanimated",
-    "stateName": "normal",
-    "type": "NPC",
-    "weakAndRes": {
-      "H": 2,
-      "S": 0.1
-    }
-  },
   {
     "baseHealth": 50,
     "chat": {},
@@ -65,23 +63,27 @@
     "health": 50,
     "initialLocation": "sur",
     "inventory": {
-      "liana": {
-        "description": "Liana en buen estado",
-        "gender": "F",
-        "name": "liana cortada",
-        "resourceType": "rope",
-        "type": "resource"
+      "items": {
+        "liana cortada": {
+          "description": "Liana recien cortada",
+          "gender": "F",
+          "name": "liana cortada",
+          "quantity": 1,
+          "resourceType": "rope",
+          "type": "resource"
+        }
+      },
+      "type": "inventory"
+    },
+      "name": "liana",
+      "npcType": "inanimated",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "H": 0,
+        "S": 1
       }
     },
-    "name": "liana",
-    "npcType": "inanimated",
-    "stateName": "normal",
-    "type": "NPC",
-    "weakAndRes": {
-      "H": 0,
-      "S": 1
-    }
-  },
   {
     "baseHealth": 200,
     "chat": {},
@@ -90,24 +92,26 @@
     "health": 200,
     "initialLocation": "mar",
     "inventory": {
-      "colmillo": {
-        "damage": 40.0,
-        "damageType": "S",
-        "description": "Colmillo afilado de tiburon",
-        "gender": "M",
-        "name": "Colmillo de tiburon",
-        "type": "weapon"
+      "items": {
+        "colmillo afilado de tiburon": {
+          "damage": 40.0,
+          "damageType": "S",
+          "description": "Colmillo afilado de tiburon",
+          "gender": "M",
+          "name": "Colmillo de tiburon",
+          "type": "weapon"
+        }
+      },
+      "type": "inventory"
+    },
+      "name": "tiburon",
+      "npcType": "aggressive",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "B": 20.0,
+        "H": 0.6,
+        "S": 0.6
       }
-    },
-    "name": "tiburon",
-    "npcType": "aggressive",
-    "stateName": "normal",
-    "type": "NPC",
-    "weakAndRes": {
-      "B": 20.0,
-      "H": 0.6,
-      "S": 0.6
-    },
-    "weaponName": "colmillo"
-  }
+    }
 ]

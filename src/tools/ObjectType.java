@@ -13,6 +13,7 @@ import island.GameObject;
 import island.Location;
 import items.Access;
 import items.Effect;
+import items.Inventory;
 import items.Item;
 import items.types.Blueprint;
 import items.types.Bottle;
@@ -76,6 +77,9 @@ public enum ObjectType {
 
 	@SerializedName("area")
 	AREA(Area.class),
+
+	@SerializedName("inventory")
+	INVENTORY(Inventory.class),
 
 	@SerializedName("liquid")
 	LIQUID(Liquid.class),

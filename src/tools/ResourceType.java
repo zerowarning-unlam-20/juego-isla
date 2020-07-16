@@ -16,7 +16,8 @@ public enum ResourceType {
 	WOOD("madera"), @SerializedName("rope")
 	ROPE("cuerda"), @SerializedName("stone")
 	STONE("piedra"), @SerializedName("food")
-	FOOD("comida");
+	FOOD("comida"), @SerializedName("currency")
+	CURRENCY("currency");
 
 	private final String value;
 

@@ -5,8 +5,9 @@ import manager.GameManager;
 
 public class AccessEvent extends Event {
 
-	public AccessEvent(String name, String nextEvent, GameManager gameManager, String unlocks) {
-		super(name, nextEvent, gameManager);
+	public AccessEvent(String name, String nextEvent, GameManager gameManager, boolean allowNormalAction,
+			String unlocks) {
+		super(name, nextEvent, gameManager, allowNormalAction);
 		this.unlocks = unlocks;
 	}
 
@@ -20,11 +21,6 @@ public class AccessEvent extends Event {
 			access.open();
 		}
 		gameManager.getGame().pullTrigger(nextEvent);
-	}
-
-	@Override
-	public void linkManager(GameManager gameManager) {
-		this.gameManager = gameManager;
 	}
 
 }

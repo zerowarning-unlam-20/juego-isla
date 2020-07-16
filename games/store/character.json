@@ -1,10 +1,9 @@
 {
   "baseHealth": 100,
-  "description": "Tipo perdido",
+  "description": "tipazo",
   "gender": "M",
   "health": 100,
-  "id": 1,
-  "initialLocation": "norte",
+  "initialLocation": "tienda",
   "inventory": {
     "items": {
       "mano": {
@@ -14,12 +13,20 @@
         "gender": "F",
         "name": "mano",
         "type": "weapon"
+      },
+      "dinero": {
+        "description": "dinero, gastalo que se devalua",
+        "gender": "M",
+        "name": "dinero",
+        "quantity": 200,
+        "resourceType": "currency",
+        "type": "resource"
       }
     },
     "type": "inventory"
   },
-  "name": "Carlos",
-  "stateName": "lost",
+  "name": "Guybrush Threepwood",
+  "stateName": "normal",
   "type": "player",
   "weakAndRes": {}
 }

@@ -1,0 +1,36 @@
+[
+  {
+    "baseHealth": 80,
+    "chat": {
+      "ddefaultt": "Hola",
+      "hola": "¡Hola, bienvenid@ a la tienda!"
+    },
+    "description": "vendedor",
+    "gender": "M",
+    "health": 80,
+    "initialLocation": "tienda",
+    "inventory": {
+      "items": {
+        "fulbito": {
+          "description": "fulbito antes de la anmat",
+          "gender": "M",
+          "itemEffect": {
+            "healthChange": -100,
+            "type": "item_effect"
+          },
+          "name": "fulbito",
+          "type": "food",
+          "value": 15
+        }
+      },
+      "type": "inventory"
+    },
+    "name": "vendedor",
+    "npcType": "passive",
+    "stateName": "vendor",
+    "type": "NPC",
+    "weakAndRes": {
+      "SH": 100
+    }
+  }
+]

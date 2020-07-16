@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import manager.GameManager;
+import tools.Gender;
 
 class WorldLoaderTest {
 
@@ -17,7 +18,7 @@ class WorldLoaderTest {
 	@Test
 	void test() throws FileNotFoundException, IOException {
 		GameManager gameManager = new GameManager(true);
-		gameManager.loadGame("Blue Hawaii");
+		gameManager.loadGame("Blue Hawaii", "Carlos", Gender.M);
 	}
 
 }
