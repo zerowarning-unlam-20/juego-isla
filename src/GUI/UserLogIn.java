@@ -1,20 +1,35 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.event.*; //Para trabajar con eventos
+
+
 import java.awt.event.*;
 
 
@@ -22,11 +37,17 @@ public class UserLogIn extends JFrame implements ActionListener{ // ChangeListen
 
 	private static UserLogIn frame;
 	private JPanel contentPane;
+	private JPanel panelImagen;
 	private JTextField txtIngreseSuNombre;
 	private JTextField username;
 	private JTextField txtGenero;
 	private JComboBox comboBox;
 	private JButton btnNewButton;
+
+
+	private ImageIcon fondo;
+	
+
 	
 	/**
 	 * Launch the application.
@@ -48,16 +69,37 @@ public class UserLogIn extends JFrame implements ActionListener{ // ChangeListen
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public UserLogIn() {
+	public UserLogIn() throws IOException {
 		setTitle("ZeroWarning - Zork - Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+				
+
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 
+		
+				
+		fondo = new ImageIcon("fondo.gif");
+		JLabel picLabel = new JLabel();
+//		ImageIcon imageIcon = new ImageIcon("fondo.gif");
+		picLabel.setIcon(fondo);
+		picLabel.setBounds(0, 0, 600, 600);
+		//picLabel.setIcon(new ImageIcon(fondo.getImage().getScaledInstance(picLabel.getWidth(), picLabel.getHeight(), Image.SCALE_SMOOTH)));
+		fondo.setImageObserver(picLabel);
+		//contentPane.add(picLabel);
+		
+		
+		
+		
+		
 		txtIngreseSuNombre = new JTextField();
 		txtIngreseSuNombre.setEditable(false);
 		txtIngreseSuNombre.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -69,8 +111,19 @@ public class UserLogIn extends JFrame implements ActionListener{ // ChangeListen
 		username = new JTextField();
 		username.setFont(new Font("Consolas", Font.PLAIN, 14));
 		username.setBounds(86, 82, 201, 30);
+		
 		contentPane.add(username);
 		username.setColumns(10);
+		
+		//<foco en textfield
+		addWindowListener( new WindowAdapter() {
+		       public void windowOpened( WindowEvent e ){
+		           username.requestFocus();
+		       }
+		}); 
+		
+
+		
 		username.addActionListener(this);	 // Accion a tomar <==> se presiona el ENTER ==> INGRESAR TEXTO
 
 		btnNewButton = new JButton("OK");
@@ -125,5 +178,7 @@ public class UserLogIn extends JFrame implements ActionListener{ // ChangeListen
 	    } 
 	  } 
 	  
+	  //////////////////////////////////////////////////////////////////////////////////////////
+
 	
 }

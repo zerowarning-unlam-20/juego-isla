@@ -35,8 +35,7 @@ public class WordBuilder {
 		String result = writer.toString();
 
 		Gson gson = new Gson();
-		words = gson.fromJson(result, new TypeToken<HashMap<String, String>>() {
-		}.getType());
+		words = gson.fromJson(result, new TypeToken<HashMap<String, String>>() {}.getType());
 	}
 
 	public String getWord(String from) {

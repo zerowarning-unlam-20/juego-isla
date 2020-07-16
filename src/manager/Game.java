@@ -51,7 +51,7 @@ public class Game {
 		character.setGender(gender);
 
 		this.character.linkToManager(gameManager);
-
+		
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		locations.get(character.getInitialLocation()).addEntity(character);
 		this.entities = npcList;

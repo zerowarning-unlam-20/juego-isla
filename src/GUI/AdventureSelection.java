@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -17,11 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import javax.swing.event.*; //Para trabajar con eventos
@@ -30,12 +33,18 @@ import java.awt.event.*;
 public class AdventureSelection extends JFrame implements ActionListener{
 
 	private String nombre;
+	private String gender;
+	private String adventureName;
+	
 	private AdventureSelection aventuraFrame;
 	private JPanel contentPane;
 	private JTextField aventurero;
 	private JTextField txtElijaSuAventura_1;
 	private JComboBox comboBox;
 	private JButton btnNewButton;
+	
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -55,8 +64,13 @@ public class AdventureSelection extends JFrame implements ActionListener{
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public AdventureSelection(String nombre, String gender) {
+	public AdventureSelection(String nombre, String gender) throws IOException {
+		
+		this.nombre = nombre;
+		this.gender = gender;
+		
 		setTitle("ZeroWarning - Zork - Adventure Choice");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -66,6 +80,10 @@ public class AdventureSelection extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
+
+		
 		
 		aventurero = new JTextField();
 		aventurero.setFont(new Font("Consolas", Font.PLAIN, 27));
@@ -84,9 +102,11 @@ public class AdventureSelection extends JFrame implements ActionListener{
 		for(String game : games) {
 			comboBox.addItem(game);
 		}
+		
 		btnNewButton = new JButton("OK");
 		btnNewButton.setBounds(347, 184, 62, 33);
 		btnNewButton.addActionListener(this);
+
 		contentPane.add(btnNewButton);
 		
 		txtElijaSuAventura_1 = new JTextField();
@@ -96,6 +116,8 @@ public class AdventureSelection extends JFrame implements ActionListener{
 		txtElijaSuAventura_1.setColumns(10);
 		txtElijaSuAventura_1.setBounds(105, 106, 304, 42);
 		contentPane.add(txtElijaSuAventura_1);
+		
+
 	}
 	
 	public static void runFrame(String nombre, String gender) {
@@ -119,8 +141,9 @@ public class AdventureSelection extends JFrame implements ActionListener{
 	    //Si clic en boton  => abrir la ventana principal del juego
 	    if(e.getSource() == btnNewButton){
 	    	
-	        GameInterface ventanaPrincipal = new GameInterface();
-	        //ventanaPrincipal.setResizable(false);
+	    	this.adventureName = comboBox.getSelectedItem().toString();
+	    	//ventanaPrincipal.setResizable(false);
+	    	GameInterface ventanaPrincipal = new GameInterface(this.nombre, this.gender, this.adventureName);
 	        ventanaPrincipal.setLocationRelativeTo(null);
 	        ventanaPrincipal.setVisible(true);
 	        this.setVisible(false);

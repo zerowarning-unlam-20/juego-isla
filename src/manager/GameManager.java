@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JTextArea;
+
+import GUI.GameInterface;
 import commands.ActionCommand;
 import commands.AttackCommand;
 import commands.DrinkCommand;
@@ -44,7 +47,7 @@ public class GameManager {
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
-
+	
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
 			lastCommand = "";
@@ -84,6 +87,7 @@ public class GameManager {
 		} catch (Exception ex) {
 			System.out.println("Error sonido :" + ex.getMessage());
 		}
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
 
@@ -94,10 +98,25 @@ public class GameManager {
 				System.out.println("Error en entrada: " + e.getMessage());
 				System.exit(-1);
 			}
+			System.out.println(turn);
 			sendCommand(currentCommand);
+			System.out.println(turn);
 		}
 	}
 
+	public void interfaceRun(String msg) {
+		try {
+			Sound.filePath = "sounds/back.wav";
+			soundManager = new Sound();
+			soundManager.play();
+		} catch (Exception ex) {
+			System.out.println("Error sonido :" + ex.getMessage());
+			ex.printStackTrace();
+		}
+		msgInterface = "";
+		sendCommand(msg.toLowerCase());
+	}
+	
 	public void reset() {
 		turn = 1;
 		game = null;
@@ -127,12 +146,14 @@ public class GameManager {
 			if (action != null) {
 				action.perform(strCommand);
 				turn++;
+				//endTurn = true;
 			} else
-				sendMessage(MessageType.EVENT, null, "Que?");
+			    sendMessage(MessageType.EVENT, null, "Que?");
 		}
 	}
-
+	
 	public void sendMessage(MessageType type, String otherName, String mes) {
+		
 		String content = mes.replaceAll("a el", "al");
 		Message message = null;
 		if (testMode == false) {
@@ -141,22 +162,30 @@ public class GameManager {
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println("//" + content + "//");
+				else
+					setMsgInterface("//" + content + "//");//
 				break;
 			case ("C"):
 				message = new Message(otherName + ": " + content, type);
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
+				else {
+					setMsgInterface(otherName + ": " + content);//
+				}
 				break;
 			case ("S"):
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println(content);
+				else
+					setMsgInterface(content);//
 				break;
 			}
 		}
 		messageHistory.add(message);
 	}
 
+	
 	public List<Message> getMessageHistory() {
 		return messageHistory;
 	}
@@ -164,6 +193,7 @@ public class GameManager {
 	public boolean isTestMode() {
 		return testMode;
 	}
+
 
 	/*
 	 * public void loadGame(String folder) { WorldLoader worldLoader = new
@@ -179,8 +209,12 @@ public class GameManager {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
-			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
-					worldLoader.loadEntities(), worldLoader.loadEvents());
+			/*game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());*/
+			
+			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
+					worldLoader.loadEvents());
+			
 			loadCommands();
 			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
 			game.getCharacter().lookAround();
@@ -189,6 +223,27 @@ public class GameManager {
 			System.exit(-1);
 		}
 	}
+	
+	//
+	/*public void loadGameInterface(String folder, String name, Gender gender) {
+		WorldLoader worldLoader = new WorldLoader(folder);
+		try {
+			reset();
+			
+			/*game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
+					worldLoader.loadEvents());
+			
+			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());
+			
+			loadCommands();
+			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());	
+			//game.getCharacter().lookAround();
+		} catch (IOException e) {
+			System.out.println("Error al cargar el juego" + e.getMessage());
+			System.exit(-1);
+		}
+	}*/
 
 	public Game getGame() {
 		return game;
@@ -221,6 +276,8 @@ public class GameManager {
 		} else
 			processCommand(new Scanner(value));
 	}
+	//
+	//
 
 	public void endGame() {
 		for (Entity entity : game.getEntities().values()) {
@@ -239,5 +296,21 @@ public class GameManager {
 	public Sound getSoundManager() {
 		return soundManager;
 	}
+	////////////////////////////////////////////////////////////////////
+	private String msgInterface = "";
+	
+	public String getMsgInterface() {
+		return msgInterface;
+	}
+
+	public void setMsgInterface(String msgInterface) {
+		
+		if(msgInterface == "")
+			this.msgInterface = msgInterface;
+		else 
+			this.msgInterface += msgInterface + "\n";
+	}
+
+
 
 }
