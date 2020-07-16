@@ -3,8 +3,11 @@ package island;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import entities.AggresiveListener;
+import com.google.gson.annotations.SerializedName;
+
+import entities.AggressiveListener;
 import entities.Entity;
 import entities.NPC;
 import entities.Player;
@@ -16,6 +19,8 @@ import tools.NPCType;
 
 public class Location extends GameObject {
 	private boolean visible;
+	@SerializedName("canDrop") // Parche rapido, cambie el nombre y no tuve ganas de cambiar todas las carpetas
+	private boolean dropZone;
 
 	private HashMap<String, Area> areas;
 	private Area lastAccessed;
@@ -24,8 +29,8 @@ public class Location extends GameObject {
 
 	private HashMap<String, Entity> entities;
 
-	public Location(Gender gender, String name, String description, boolean visible, HashMap<String, Area> areas,
-			HashMap<String, Access> accesses) {
+	public Location(Gender gender, String name, String description, boolean visible, boolean canDrop,
+			HashMap<String, Area> areas, HashMap<String, Access> accesses) {
 		super(gender, name, description);
 		this.areas = areas;
 		this.visible = visible;
@@ -137,7 +142,7 @@ public class Location extends GameObject {
 		if (entity instanceof NPC && !entity.getState().getClass().equals(Dead.class)) {
 			NPC npc = (NPC) entity;
 			if (npc.getType().equals(NPCType.AGGRESSIVE)) {
-				npc.setEntityListener(new AggresiveListener(npc));
+				npc.setEntityListener(new AggressiveListener(npc));
 			}
 		}
 
@@ -167,7 +172,30 @@ public class Location extends GameObject {
 		return accesses;
 	}
 
+	public Access getAccessForUse(String name) {
+		for (Access access : accesses.values()) {
+			if (access.name.equalsIgnoreCase(name) || access.description.equalsIgnoreCase(name))
+				return access;
+		}
+		return null;
+	}
+
 	public void clearLastArea() {
 		lastAccessed = null;
+	}
+
+	public boolean addItem(Item item) {
+		boolean result = false;
+		if (!areas.isEmpty() && dropZone) {
+			Map.Entry<String, Area> entry = areas.entrySet().iterator().next();
+			Area area = entry.getValue();
+			area.addItem(item);
+			result = true;
+		}
+		return result;
+	}
+
+	public boolean isDropZone() {
+		return dropZone;
 	}
 }

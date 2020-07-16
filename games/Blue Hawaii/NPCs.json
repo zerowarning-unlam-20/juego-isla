@@ -1,0 +1,117 @@
+[
+  {
+    "baseHealth": 80,
+    "chat": {},
+    "description": "mono de la jungla",
+    "gender": "M",
+    "health": 80,
+    "initialLocation": "sur",
+    "inventory": {
+      "items": {
+        "cuchillo oxidado": {
+          "damage": 25.0,
+          "damageType": "S",
+          "description": "Cuchillo oxidado hecho con chatarra",
+          "gender": "M",
+          "name": "Cuchillo oxidado",
+          "type": "weapon"
+        }
+      },
+      "type": "inventory"
+    },
+    "name": "mono",
+    "npcType": "aggressive",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+    }
+  },
+  {
+    "baseHealth": 150,
+    "chat": {},
+    "description": "Palmera alta",
+    "gender": "F",
+    "health": 150,
+    "initialLocation": "este",
+    "inventory": {
+      "items": {
+        "madera en buen estado": {
+          "description": "Madera en buen estado",
+          "gender": "F",
+          "name": "Madera en buen estado",
+          "quantity": 2,
+          "resourceType": "wood",
+          "type": "resource"
+        }
+      },
+      "type": "inventory"
+    },
+      "name": "palmera",
+      "npcType": "inanimated",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "H": 2,
+        "S": 0.1
+      }
+    },
+  {
+    "baseHealth": 50,
+    "chat": {},
+    "description": "lianas colgando",
+    "gender": "F",
+    "health": 50,
+    "initialLocation": "sur",
+    "inventory": {
+      "items": {
+        "liana cortada": {
+          "description": "Liana recien cortada",
+          "gender": "F",
+          "name": "liana cortada",
+          "quantity": 1,
+          "resourceType": "rope",
+          "type": "resource"
+        }
+      },
+      "type": "inventory"
+    },
+      "name": "liana",
+      "npcType": "inanimated",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "H": 0,
+        "S": 1
+      }
+    },
+  {
+    "baseHealth": 200,
+    "chat": {},
+    "description": "tiburon blanco hambriento",
+    "gender": "M",
+    "health": 200,
+    "initialLocation": "mar",
+    "inventory": {
+      "items": {
+        "colmillo afilado de tiburon": {
+          "damage": 40.0,
+          "damageType": "S",
+          "description": "Colmillo afilado de tiburon",
+          "gender": "M",
+          "name": "Colmillo de tiburon",
+          "type": "weapon"
+        }
+      },
+      "type": "inventory"
+    },
+      "name": "tiburon",
+      "npcType": "aggressive",
+      "stateName": "normal",
+      "type": "NPC",
+      "weakAndRes": {
+        "B": 20.0,
+        "H": 0.6,
+        "S": 0.6
+      }
+    }
+]

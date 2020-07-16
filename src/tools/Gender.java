@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public enum Gender {
 	@SerializedName("M")
-	M("M"), 
-	@SerializedName("F")
+	M("M"), @SerializedName("F")
 	F("F");
 
 	private final String value;

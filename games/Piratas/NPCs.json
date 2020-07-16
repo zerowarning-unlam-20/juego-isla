@@ -1,0 +1,22 @@
+[
+  {
+    "baseHealth": 80,
+    "chat": {
+      "ddefaultt": "- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
+      "dejame pasar": "¡No hay nada que me digas que me haga cambiar de opinión!",
+      "hola": "Saludos, colega pirata"
+    },
+    "description": "pirata fantasma",
+    "gender": "M",
+    "health": 80,
+    "initialLocation": "muelle",
+    "inventory": {},
+    "name": "pirata",
+    "npcType": "passive",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "SH": 100
+    }
+  }
+]

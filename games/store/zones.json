@@ -1,0 +1,20 @@
+[
+  {
+    "accesses": {},
+    "areas": {
+      "suelo": {
+        "description": "suelo de la tienda",
+        "gender": "M",
+        "items": {},
+        "name": "suelo",
+        "type": "area"
+      }
+    },
+    "canDrop": true,
+    "description": "Una tienda medio pelo",
+    "entities": {},
+    "gender": "F",
+    "name": "tienda",
+    "type": "location"
+  }
+]

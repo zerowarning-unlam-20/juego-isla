@@ -1,7 +1,5 @@
 package states;
 
-import java.util.Map;
-
 import entities.Attack;
 import entities.NPC;
 import island.GameObject;
@@ -11,7 +9,6 @@ import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
-import items.properties.Opening;
 import items.properties.Readablel;
 import items.properties.Unlockable;
 import items.properties.Usable;
@@ -21,7 +18,6 @@ import items.types.Liquid;
 import items.types.Source;
 import items.types.Weapon;
 import tools.MessageType;
-import tools.NPCType;
 
 public class NPCNormal implements State {
 	private NPC character;
@@ -33,14 +29,7 @@ public class NPCNormal implements State {
 	@Override
 	public boolean open(String objectName) {
 		// Primero busqueda
-		Access acc = null;
-		if (!objectName.isEmpty()) {
-			for (Access a : character.getLocation().getAccesses().values())
-				if (a.getName().equalsIgnoreCase(objectName) || a.getDescription().equalsIgnoreCase(objectName)) {
-					acc = a;
-					break;
-				}
-		}
+		Access acc = character.getLocation().getAccessForUse(objectName);
 		// Procesar resultado
 		boolean result = false;
 		String message = "No se pudo abrir";
@@ -65,11 +54,14 @@ public class NPCNormal implements State {
 	@Override
 	public boolean unlock(String toUnlockName, String keyName) {
 		Access toUnlock = character.getLocation().getAccesses().get(toUnlockName);
-		Item key = character.getInventory().get(keyName);
+		if (toUnlock == null) {
+			toUnlock = character.getLocation().getAccessForUse(toUnlockName);
+		}
+		Item key = character.getInventory().getItem(keyName);
 
-		String message = "No hay items para desbloquear ";
+		String message = "No hay items para desbloquear";
 		boolean result = false;
-		if (toUnlock != null && toUnlock instanceof Opening && toUnlock instanceof Unlockable) {
+		if (toUnlock instanceof Unlockable) {
 			Unlockable access = toUnlock;
 			if (key instanceof Key) {
 				access.unlock(key);
@@ -88,7 +80,7 @@ public class NPCNormal implements State {
 	public boolean look(String name) {
 		GameObject object = null;
 
-		object = character.getInventory().get(name);
+		object = character.getInventory().getItem(name);
 		if (object == null) {
 			object = character.getLocation().getItemFromAreas(name);
 		}
@@ -181,7 +173,7 @@ public class NPCNormal implements State {
 	@Override
 	public boolean grab(String itemName, String sourceName, String containerName) {
 		Item src = character.getLocation().getItemFromAreas(sourceName);
-		Item container = character.getInventory().get(containerName);
+		Item container = character.getInventory().getItem(containerName);
 		Item content = null;
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
@@ -228,15 +220,8 @@ public class NPCNormal implements State {
 	@Override
 	public boolean lookInventory() {
 		boolean result = true;
-		String message = "";
-
-		for (Map.Entry<String, Item> itemEntry : character.getInventory().entrySet()) {
-			message += itemEntry.getValue().getName() + ", ";
-		}
-		if (message != "")
-			message = message.substring(0, message.length() - 2);
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				(message == "") ? "tiene el inventario vacio" : message);
+		String message = character.getInventory().showItems();
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
 		return result;
 	}
 
@@ -247,7 +232,7 @@ public class NPCNormal implements State {
 		if (tgt == null) {
 			tgt = character.getLocation().getItemFromAreas(targetName);
 		}
-		Item item = character.getInventory().get(weaponName);
+		Item item = character.getInventory().getItem(weaponName);
 
 		if (tgt == null || item == null) {
 			if (tgt == null) {
@@ -284,7 +269,7 @@ public class NPCNormal implements State {
 	}
 
 	@Override
-	public State recieveAttack(Attack attack) {
+	public State receiveAttack(Attack attack) {
 		Double modifier = character.getWeaknessModifier(attack.getDamageType());
 		Double totalDamage = 0d;
 		if (modifier != null)
@@ -311,44 +296,23 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean talk(String otherName, String message) {
-		GameObject other;
-		other = character.getLocation().getEntities().get(otherName);
-		if (other == null) {
-			other = character.getLocation().getAccesses().get(otherName);
-		}
-		if (other == null) {
-			other = character.getInventory().get(otherName);
-		}
-		if (other == null) {
-			other = character.getLocation().getItemFromAreas(otherName);
-		}
-
-		if (other instanceof NPC) {
-			NPC npc = (NPC) other;
-			if (npc.getType() == NPCType.INANIMATED) {
-				character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-						"No puedo hablar con " + other.getOnlyName());
-				return false;
-			} else {
-				return npc.listen(character.getName(), message);
-			}
-		} else {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-					"No puedo hablar con " + other.getOnlyName());
-		}
-		return false;
+		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
+		return true;
 	}
 
 	@Override
 	public boolean listen(String otherName, String message) {
 		String answer = character.getChat(message);
-		talk(otherName.toLowerCase(), (answer != null) ? answer : character.getChat("デフォールト"));
+		if (answer == null) {
+			answer = character.getChat("ddefaultt");
+		}
+		talk(otherName.toLowerCase(), answer);
 		return answer != null;
 	}
 
 	@Override
 	public boolean use(String itemName) {
-		Item item = character.getInventory().get(itemName);
+		Item item = character.getInventory().getItem(itemName);
 
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para usar");
@@ -364,7 +328,7 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean read(String itemName) {
-		Item item = character.getInventory().get(itemName);
+		Item item = character.getInventory().getItem(itemName);
 		boolean result = true;
 		String message = "Esto no se puede leer, no hay nada para leer";
 
@@ -383,7 +347,7 @@ public class NPCNormal implements State {
 	public boolean inspect(String itemName) {
 		boolean result = false;
 		Item item = null;
-		item = character.getInventory().get(itemName);
+		item = character.getInventory().getItem(itemName);
 		if (item == null) {
 			item = character.getLocation().getItemFromAreas(itemName);
 		}
@@ -410,7 +374,7 @@ public class NPCNormal implements State {
 
 	@Override
 	public State drink(String name, String dispenserName) {
-		Item dispenser = character.getInventory().get(dispenserName);
+		Item dispenser = character.getInventory().getItem(dispenserName);
 		if (dispenser == null) {
 			dispenser = character.getLocation().getItemFromAreas(dispenserName);
 		}
@@ -443,5 +407,28 @@ public class NPCNormal implements State {
 			}
 		}
 		return resultState;
+	}
+
+	@Override
+	public boolean drop(String item) {
+		String message = "";
+		boolean result = false;
+		Item resultItem = character.getInventory().getItem(item);
+		if (resultItem != null) {
+			character.getInventory().removeItem(resultItem.getName());
+			message += "tirando " + resultItem.getName();
+			result = character.getLocation().addItem(resultItem);
+		} else
+			message += "no hay nada para tirar";
+		if (!result && !character.getLocation().isDropZone()) {
+			message += "no se puede tirar nada aca";
+		}
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
+		return result;
+	}
+
+	@Override
+	public State eat(String name) {
+		return this;
 	}
 }

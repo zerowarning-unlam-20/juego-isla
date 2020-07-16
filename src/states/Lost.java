@@ -1,7 +1,5 @@
 package states;
 
-import java.util.Map;
-
 import entities.Attack;
 import entities.Entity;
 import entities.NPC;
@@ -13,11 +11,11 @@ import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
 import items.properties.Holdable;
-import items.properties.Opening;
 import items.properties.Readablel;
 import items.properties.Unlockable;
 import items.properties.Usable;
 import items.types.Bottle;
+import items.types.Food;
 import items.types.Key;
 import items.types.Liquid;
 import items.types.Source;
@@ -69,11 +67,14 @@ public class Lost implements State {
 	@Override
 	public boolean unlock(String toUnlockName, String keyName) {
 		Access toUnlock = character.getLocation().getAccesses().get(toUnlockName);
-		Item key = character.getInventory().get(keyName);
+		if (toUnlock == null) {
+			toUnlock = character.getLocation().getAccessForUse(toUnlockName);
+		}
+		Item key = character.getInventory().getItem(keyName);
 
-		String message = "No hay items para desbloquear ";
+		String message = "No hay items para desbloquear";
 		boolean result = false;
-		if (toUnlock != null && toUnlock instanceof Opening && toUnlock instanceof Unlockable) {
+		if (toUnlock instanceof Unlockable) {
 			Unlockable access = toUnlock;
 			if (key instanceof Key) {
 				access.unlock(key);
@@ -96,7 +97,7 @@ public class Lost implements State {
 			object = character.getLocation();
 		}
 		if (object == null) {
-			object = character.getInventory().get(name);
+			object = character.getInventory().getItem(name);
 		}
 		if (object == null) {
 			object = character.getLocation().getArea(name);
@@ -202,14 +203,12 @@ public class Lost implements State {
 
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
-		if (src != null) {
-			if (!(src instanceof Holdable)) {
-				Source source = (Source) src;
-				if (!(source.getContent() instanceof Liquid)) {
-					result = source.giveItems(character);
-				} else
-					message = "Necesito un recipiente o algo para agarrarlo.";
-			}
+		if (src != null && !(src instanceof Holdable)) {
+			Source source = (Source) src;
+			if (!(source.getContent() instanceof Liquid)) {
+				result = source.giveItems(character);
+			} else
+				message = "Necesito un recipiente o algo para agarrarlo.";
 		}
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		return result;
@@ -218,7 +217,7 @@ public class Lost implements State {
 	@Override
 	public boolean grab(String itemName, String sourceName, String containerName) {
 		Item src = character.getLocation().getItemFromAreas(sourceName);
-		Item container = character.getInventory().get(containerName);
+		Item container = character.getInventory().getItem(containerName);
 		Item content = null;
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
@@ -265,14 +264,8 @@ public class Lost implements State {
 	public boolean lookInventory() {
 		boolean result = true;
 		String message = "";
-
-		for (Map.Entry<String, Item> itemEntry : character.getInventory().entrySet()) {
-			message += itemEntry.getValue().getName() + ", ";
-		}
-		if (message != "")
-			message = message.substring(0, message.length() - 2);
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				(message == "") ? "tiene el inventario vacio" : message);
+		message = character.getInventory().showItems();
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
 		return result;
 	}
 
@@ -283,7 +276,7 @@ public class Lost implements State {
 		if (tgt == null) {
 			tgt = character.getLocation().getItemFromAreas(targetName);
 		}
-		Item item = character.getInventory().get(weaponName);
+		Item item = character.getInventory().getItem(weaponName);
 
 		if (tgt == null || item == null) {
 			if (tgt == null) {
@@ -320,7 +313,7 @@ public class Lost implements State {
 	}
 
 	@Override
-	public State recieveAttack(Attack attack) {
+	public State receiveAttack(Attack attack) {
 		Double modifier = character.getWeaknessModifier(attack.getDamageType());
 		Double totalDamage = 0d;
 		if (modifier != null)
@@ -353,7 +346,7 @@ public class Lost implements State {
 			other = character.getLocation().getAccesses().get(otherName);
 		}
 		if (other == null) {
-			other = character.getInventory().get(otherName);
+			other = character.getInventory().getItem(otherName);
 		}
 		if (other == null) {
 			other = character.getLocation().getItemFromAreas(otherName);
@@ -387,23 +380,24 @@ public class Lost implements State {
 
 	@Override
 	public boolean use(String itemName) {
-		Item item = character.getInventory().get(itemName);
+		Item item = character.getInventory().getItem(itemName);
 
 		if (item == null) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para usar");
 			return false;
-		}
-		if (item instanceof Usable) {
+		} else if (item instanceof Usable) {
 			Usable usable = (Usable) item;
 			usable.use(character);
-		}
+		} else
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
+					"No le encuentro ningun uso");
 
 		return false;
 	}
 
 	@Override
 	public boolean read(String itemName) {
-		Item item = character.getInventory().get(itemName);
+		Item item = character.getInventory().getItem(itemName);
 		boolean result = true;
 		String message = "Esto no se puede leer, no hay nada para leer";
 
@@ -422,7 +416,7 @@ public class Lost implements State {
 	public boolean inspect(String itemName) {
 		boolean result = false;
 		Item item = null;
-		item = character.getInventory().get(itemName);
+		item = character.getInventory().getItem(itemName);
 		if (item == null) {
 			item = character.getLocation().getItemFromAreas(itemName);
 		}
@@ -449,7 +443,7 @@ public class Lost implements State {
 
 	@Override
 	public State drink(String name, String dispenserName) {
-		Item dispenser = character.getInventory().get(dispenserName);
+		Item dispenser = character.getInventory().getItem(dispenserName);
 		if (dispenser == null) {
 			dispenser = character.getLocation().getItemFromAreas(dispenserName);
 		}
@@ -466,7 +460,7 @@ public class Lost implements State {
 			} else {
 				resultState = ((Liquid) item).consume(character);
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						"tomo " + cont.getContent().getName());
+						"tomo " + item.getName());
 				cont.empty();
 			}
 		} else if (dispenser instanceof Source) {
@@ -484,8 +478,43 @@ public class Lost implements State {
 		return resultState;
 	}
 
+	@Override
+	public boolean drop(String item) {
+		String message = "";
+		boolean result = false;
+		Item resultItem = character.getInventory().getItem(item);
+		if (resultItem != null) {
+			character.getInventory().removeItem(resultItem.getName());
+			message += "tirando " + resultItem.getName();
+			result = character.getLocation().addItem(resultItem);
+		} else
+			message += "no hay nada para tirar";
+		if (!result && !character.getLocation().isDropZone()) {
+			message += "no se puede tirar nada aca";
+		}
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
+		return result;
+	}
+
 	public void setCompletelyLost(boolean completelyLost) {
 		this.completelyLost = completelyLost;
+	}
+
+	public Object getCompletelyLost() {
+		return completelyLost;
+	}
+
+	@Override
+	public State eat(String name) {
+		Item item = character.getInventory().getItem(name);
+		if (item instanceof Food) {
+			Food food = (Food) item;
+			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "comi " + food.getName());
+			return food.consume(character);
+		}
+		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "no comi nada");
+
+		return this;
 	}
 
 }

@@ -6,8 +6,9 @@ import tools.MessageType;
 public class StoryEvent extends Event {
 	private String message;
 
-	public StoryEvent(String name, String nextEvent, GameManager gameManager, String message) {
-		super(name, nextEvent, gameManager);
+	public StoryEvent(String name, String nextEvent, GameManager gameManager, boolean allowNormalAction,
+			String message) {
+		super(name, nextEvent, gameManager, allowNormalAction);
 		this.message = message;
 	}
 

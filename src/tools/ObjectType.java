@@ -13,11 +13,13 @@ import island.GameObject;
 import island.Location;
 import items.Access;
 import items.Effect;
+import items.Inventory;
 import items.Item;
 import items.types.Blueprint;
 import items.types.Bottle;
 import items.types.Box;
 import items.types.Food;
+import items.types.KeyBox;
 import items.types.Liquid;
 import items.types.MapItem;
 import items.types.Resource;
@@ -39,6 +41,9 @@ public enum ObjectType {
 
 	@SerializedName("box")
 	BOX(Box.class),
+
+	@SerializedName("key_box")
+	KEY_BOX(KeyBox.class),
 
 	@SerializedName("resource")
 	RESOURCE(Resource.class),
@@ -72,6 +77,9 @@ public enum ObjectType {
 
 	@SerializedName("area")
 	AREA(Area.class),
+
+	@SerializedName("inventory")
+	INVENTORY(Inventory.class),
 
 	@SerializedName("liquid")
 	LIQUID(Liquid.class),

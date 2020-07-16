@@ -1,6 +1,5 @@
 package tests;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import manager.GameManager;
+import tools.Gender;
 
 class WorldLoaderTest {
 
@@ -17,11 +17,8 @@ class WorldLoaderTest {
 
 	@Test
 	void test() throws FileNotFoundException, IOException {
-		File currentDirFile = new File("");
-		String folder = currentDirFile.getAbsolutePath() + "/testGame";
 		GameManager gameManager = new GameManager(true);
-		gameManager.loadGame(folder);
-		System.out.println("stub");
+		gameManager.loadGame("Blue Hawaii", "Carlos", Gender.M);
 	}
 
 }

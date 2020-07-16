@@ -23,7 +23,7 @@ public interface State {
 
 	public boolean attack(String weaponName, String targetName);
 
-	public State recieveAttack(Attack attack);
+	public State receiveAttack(Attack attack);
 
 	public boolean talk(String otherName, String messageName);
 
@@ -38,4 +38,8 @@ public interface State {
 	public void lookState();
 
 	public State drink(String name, String dispenserName);
+
+	public boolean drop(String item);
+
+	public State eat(String name);
 }

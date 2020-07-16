@@ -29,7 +29,6 @@ public class AttackCommand implements ActionCommand {
 		}
 		weaponString = weaponString.trim();
 		character.attack(weaponString, targetName);
-
 	}
 
 }

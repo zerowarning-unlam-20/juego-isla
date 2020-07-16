@@ -17,15 +17,18 @@ public class TalkCommand implements ActionCommand { // Uh falto implementar talk
 		String aux = "";
 		while (args.hasNext() && !aux.contentEquals(",")) {
 			objective += aux + " ";
-			aux += args.next() + " ";
+			aux = args.next();
 		}
 		objective = objective.trim();
 		String message = "";
 		aux = "";
-		while (args.hasNext() && !aux.contentEquals(",")) {
+		while (args.hasNext()) {
 			message += aux + " ";
-			aux += args.next() + " ";
+			aux = args.next();
 		}
+		message += aux;
+		message = message.trim();
+
 		character.talk(objective, message);
 	}
 }

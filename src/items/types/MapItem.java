@@ -10,8 +10,8 @@ import tools.MessageType;
 
 public class MapItem extends Item implements Usable, Holdable {
 
-	public MapItem(Gender gender, String name, String description) {
-		super(gender, name, description);
+	public MapItem(Gender gender, String name, String description, int price) {
+		super(gender, name, description, price);
 	}
 
 	@Override

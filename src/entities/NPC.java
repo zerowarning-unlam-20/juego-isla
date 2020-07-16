@@ -3,27 +3,33 @@ package entities;
 import java.util.HashMap;
 
 import island.Location;
-import items.Item;
+import items.Inventory;
 import manager.GameManager;
 import states.NPCNormal;
+import states.State;
 import tools.Gender;
 import tools.NPCType;
 
 public class NPC extends Entity {
 
 	private NPCType npcType;
-	private String weaponName;
 	HashMap<String, String> chat;
 	protected EntityListener entityListener;
 
 	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
-			HashMap<String, Item> inventory, String initialLocation, NPCType type, HashMap<String, String> chat,
-			String weaponName) {
+			Inventory inventory, String initialLocation, NPCType type, HashMap<String, String> chat) {
 		super(gameManager, gender, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
 		this.npcType = type;
 		this.chat = chat;
-		this.weaponName = weaponName;
+	}
+
+	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
+			Inventory inventory, String initialLocation, State state, NPCType type, HashMap<String, String> chat) {
+		super(gameManager, gender, name, description, location, inventory, initialLocation);
+		this.state = state;
+		this.npcType = type;
+		this.chat = chat;
 	}
 
 	public EntityListener getEntityListener() {
@@ -50,10 +56,12 @@ public class NPC extends Entity {
 		}
 		super.onDeath(attack);
 		gameManager.getGame().pullTrigger(this.getClass().getName() + "_" + this.name + "_" + "dead");
+		this.location.removeEntity(this);
+		this.location = null;
 	}
 
-	public String getWeaponName() {
-		return weaponName;
+	public String getBestWeapon() {
+		return inventory.getBestWeapon();
 	}
 
 }

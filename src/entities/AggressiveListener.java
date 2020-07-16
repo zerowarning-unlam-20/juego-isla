@@ -2,14 +2,14 @@ package entities;
 
 import states.Dead;
 
-public class AggresiveListener implements EntityListener, Runnable {
+public class AggressiveListener implements EntityListener, Runnable {
 	private NPC npc;
 	private Player player;
 	private Thread thread;
 	private int turn;
 	boolean playerAppeared;
 
-	public AggresiveListener(NPC npc) {
+	public AggressiveListener(NPC npc) {
 		this.npc = npc;
 		playerAppeared = false;
 	}
@@ -37,7 +37,7 @@ public class AggresiveListener implements EntityListener, Runnable {
 				int newTurn = npc.getGameManager().getTurn();
 				if (turn != newTurn) {
 					if (playerAppeared && turn != newTurn) {
-						npc.attack(npc.getWeaponName().toLowerCase(), player.getName().toLowerCase());
+						npc.attack(npc.getBestWeapon(), player.getName().toLowerCase());
 					}
 					playerAppeared = true;
 					turn = npc.getGameManager().getTurn();

@@ -7,26 +7,20 @@ import entities.Entity;
 import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
-import items.properties.Unlockable;
 import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
 
-public class Box extends Item implements Unlockable, Dispenser, Attackable {
-	private boolean locked;
-	private String idKey;
-	private List<Item> content;
-	private DamageType weakness;
+public class Box extends Item implements Dispenser, Attackable {
+	protected boolean locked;
+	protected List<Item> content;
+	protected DamageType weakness;
 
-	public Box(Gender gender, String name, String description, boolean locked, String idKey, List<Item> items) {
-		super(gender, name, description);
+	public Box(Gender gender, String name, String description, int price, boolean locked, String idKey,
+			List<Item> items) {
+		super(gender, name, description, price);
 		this.locked = locked;
 		this.content = items;
-	}
-
-	@Override
-	public void unlock() {
-		locked = false;
 	}
 
 	@Override
@@ -47,18 +41,6 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 			return message + contentMessage;
 		}
 		return ("No se puede ver lo que está dentro de " + this.getSingularName());
-	}
-
-	@Override
-	public boolean unlock(Item keyItem) {
-		boolean result = false;
-		if (locked) {
-			if (keyItem.getName().equalsIgnoreCase(idKey)) {
-				locked = false;
-			}
-			result = true;
-		}
-		return result;
 	}
 
 	@Override
@@ -85,7 +67,7 @@ public class Box extends Item implements Unlockable, Dispenser, Attackable {
 		boolean result = false;
 		if (this.weakness != null) {
 			if (attack.getDamageType().equals(this.weakness)) {
-				this.unlock();
+				this.locked = false;
 				result = true;
 			}
 		}
