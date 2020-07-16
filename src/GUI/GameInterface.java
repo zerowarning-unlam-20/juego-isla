@@ -30,12 +30,13 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextArea textArea;
+	private JButton btnEnviar;
 	
    //
-	
-	private JButton btnNewButton;
+	private JButton btnAtras;
+	private JButton btnSalir;
 	private GameManager game;
-	private JLabel imagen;
+	private JLabel gif;
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +80,6 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		
 		
 		scroll = new JScrollPane(textArea);
-//		textArea.setBounds(12, 13, 408, 197);
 		scroll.setBounds(12, 13, 780, 197);
 		//contentPane.add(textArea);
 		contentPane.add(scroll);
@@ -90,26 +90,33 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		contentPane.add(textField);
 		textField.setColumns(10);
 		textField.addActionListener(this);	 // Accion a tomar <==> se presiona el ENTER ==> INGRESAR TEXTO
+		//foco en textfield
+		addWindowListener( new WindowAdapter() {
+		       public void windowOpened( WindowEvent e ){
+		           textField.requestFocus();
+		       }
+		}); 
 		
-		btnNewButton = new JButton("OK");
-		btnNewButton.setBounds(323, 223, 110, 40);
-		btnNewButton.addActionListener(this);// Accion a tomar <==> se presiona el botòn OK ==> INGRESAR TETXO
+		btnEnviar = new JButton();
+		btnEnviar.setBounds(323, 223, 110, 40);
+		btnEnviar.addActionListener(this);// Accion a tomar <==> se presiona el botòn OK ==> INGRESAR TETXO
 		
-		//diseño boton
+		//diseño boton enviar
 		ImageIcon enviar = new ImageIcon(".\\imagenes\\boton.png");
-		Icon iconEnviar = new ImageIcon(enviar.getImage().getScaledInstance(btnNewButton.getWidth()+12,btnNewButton.getHeight(), Image.SCALE_FAST));
-		btnNewButton.setIcon(iconEnviar);
-		//btnNewButton.setEnabled(false); //Deshabilitar inicialmente este boton
-		contentPane.add(btnNewButton);
+		Icon iconEnviar = new ImageIcon(enviar.getImage().getScaledInstance(btnEnviar.getWidth()+12,btnEnviar.getHeight(), Image.SCALE_FAST));
+		btnEnviar.setIcon(iconEnviar);
+		contentPane.add(btnEnviar);
+		
+
+
 		
 		
 		/////////////agregados
-		JLabel gif = new JLabel(); //gif
-		gif.setBounds(0, 300, 790, 450);
+		gif = new JLabel(); //gif
+		gif.setBounds(0, 280, 790, 430);
 		ImageIcon islaGif = new ImageIcon(".\\imagenes\\fondo.gif");
 		Icon iconoIsla = new ImageIcon(islaGif.getImage().getScaledInstance(gif.getWidth()+10, gif.getHeight(), Image.SCALE_DEFAULT));
 		gif.setIcon(iconoIsla);
-		
 		contentPane.add(gif);
 		
 		//colores
@@ -117,12 +124,31 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		textArea.setBackground(new Color(102,51,0));
 		textArea.setForeground(Color.white);
 		
-		//<foco en textfield
-		addWindowListener( new WindowAdapter() {
-		       public void windowOpened( WindowEvent e ){
-		           textField.requestFocus();
-		       }
-		}); 
+		//boton atras
+		btnAtras = new JButton();
+		btnAtras.setBounds(20, 715, 110, 50);
+			
+		btnAtras.addActionListener(e -> {
+			   this.setVisible(false);
+		});
+		
+		ImageIcon atras = new ImageIcon(".\\imagenes\\atras.png");
+		Icon iconAtras = new ImageIcon(atras.getImage().getScaledInstance(btnAtras.getWidth()+12,btnAtras.getHeight(), Image.SCALE_FAST));
+		btnAtras.setIcon(iconAtras);
+		contentPane.add(btnAtras);
+		
+		//boton salir del juego
+		btnSalir = new JButton();
+		btnSalir.setBounds(140, 715, 110, 50);
+		
+		btnSalir.addActionListener(e -> {
+			   this.setVisible(false);
+		});
+		
+		ImageIcon salir = new ImageIcon(".\\imagenes\\salir.png");
+		Icon iconSalir = new ImageIcon(salir.getImage().getScaledInstance(btnSalir.getWidth()+12,btnSalir.getHeight(), Image.SCALE_FAST));
+		btnSalir.setIcon(iconSalir);
+		contentPane.add(btnSalir);
 		/////////////////
 		
 		inicializarJuego(name, gender, adventure);
@@ -132,9 +158,9 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 //	  public void stateChanged(ChangeEvent e){
 //		  
 //		  if(this.textField.getText().equals(""))
-//			  this.btnNewButton.setEnabled(false);
+//			  this.btnEnviar.setEnabled(false);
 //		  else
-//			  this.btnNewButton.setEnabled(true);
+//			  this.btnEnviar.setEnabled(true);
 //
 //	  }
 
@@ -145,7 +171,7 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		 
 		 if(ingresoUsuario != null && !ingresoUsuario.isEmpty()){
  				 
-			textArea.append(ingresoUsuario +  "\n"); 	//Mostrar el mensaje enviado en la pantalla
+			textArea.append("\n" + ingresoUsuario +  "\n"); 	//Mostrar el mensaje enviado en la pantalla
 			game.interfaceRun(ingresoUsuario);  //le envio el comando a game manager
 			textArea.append(game.getMsgInterface()+ "\n\n");
 			this.textField.setText("");
@@ -156,11 +182,11 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 	  
 	  public void inicializarJuego(String name, String gender, String adventure) {
 			game = new GameManager(false,false);
-			game.loadGameInterface(adventure,name, Gender.valueOf(gender));	
-			
+			game.loadGame(adventure,name, Gender.valueOf(gender));
 			textArea.append(game.getMsgInterface()); //Mensaje de intro
-			game.getGame().getCharacter().lookAround();
-			textArea.append(game.getMsgInterface()+ "\n");
+			//game.loadGameInterface(adventure,name, Gender.valueOf(gender));	
+			//game.getGame().getCharacter().lookAround();
+			//textArea.append(game.getMsgInterface()+ "\n");
 
 	  }
 

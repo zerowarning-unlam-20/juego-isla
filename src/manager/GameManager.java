@@ -94,7 +94,9 @@ public class GameManager {
 				System.out.println("Error en entrada: " + e.getMessage());
 				System.exit(-1);
 			}
+			System.out.println(turn);
 			sendCommand(currentCommand);
+			System.out.println(turn);
 		}
 	}
 
@@ -107,9 +109,8 @@ public class GameManager {
 			System.out.println("Error sonido :" + ex.getMessage());
 			ex.printStackTrace();
 		}
-		System.out.println(msg);
+		msgInterface = "";
 		sendCommand(msg.toLowerCase());
-
 	}
 	
 	public void reset() {
@@ -139,12 +140,14 @@ public class GameManager {
 			if (action != null) {
 				action.perform(strCommand);
 				turn++;
+				//endTurn = true;
 			} else
 			    sendMessage(MessageType.EVENT, null, "Que?");
 		}
 	}
 	
 	public void sendMessage(MessageType type, String otherName, String mes) {
+		
 		String content = mes.replaceAll("a el", "al");
 		Message message = null;
 		if (testMode == false) {
@@ -160,8 +163,9 @@ public class GameManager {
 				message = new Message(otherName + ": " + content, type);
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
-				else
+				else {
 					setMsgInterface(otherName + ": " + content);//
+				}
 				break;
 			case ("S"):
 				message = new Message(content, type);
@@ -188,8 +192,12 @@ public class GameManager {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
-			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
+		    game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
 					worldLoader.loadEvents());
+		    
+			/*game = new Game(this, "matias",Gender.valueOf("M"), worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());*/
+			
 			loadCommands();
 			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
 			game.getCharacter().lookAround();
@@ -203,8 +211,11 @@ public class GameManager {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
-			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
-					worldLoader.loadEntities(), worldLoader.loadEvents());
+			/*game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());*/
+			
+			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
+					worldLoader.loadEvents());
 			
 			loadCommands();
 			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());
@@ -216,24 +227,25 @@ public class GameManager {
 	}
 	
 	//
-	public void loadGameInterface(String folder, String name, Gender gender) {
+	/*public void loadGameInterface(String folder, String name, Gender gender) {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
 			
 			/*game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
-					worldLoader.loadEvents());*/
+					worldLoader.loadEvents());
 			
 			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
 					worldLoader.loadEntities(), worldLoader.loadEvents());
+			
 			loadCommands();
-			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());		
+			sendMessage(MessageType.STORY, null, worldLoader.loadInitialMessage());	
 			//game.getCharacter().lookAround();
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());
 			System.exit(-1);
 		}
-	}
+	}*/
 
 	public Game getGame() {
 		return game;
@@ -285,14 +297,18 @@ public class GameManager {
 		return soundManager;
 	}
 	////////////////////////////////////////////////////////////////////
-	private String msgInterface;
+	private String msgInterface = "";
 	
 	public String getMsgInterface() {
 		return msgInterface;
 	}
 
 	public void setMsgInterface(String msgInterface) {
-		this.msgInterface = msgInterface;
+		
+		if(msgInterface == "")
+			this.msgInterface = msgInterface;
+		else 
+			this.msgInterface += msgInterface + "\n";
 	}
 
 

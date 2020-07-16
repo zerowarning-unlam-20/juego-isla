@@ -48,7 +48,7 @@ public class Game {
 		this.locations = locations;
 		this.character = new Player(character, name, gender);
 		this.character.linkToManager(gameManager);
-
+		
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		locations.get(character.getInitialLocation()).addEntity(character);
 		this.entities = npcList;
