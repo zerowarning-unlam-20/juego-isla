@@ -54,7 +54,7 @@ public class Location extends GameObject {
 			acc += ".\n";
 		}
 		if (!acc.isEmpty()) {
-			message += "Se ve: " + acc;
+			message += "\nSe ve: " + acc;
 		}
 		return message;
 	}
