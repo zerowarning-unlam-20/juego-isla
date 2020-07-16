@@ -14,7 +14,6 @@ public class SingleUseItem extends Item implements Usable, Holdable {
 
 	@Override
 	public boolean use(Entity entity) {
-		entity.getGameManager().getGame().pullTrigger(this.name + "_" + "use");
 		return true;
 	}
 
