@@ -7,7 +7,7 @@ public class Main { // Quedo main porque es mas prolijo, no me gusta ver todo pe
 
 	public static void main(String[] args) {
 		GameManager game = new GameManager(true, false);
-		game.loadGame("Piratas", "Carlos", Gender.M);
+		game.loadGame("Blue Hawaii", "Carlos", Gender.M);
 		game.consoleRun();
 	}
 
