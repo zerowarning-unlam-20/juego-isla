@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.DefaultListModel;
+
 import commands.ActionCommand;
 import commands.AttackCommand;
 import commands.DrinkCommand;
@@ -44,6 +46,10 @@ public class GameManager {
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
+	
+	private DefaultListModel<String> mensajes = new DefaultListModel<String>();
+	private String msgInterface = "";
+
 
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
@@ -100,14 +106,6 @@ public class GameManager {
 	}
 
 	public void interfaceRun(String msg) {
-		try {
-			Sound.filePath = "sounds/back.wav";
-			soundManager = new Sound();
-			soundManager.play();
-		} catch (Exception ex) {
-			System.out.println("Error sonido :" + ex.getMessage());
-			ex.printStackTrace();
-		}
 		msgInterface = "";
 		sendCommand(msg.toLowerCase());
 	}
@@ -141,14 +139,12 @@ public class GameManager {
 			if (action != null) {
 				action.perform(strCommand);
 				turn++;
-				// endTurn = true;
 			} else
 				sendMessage(MessageType.EVENT, null, "Que?");
 		}
 	}
 
 	public void sendMessage(MessageType type, String otherName, String mes) {
-
 		String content = mes.replaceAll("a el", "al");
 		Message message = null;
 		if (testMode == false) {
@@ -157,28 +153,48 @@ public class GameManager {
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println("//" + content + "//");
-				else
-					setMsgInterface("//" + content + "//");//
+				else {
+//					mensajes.addElement("//" + content + "//");
+					setMsgInterface("//" + content + "//");//					
+				}
 				break;
 			case ("C"):
 				message = new Message(otherName + ": " + content, type);
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
 				else {
-					setMsgInterface(otherName + ": " + content);//
+						
+//					mensajes.addElement(otherName + ": " + content);
+					setMsgInterface(otherName + ": " + content);//					
 				}
 				break;
 			case ("S"):
 				message = new Message(content, type);
 				if (consoleMode)
 					System.out.println(content);
-				else
-					setMsgInterface(content);//
+				else {
+//					mensajes.addElement(content);
+					setMsgInterface(content);//				
+				}
 				break;
 			}
 		}
 		messageHistory.add(message);
+//		System.out.println(mensajes);
+//		System.out.println((messageHistory.get(messageHistory.size()-1).getContent()));
+//		System.out.println("ASMDÑLASD");
+		
+//		if(messageHistory.get(messageHistory.size()-1).getMessageType().getValue().equals("E"))
+//			setMsgInterface("//" + messageHistory.get(messageHistory.size()-1).getContent() + "//");//
+//		else if(messageHistory.get(messageHistory.size()-1).getMessageType().getValue().equals("C"))
+//			setMsgInterface(otherName + ": " + messageHistory.get(messageHistory.size()-1).getContent());//	
+//		else if(messageHistory.get(messageHistory.size()-1).getMessageType().getValue().equals("S"))
+//			setMsgInterface(messageHistory.get(messageHistory.size()-1).getContent());//				
+//		else
+//			setMsgInterface(otherName + ": " + messageHistory.get(messageHistory.size()-1).getContent());//	
+			
 	}
+
 
 	public List<Message> getMessageHistory() {
 		return messageHistory;
@@ -202,18 +218,30 @@ public class GameManager {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
-			/*
-			 * game = new Game(this, name, gender, worldLoader.loadCharacter(),
-			 * worldLoader.loadLocations(), worldLoader.loadEntities(),
-			 * worldLoader.loadEvents());
-			 */
-
-			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
-					worldLoader.loadEvents());
-
+			
+			  game = new Game(this, name, gender, worldLoader.loadCharacter(),
+			  worldLoader.loadLocations(), worldLoader.loadEntities(),
+			  worldLoader.loadEvents());
+				
 			loadCommands();
 			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
+			mensajes.addElement(" ");;
 			game.getCharacter().lookAround();
+			
+			try {
+				if(folder.equals("Blue Hawaii"))
+					Sound.filePath = "sounds/back.wav";
+				else if(folder.equals("Piratas"))
+					Sound.filePath = "sounds/piratas.wav";
+				else
+					Sound.filePath = "sounds/store.wav";
+					
+				soundManager = new Sound();
+				soundManager.play();
+			} catch (Exception ex) {
+				System.out.println("Error sonido :" + ex.getMessage());
+				ex.printStackTrace();
+			}			
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());
 			System.exit(-1);
@@ -292,7 +320,6 @@ public class GameManager {
 	}
 
 	////////////////////////////////////////////////////////////////////
-	private String msgInterface = "";
 
 	public String getMsgInterface() {
 		return msgInterface;
@@ -305,5 +332,10 @@ public class GameManager {
 		else
 			this.msgInterface += msgInterface + "\n";
 	}
+
+	public DefaultListModel<String> getMensajes() {
+		return mensajes;
+	}
+	
 
 }

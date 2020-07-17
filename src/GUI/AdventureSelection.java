@@ -146,7 +146,7 @@ public class AdventureSelection extends JFrame implements ActionListener{
 	    	GameInterface ventanaPrincipal = new GameInterface(this.nombre, this.gender, this.adventureName);
 	        ventanaPrincipal.setLocationRelativeTo(null);
 	        ventanaPrincipal.setVisible(true);
-	        this.setVisible(false);
+	        this.dispose();
 	        
 	    } 
 	    
