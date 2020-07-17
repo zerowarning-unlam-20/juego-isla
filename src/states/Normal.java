@@ -304,9 +304,6 @@ public class Normal implements State {
 			return new Dead(character);
 		}
 
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
-
 		return this;
 	}
 

@@ -8,9 +8,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import events.Event;
 import island.Location;
 import items.Inventory;
+import items.Item;
 import manager.GameManager;
 import states.State;
 import tools.Gender;
+import tools.MessageType;
 import tools.ui.Sound;
 
 public class Player extends Entity {
@@ -26,13 +28,18 @@ public class Player extends Entity {
 		super(gameManager, gender, name, description, null, inventory, initialLocation);
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public Player(Player player, String name, Gender gender) {
+		super(player.gameManager, player.gender, name, "", null, player.inventory, player.initialLocation);
+	}
+
+	@Override
+	public void addItem(Item item) {
+		gameManager.sendMessage(MessageType.EVENT, this.name, "Recibido: " + item.getName());
+		inventory.recieveItem(item);
 	}
 
 	@Override
 	public void onDeath(Attack attack) {
-		super.onDeath(attack);
 		Sound.filePath = "sounds/dark.wav";
 		try {
 			gameManager.getSoundManager().stop();
@@ -146,13 +153,17 @@ public class Player extends Entity {
 
 	@Override
 	public State eat(String itemName) {
-		Event event = gameManager.getGame().pullTrigger(this.getClass().getName().toLowerCase() + "_eat_" + name);
+		Event event = gameManager.getGame().pullTrigger(this.getClass().getName().toLowerCase() + "_eat_" + itemName);
 		if (event == null || event.isNormalActionAllowed())
 			return state.eat(itemName);
 		return state;
 	}
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
+	@Override
+	public boolean drop(String itemName) {
+		Event event = gameManager.getGame().pullTrigger(this.getClass().getName().toLowerCase() + "_drop_" + itemName);
+		if (event == null || event.isNormalActionAllowed())
+			return super.drop(itemName);
+		return true;
 	}
 }

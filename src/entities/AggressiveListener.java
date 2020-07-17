@@ -32,8 +32,8 @@ public class AggressiveListener implements EntityListener, Runnable {
 	public void run() {
 		try {
 			while (thread != null && !thread.isInterrupted() && !npc.getState().getClass().equals(Dead.class)
-					&& npc.getLocation().getEntities().get(player.getName().toLowerCase()) != null
-					&& !player.getState().getClass().equals(Dead.class)) {
+					&& !player.getState().getClass().equals(Dead.class) && npc.getLocation() != null
+					&& npc.getLocation().getEntities().get(player.getName().toLowerCase()) != null) {
 				int newTurn = npc.getGameManager().getTurn();
 				if (turn != newTurn) {
 					if (playerAppeared && turn != newTurn) {

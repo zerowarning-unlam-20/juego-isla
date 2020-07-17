@@ -85,6 +85,7 @@ public class NPCVendor implements State {
 	public State receiveAttack(Attack attack) {
 		Double modifier = character.getWeaknessModifier(attack.getDamageType());
 		Double totalDamage = 0d;
+		State newState = this;
 		if (modifier != null)
 			totalDamage = modifier * attack.getDamage();
 		else
@@ -98,17 +99,14 @@ public class NPCVendor implements State {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 					"Cayó " + character.getSingularName());
 			character.onDeath(attack);
-			return new Dead(character);
+			newState = new Dead(character);
 		} else {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), " Ahora vas a ver");
-			character.setState(new NPCNormal(character));
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), "Ahora vas a ver");
 			character.setEntityListener(new AggressiveListener(character));
 			character.getEntityListener().onEntityAppeared(attack.getAttacker());
+			newState = new NPCNormal(character);
 		}
-
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
-		return this;
+		return newState;
 	}
 
 	@Override
@@ -140,7 +138,7 @@ public class NPCVendor implements State {
 		Player player = character.getGameManager().getGame().getCharacter();
 
 		Item searchedItem = character.getInventory().getItem(message.toLowerCase());
-		if (searchedItem != null) {
+		if (searchedItem != null && searchedItem.getValue() >= 0) {
 			for (Item item : player.getInventory().getItems()) {
 				if (item instanceof Resource && ((Resource) item).getResourceType().equals(ResourceType.CURRENCY)
 						&& ((Resource) item).getQuantity() >= searchedItem.getValue()) {

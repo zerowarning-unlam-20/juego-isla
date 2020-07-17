@@ -21,6 +21,15 @@
           "name": "fulbito",
           "type": "food",
           "value": 15
+        },
+        "escopeta": {
+          "damage": 25.0,
+          "damageType": "SH",
+          "description": "escopeta tumbera",
+          "gender": "F",
+          "name": "escopeta",
+          "type": "weapon",
+          "value": -1
         }
       },
       "type": "inventory"

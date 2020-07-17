@@ -1,5 +1,6 @@
 package states;
 
+import entities.AggressiveListener;
 import entities.Attack;
 import entities.NPC;
 import island.GameObject;
@@ -287,10 +288,6 @@ public class NPCNormal implements State {
 			character.onDeath(attack);
 			return new Dead(character);
 		}
-
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
-
 		return this;
 	}
 
@@ -303,7 +300,9 @@ public class NPCNormal implements State {
 	@Override
 	public boolean listen(String otherName, String message) {
 		String answer = character.getChat(message);
-		if (answer == null) {
+		if (character.getEntityListener() instanceof AggressiveListener) {
+			answer = "...";
+		} else if (answer == null) {
 			answer = character.getChat("ddefaultt");
 		}
 		talk(otherName.toLowerCase(), answer);

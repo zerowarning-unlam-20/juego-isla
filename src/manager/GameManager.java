@@ -208,8 +208,8 @@ public class GameManager {
 			 * worldLoader.loadEvents());
 			 */
 
-			game = new Game(this, worldLoader.loadCharacter(), worldLoader.loadLocations(), worldLoader.loadEntities(),
-					worldLoader.loadEvents());
+			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());
 
 			loadCommands();
 			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());

@@ -141,7 +141,8 @@ public class Lost implements State {
 	@Override
 	public boolean goTo(String locationName) {
 		if (completelyLost) {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),"Necesito algo para guiarme");
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
+					"Necesito algo para guiarme");
 			return false;
 		}
 		boolean result = false;
@@ -330,9 +331,6 @@ public class Lost implements State {
 			character.onDeath(attack);
 			return new Dead(character);
 		}
-
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
 
 		return this;
 	}

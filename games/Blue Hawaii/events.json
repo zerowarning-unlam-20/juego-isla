@@ -45,6 +45,13 @@
   },
   {
     "allowNormalAction": false,
+    "message": "De la locura decidiste sacarte la mano, esto no fue muy productivo. En fin, te estas desangrando.",
+    "name": "entities.player_drop_mano",
+    "nextEvent": "entities.player_dead",
+    "type": "story_event"
+  },
+  {
+    "allowNormalAction": false,
     "message": "¿Que es lo que acabo de soñar?",
     "name": "escape_event",
     "nextEvent": "end_game",

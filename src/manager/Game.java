@@ -46,12 +46,10 @@ public class Game {
 		accesses = new HashMap<>();
 		this.events = events;
 		this.locations = locations;
-		this.character = character;
-		character.setName(name);
-		character.setGender(gender);
+		this.character = new Player(character, name, gender);
 
 		this.character.linkToManager(gameManager);
-		
+
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		locations.get(character.getInitialLocation()).addEntity(character);
 		this.entities = npcList;

@@ -124,7 +124,7 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public void addItem(Item item) {
-		gameManager.sendMessage(MessageType.EVENT, this.name, "Recibido: " + item.getName());
+		gameManager.sendMessage(MessageType.EVENT, this.name, name + " recibio: " + item.getName());
 		inventory.recieveItem(item);
 	}
 
@@ -135,10 +135,10 @@ public abstract class Entity extends GameObject implements Attackable {
 	public void setHealth(Double health) {
 		if (this.health > health) {
 			this.getGameManager().sendMessage(MessageType.EVENT, name,
-					name + " recibio " + (this.health - health) + " de daño");
+					name + " recibio " + (this.health - health) + " de daño. HP: " + health);
 		} else if (this.health < health) {
 			this.getGameManager().sendMessage(MessageType.EVENT, name,
-					name + " recupero " + (health - this.health) + " de salud");
+					name + " recupero " + (health - this.health) + " de salud. HP: " + health);
 		} else
 			this.getGameManager().sendMessage(MessageType.EVENT, name, "No veo ningun cambio");
 		this.health = health;

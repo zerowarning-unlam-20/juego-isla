@@ -36,15 +36,11 @@ public abstract class GameObject {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-	
 	@Override
 	public String toString() {
 		return description;

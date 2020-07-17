@@ -142,11 +142,13 @@ public class Inventory {
 	public String showItemsToSell() {
 		String result = "";
 		for (Item item : items.values()) {
-			if (item instanceof Resource) {
-				result += " - " + item.getDescription() + " x" + ((Resource) item).getQuantity() + " - "
-						+ item.getValue() + "\n";
-			} else {
-				result += " - " + item.getDescription() + " - " + item.getValue() + "\n";
+			if (item.getValue() >= 0) {
+				if (item instanceof Resource) {
+					result += " - " + item.getDescription() + " x" + ((Resource) item).getQuantity() + " - "
+							+ item.getValue() + "\n";
+				} else {
+					result += " - " + item.getDescription() + " - " + item.getValue() + "\n";
+				}
 			}
 		}
 		return result.contentEquals("") ? "no tengo nada para vender por el momento"
