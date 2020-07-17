@@ -4,16 +4,17 @@ import entities.Entity;
 import items.Item;
 import items.properties.Dispenser;
 import tools.Gender;
+import tools.Namber;
 
 public class Source extends Item implements Dispenser {
 	private Item content;
 
-	public Source(Gender gender, String name, String description, int price) {
-		super(gender, name, description, price);
+	public Source(Gender gender, Namber number, String name, String description, int price) {
+		super(gender, number, name, description, price);
 	}
 
-	public Source(Gender gender, String name, String description, Item content, int price) {
-		super(gender, name, description, price);
+	public Source(Gender gender, Namber number, String name, String description, Item content, int price) {
+		super(gender, number, name, description, price);
 		this.content = content;
 	}
 
@@ -24,7 +25,7 @@ public class Source extends Item implements Dispenser {
 	public String getStatus() {
 		String result = null;
 		if (content == null) {
-			result = "vaci" + gender.getTermination();
+			result = "vaci" + gender.getTermination(number);
 		}
 		return result;
 	}

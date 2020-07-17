@@ -51,7 +51,7 @@ public class Inventory {
 	public void removeResource(String name, int quantity) {
 		Resource res = (Resource) items.get(name);
 		if (res != null) {
-			res.setQuantity(res.getQuantity() + quantity);
+			res.setQuantity(res.getQuantity() - quantity);
 			if (res.getQuantity() <= 0) {
 				items.remove(res.getName().toLowerCase());
 			}

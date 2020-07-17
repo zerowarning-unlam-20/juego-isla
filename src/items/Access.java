@@ -7,6 +7,7 @@ import items.properties.Opening;
 import items.properties.Unlockable;
 import tools.DamageType;
 import tools.Gender;
+import tools.Namber;
 
 public class Access extends Item implements Opening, Unlockable, Attackable {
 	private boolean opened;
@@ -17,9 +18,9 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 	private Access linkedWith;
 	private DamageType weakness;
 
-	public Access(Gender gender, String name, String description, int price, boolean locked, boolean opened,
-			Location destination, String destinationName, String idKey, DamageType weakness) {
-		super(gender, name, description, price);
+	public Access(Gender gender, Namber number, String name, String description, int price, boolean locked,
+			boolean opened, Location destination, String destinationName, String idKey, DamageType weakness) {
+		super(gender, number, name, description, price);
 		this.locked = locked;
 		this.opened = opened;
 		this.destination = destination;
@@ -102,7 +103,7 @@ public class Access extends Item implements Opening, Unlockable, Attackable {
 			result = "abiert";
 		} else
 			result = "cerrad";
-		return result + gender.getTermination();
+		return result + gender.getTermination(number);
 	}
 
 	@Override

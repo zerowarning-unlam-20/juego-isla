@@ -9,6 +9,7 @@ import states.NPCNormal;
 import states.State;
 import tools.Gender;
 import tools.NPCType;
+import tools.Namber;
 
 public class NPC extends Entity {
 
@@ -16,17 +17,19 @@ public class NPC extends Entity {
 	HashMap<String, String> chat;
 	protected EntityListener entityListener;
 
-	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
-			Inventory inventory, String initialLocation, NPCType type, HashMap<String, String> chat) {
-		super(gameManager, gender, name, description, location, inventory, initialLocation);
+	public NPC(GameManager gameManager, Gender gender, Namber number, String name, String description,
+			Location location, Inventory inventory, String initialLocation, NPCType type,
+			HashMap<String, String> chat) {
+		super(gameManager, gender, number, name, description, location, inventory, initialLocation);
 		this.state = new NPCNormal(this);
 		this.npcType = type;
 		this.chat = chat;
 	}
 
-	public NPC(GameManager gameManager, Gender gender, String name, String description, Location location,
-			Inventory inventory, String initialLocation, State state, NPCType type, HashMap<String, String> chat) {
-		super(gameManager, gender, name, description, location, inventory, initialLocation);
+	public NPC(GameManager gameManager, Gender gender, Namber number, String name, String description,
+			Location location, Inventory inventory, String initialLocation, State state, NPCType type,
+			HashMap<String, String> chat) {
+		super(gameManager, gender, number, name, description, location, inventory, initialLocation);
 		this.state = state;
 		this.npcType = type;
 		this.chat = chat;
@@ -55,7 +58,7 @@ public class NPC extends Entity {
 			entityListener = null;
 		}
 		super.onDeath(attack);
-		gameManager.getGame().pullTrigger(this.getClass().getName() + "_" + this.name + "_" + "dead");
+		gameManager.getGame().pullTrigger("_dead", this);
 		this.location.removeEntity(this);
 		this.location = null;
 	}

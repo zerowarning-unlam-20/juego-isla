@@ -2,6 +2,7 @@
   "baseHealth": 100,
   "description": "Tipo perdido",
   "gender": "M",
+  "number": "S",
   "health": 100,
   "id": 1,
   "initialLocation": "norte",
@@ -12,6 +13,7 @@
         "damageType": "B",
         "description": "La mano",
         "gender": "F",
+        "number": "S",
         "name": "mano",
         "type": "weapon"
       }

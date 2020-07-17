@@ -1,19 +1,21 @@
 [
   {
     "baseHealth": 80,
-    "chat": {},
+    "chat": { "ddefaultt": "..." },
     "description": "mono de la jungla",
     "gender": "M",
+    "number": "S",
     "health": 80,
     "initialLocation": "sur",
     "inventory": {
       "items": {
-        "cuchillo oxidado": {
+        "cuchillo": {
           "damage": 25.0,
           "damageType": "S",
           "description": "Cuchillo oxidado hecho con chatarra",
           "gender": "M",
-          "name": "Cuchillo oxidado",
+          "number": "S",
+          "name": "cuchillo",
           "type": "weapon"
         }
       },
@@ -31,6 +33,7 @@
     "chat": {},
     "description": "Palmera alta",
     "gender": "F",
+    "number": "S",
     "health": 150,
     "initialLocation": "este",
     "inventory": {
@@ -38,6 +41,7 @@
         "madera en buen estado": {
           "description": "Madera en buen estado",
           "gender": "F",
+          "number": "S",
           "name": "Madera en buen estado",
           "quantity": 2,
           "resourceType": "wood",
@@ -46,15 +50,15 @@
       },
       "type": "inventory"
     },
-      "name": "palmera",
-      "npcType": "inanimated",
-      "stateName": "normal",
-      "type": "NPC",
-      "weakAndRes": {
-        "H": 2,
-        "S": 0.1
-      }
-    },
+    "name": "palmera",
+    "npcType": "inanimated",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 2,
+      "S": 0.1
+    }
+  },
   {
     "baseHealth": 50,
     "chat": {},
@@ -68,6 +72,7 @@
           "description": "Liana recien cortada",
           "gender": "F",
           "name": "liana cortada",
+          "number": "S",
           "quantity": 1,
           "resourceType": "rope",
           "type": "resource"
@@ -75,15 +80,16 @@
       },
       "type": "inventory"
     },
-      "name": "liana",
-      "npcType": "inanimated",
-      "stateName": "normal",
-      "type": "NPC",
-      "weakAndRes": {
-        "H": 0,
-        "S": 1
-      }
-    },
+    "name": "lianas",
+    "npcType": "inanimated",
+    "number": "P",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "H": 0,
+      "S": 1
+    }
+  },
   {
     "baseHealth": 200,
     "chat": {},
@@ -104,14 +110,15 @@
       },
       "type": "inventory"
     },
-      "name": "tiburon",
-      "npcType": "aggressive",
-      "stateName": "normal",
-      "type": "NPC",
-      "weakAndRes": {
-        "B": 20.0,
-        "H": 0.6,
-        "S": 0.6
-      }
+    "name": "tiburon",
+    "npcType": "aggressive",
+    "number": "S",
+    "stateName": "normal",
+    "type": "NPC",
+    "weakAndRes": {
+      "B": 20.0,
+      "H": 0.6,
+      "S": 0.6
     }
+  }
 ]

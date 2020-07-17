@@ -53,11 +53,11 @@ public class Lost implements State {
 			result = access.open();
 			if (!result) {
 				if (access.isLocked())
-					message = access.getSingularName() + " esta bloquead" + access.getTermination();
+					message = access.getNormalName() + " esta bloquead" + access.getTermination();
 				else
-					message = access.getSingularName() + "ya esta abiert" + access.getTermination();
+					message = access.getNormalName() + "ya esta abiert" + access.getTermination();
 			} else {
-				message = access.getSingularName() + " se pudo abrir";
+				message = access.getNormalName() + " se pudo abrir";
 			}
 			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		}
@@ -79,7 +79,7 @@ public class Lost implements State {
 			if (key instanceof Key) {
 				access.unlock(key);
 				result = true;
-				message = toUnlock.getSingularName() + "se pudo desbloquear";
+				message = toUnlock.getNormalName() + "se pudo desbloquear";
 			} else {
 				result = false;
 				message = "Esto no sirve";
@@ -141,22 +141,23 @@ public class Lost implements State {
 	@Override
 	public boolean goTo(String locationName) {
 		if (completelyLost) {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),"Necesito algo para guiarme");
+			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
+					"Necesito algo para guiarme");
 			return false;
 		}
 		boolean result = false;
 		String message = "";
-		if (locationName == null) {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), "Ir donde?");
-			return false;
-		}
 		Access destinationAccess = character.getLocation().getAccesses().get(locationName);
+
 		if (locationName.equalsIgnoreCase(character.getLocation().getName())) {
 			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
 					"No puedo ir donde ya estoy");
 			return false;
 		}
-		if (destinationAccess != null) {
+
+		if (destinationAccess == null) {
+			message = "Ir donde?";
+		} else {
 			if (destinationAccess.isOpened()) {
 				character.getLocation().removeEntity(character);
 				character.setLocation(destinationAccess.getDestination());
@@ -190,7 +191,7 @@ public class Lost implements State {
 		character.getLocation().getLastArea().removeItem(item.getName().toLowerCase());
 		character.getLocation().clearLastArea();
 
-		message = "Se agarró " + item.getSingularName();
+		message = "Se agarro " + item.getNormalName();
 		result = true;
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
 		return result;
@@ -220,7 +221,7 @@ public class Lost implements State {
 		Item content = null;
 		String message = "No hay nada para agarrar.";
 		boolean result = false;
-		if (!(container instanceof Bottle)) {
+		if (container != null && !(container instanceof Bottle)) {
 			message = "Esto no sirve para poner algo";
 			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 			return false;
@@ -240,7 +241,7 @@ public class Lost implements State {
 
 		if (source.getContent() instanceof Liquid) {
 			content = source.getContent();
-			message = "se lleno " + container.getSingularName() + " con " + content.getName();
+			message = "se lleno " + container.getNormalName() + " con " + content.getName();
 		} else {
 			message = "No necesito algo para agarrarlo.";
 		}
@@ -290,7 +291,7 @@ public class Lost implements State {
 		}
 		if (!(item instanceof Weapon)) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					"No puedo pegar con " + item.getSingularName() + ", no es un arma.");
+					"No puedo pegar con " + item.getNormalName() + ", no es un arma.");
 			return false;
 		}
 		Weapon weapon = (Weapon) item;
@@ -299,13 +300,13 @@ public class Lost implements State {
 		if (tgt instanceof Attackable) {
 			Attackable target = (Attackable) tgt;
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					character.getName() + " Le pego a " + tgt.getSingularName() + " con " + weapon.getSingularName());
+					character.getName() + " Le pego a " + tgt.getNormalName() + " con " + weapon.getNormalName());
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
 			target.recieveAttack(attack);
 			return true;
 		} else {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					"No puedo golpear a " + tgt.getSingularName());
+					"No puedo golpear a " + tgt.getNormalName());
 		}
 
 		return false;
@@ -326,13 +327,13 @@ public class Lost implements State {
 
 		if (character.getHealth() <= 0) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					"Cayo " + character.getSingularName());
+					"Cayo " + character.getNormalName());
 			character.onDeath(attack);
 			return new Dead(character);
 		}
 
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
+				character.getName() + ": " + character.getHealth() + " HP, Dano sufrido: " + totalDamage);
 
 		return this;
 	}
@@ -455,7 +456,7 @@ public class Lost implements State {
 			Item item = cont.getContent();
 			if (item == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						dispenser.getSingularName() + " Esta vaci" + dispenser.getTermination());
+						dispenser.getNormalName() + " Esta vaci" + dispenser.getTermination());
 			} else {
 				resultState = ((Liquid) item).consume(character);
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
@@ -467,7 +468,7 @@ public class Lost implements State {
 			Item item = src.getContent();
 			if (item == null) {
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-						dispenser.getSingularName() + " Esta vaci" + dispenser.getTermination());
+						dispenser.getNormalName() + " Esta vaci" + dispenser.getTermination());
 			} else {
 				resultState = ((Liquid) item).consume(character);
 				character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),

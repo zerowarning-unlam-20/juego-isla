@@ -17,6 +17,7 @@ import manager.Game;
 import manager.GameManager;
 import tools.DamageType;
 import tools.Gender;
+import tools.Namber;
 import tools.ResourceType;
 
 class BlueprintTest {
@@ -29,7 +30,7 @@ class BlueprintTest {
 		gameManager = new GameManager(true);
 
 		// Load environment
-		Location s1 = new Location(Gender.M, "s1", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s1 = new Location(Gender.M, Namber.S, "s1", "Inicio", true, true, new HashMap<>(), new HashMap<>());
 		HashMap<String, Location> locations = new HashMap<>();
 		locations.put(s1.getName().toLowerCase(), s1);
 
@@ -37,18 +38,19 @@ class BlueprintTest {
 		HashMap<String, NPC> npcs = new HashMap<>();
 
 		// Load character & inventory
-		Resource wood1 = new Resource(Gender.F, "Madera de palmera", "Madera_test_1", 0, ResourceType.WOOD, 2);
-		Resource stone = new Resource(Gender.M, "Piedra", "Piedra_test", 0, ResourceType.STONE, 1);
+		Resource wood1 = new Resource(Gender.F, Namber.S, "Madera de palmera", "Madera_test_1", 0, ResourceType.WOOD,
+				2);
+		Resource stone = new Resource(Gender.M, Namber.S, "Piedra", "Piedra_test", 0, ResourceType.STONE, 1);
 		Inventory inventory = new Inventory();
 		inventory.addItem(wood1);
 		inventory.addItem(stone);
-		player = new Player(gameManager, Gender.M, "Test", "Test_desc", inventory, "s1");
+		player = new Player(gameManager, Gender.M, Namber.S, "Test", "Test_desc", inventory, "s1");
 		// crossbow & blueprint
 		HashMap<ResourceType, Integer> requirements = new HashMap<>();
 		requirements.put(wood1.getResourceType(), 2);
 		requirements.put(stone.getResourceType(), 1);
-		crossbow = new Weapon(Gender.F, "Ballesta", "ballesta_desc", 0, DamageType.SHOT, 100d);
-		Blueprint crossBlueprint = new Blueprint(Gender.M, "Plano de ballesta", "Plano_desc", 0, requirements,
+		crossbow = new Weapon(Gender.F, Namber.S, "Ballesta", "ballesta_desc", 0, DamageType.SHOT, 100d);
+		Blueprint crossBlueprint = new Blueprint(Gender.M, Namber.S, "Plano de ballesta", "Plano_desc", 0, requirements,
 				crossbow);
 
 		// Add crossbow to character

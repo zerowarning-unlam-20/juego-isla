@@ -5,6 +5,7 @@
       "suelo": {
         "description": "suelo de la tienda",
         "gender": "M",
+        "number": "S",
         "items": {},
         "name": "suelo",
         "type": "area"
@@ -14,6 +15,7 @@
     "description": "Una tienda medio pelo",
     "entities": {},
     "gender": "F",
+    "number": "S",
     "name": "tienda",
     "type": "location"
   }

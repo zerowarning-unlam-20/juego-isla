@@ -96,7 +96,7 @@ public class NPCVendor implements State {
 
 		if (character.getHealth() <= 0) {
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					"Cayó " + character.getSingularName());
+					"Cayo " + character.getNormalName());
 			character.onDeath(attack);
 			return new Dead(character);
 		} else {
@@ -107,7 +107,7 @@ public class NPCVendor implements State {
 		}
 
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-				character.getName() + ": " + character.getHealth() + " HP, Daño sufrido: " + totalDamage);
+				character.getName() + ": " + character.getHealth() + " HP, Dano sufrido: " + totalDamage);
 		return this;
 	}
 
@@ -146,7 +146,7 @@ public class NPCVendor implements State {
 						&& ((Resource) item).getQuantity() >= searchedItem.getValue()) {
 					player.getInventory().removeResource(item.getName(), searchedItem.getValue());
 					player.addItem(searchedItem);
-					result = "gracias por comprar! Tu compra salió $" + searchedItem.getValue();
+					result = "gracias por comprar! Tu compra salio $" + searchedItem.getValue();
 					buyed = true;
 					break;
 				}

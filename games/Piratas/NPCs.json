@@ -8,6 +8,7 @@
     },
     "description": "pirata fantasma",
     "gender": "M",
+    "number": "S",
     "health": 80,
     "initialLocation": "muelle",
     "inventory": {},
@@ -16,7 +17,10 @@
     "stateName": "normal",
     "type": "NPC",
     "weakAndRes": {
-      "SH": 100
+      "B": 0,
+      "H": 0,
+      "SH": 100,
+      "SL": 0
     }
   }
 ]

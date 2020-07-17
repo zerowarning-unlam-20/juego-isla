@@ -11,15 +11,16 @@ import items.properties.Readablel;
 import items.properties.Usable;
 import tools.Gender;
 import tools.MessageType;
+import tools.Namber;
 import tools.ResourceType;
 
 public class Blueprint extends Item implements Usable, Readablel, Holdable {
 	private HashMap<ResourceType, Integer> requirements;
 	private Item result;
 
-	public Blueprint(Gender gender, String name, String description, int price,
+	public Blueprint(Gender gender, Namber number, String name, String description, int price,
 			HashMap<ResourceType, Integer> requirements, Item produces) {
-		super(gender, name, description, price);
+		super(gender, number, name, description, price);
 		this.requirements = requirements;
 		this.result = produces;
 	}
@@ -44,6 +45,7 @@ public class Blueprint extends Item implements Usable, Readablel, Holdable {
 			entity.removeItem(this);
 			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
 					"Ahora tenes: " + result.getDescription());
+			entity.getGameManager().getGame().pullTrigger("_use_" + this.name, entity);
 		} else {
 			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
 					"No tenes los elementos necesarios");

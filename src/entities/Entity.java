@@ -2,6 +2,7 @@ package entities;
 
 import java.util.HashMap;
 
+import events.Event;
 import island.GameObject;
 import island.Location;
 import items.Inventory;
@@ -13,6 +14,7 @@ import states.State;
 import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
+import tools.Namber;
 
 public abstract class Entity extends GameObject implements Attackable {
 	protected GameManager gameManager;
@@ -24,9 +26,9 @@ public abstract class Entity extends GameObject implements Attackable {
 	protected String initialLocation;
 	protected State state;
 
-	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
-			Inventory inventory, String initialLocation) {
-		super(gender, name, description);
+	public Entity(GameManager gameManager, Gender gender, Namber number, String name, String description,
+			Location location, Inventory inventory, String initialLocation) {
+		super(gender, number, name, description);
 		this.baseHealth = 100d;
 		this.health = 100d;
 		this.gameManager = gameManager;
@@ -37,9 +39,9 @@ public abstract class Entity extends GameObject implements Attackable {
 		this.initialLocation = initialLocation;
 	}
 
-	public Entity(GameManager gameManager, Gender gender, String name, String description, Location location,
-			Inventory inventory, String initialLocation, State state) {
-		super(gender, name, description);
+	public Entity(GameManager gameManager, Gender gender, Namber number, String name, String description,
+			Location location, Inventory inventory, String initialLocation, State state) {
+		super(gender, number, name, description);
 		this.baseHealth = 100d;
 		this.health = 100d;
 		this.gameManager = gameManager;
@@ -92,11 +94,19 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public boolean unlock(String toUnlock, String keyName) {
-		return state.unlock(toUnlock, keyName);
+		Event event = this.gameManager.getGame().pullTrigger("_unlock_" + toUnlock + "_" + keyName, this);
+		if (event == null || event.isNormalActionAllowed()) {
+			return state.unlock(toUnlock, keyName);
+		}
+		return true;
 	}
 
 	public boolean read(String itemName) {
-		return state.read(itemName);
+		Event event = this.gameManager.getGame().pullTrigger("_read_" + itemName, this);
+		if (event == null || event.isNormalActionAllowed()) {
+			return state.read(itemName);
+		}
+		return true;
 	}
 
 	public void setLocation(Location location) {
@@ -111,16 +121,24 @@ public abstract class Entity extends GameObject implements Attackable {
 		return health;
 	}
 
-	public State drink(String name, String dispenserName) {
-		return state.drink(name, dispenserName);
+	public State drink(String itemName, String dispenserName) {
+		return state.drink(itemName, dispenserName);
 	}
 
 	public boolean look(String objectName) {
-		return state.look(objectName);
+		Event event = this.gameManager.getGame().pullTrigger("_look_" + objectName, this);
+		if (event == null || event.isNormalActionAllowed()) {
+			return state.look(objectName);
+		}
+		return true;
 	}
 
-	public boolean open(String item) {
-		return state.open(item);
+	public boolean open(String itemName) {
+		Event event = this.gameManager.getGame().pullTrigger("_open_" + itemName, this);
+		if (event == null || event.isNormalActionAllowed()) {
+			return state.open(itemName);
+		}
+		return true;
 	}
 
 	public void addItem(Item item) {
@@ -159,7 +177,11 @@ public abstract class Entity extends GameObject implements Attackable {
 	}
 
 	public boolean talk(String other, String message) {
-		return state.talk(other, message);
+		Event event = gameManager.getGame().pullTrigger("_talk_" + other, this);
+		if (event == null || event.isNormalActionAllowed()) {
+			return state.talk(other, message);
+		}
+		return true;
 	}
 
 	public boolean listen(String other, String message) {

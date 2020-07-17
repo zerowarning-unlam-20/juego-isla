@@ -7,6 +7,7 @@
     },
     "description": "vendedor",
     "gender": "M",
+    "number": "S",
     "health": 80,
     "initialLocation": "tienda",
     "inventory": {
@@ -14,6 +15,7 @@
         "fulbito": {
           "description": "fulbito antes de la anmat",
           "gender": "M",
+          "number": "S",
           "itemEffect": {
             "healthChange": -100,
             "type": "item_effect"

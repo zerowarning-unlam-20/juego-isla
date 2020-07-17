@@ -15,10 +15,14 @@ public class TalkCommand implements ActionCommand { // Uh falto implementar talk
 	public void perform(Scanner args) {
 		String objective = "";
 		String aux = "";
-		while (args.hasNext() && !aux.contentEquals(",")) {
+		while (args.hasNext() && !aux.contains(",")) {
 			objective += aux + " ";
 			aux = args.next();
 		}
+		if (aux.contains(",")) {
+			objective += aux.substring(0, aux.trim().length() - 1);
+		} else
+			objective += aux;
 		objective = objective.trim();
 		String message = "";
 		aux = "";

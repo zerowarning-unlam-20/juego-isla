@@ -1,7 +1,7 @@
 [
   {
     "message": "- '¡Me encanta la cerveza de raiz!' El pirata fantasma se veía entusiasmado por tu ofrecimiento... sin embargo, cuando lo rociaste comenzó a desintegrarse. La mitad de arriba de su cuerpo se desvaneció, y las piernas inmediatamente echaron a correr.",
-    "name": "rociador_attack_message",
+    "name": "pirata_dead",
     "nextEvent": "unlock_taberna",
     "type": "story_event"
   },

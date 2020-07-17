@@ -1,14 +1,17 @@
 package island;
 
 import tools.Gender;
+import tools.Namber;
 
 public abstract class GameObject {
 	protected Gender gender;
+	protected Namber number;
 	protected String name;
 	protected String description;
 
-	public GameObject(Gender gender, String name, String description) {
+	public GameObject(Gender gender, Namber number, String name, String description) {
 		this.gender = gender;
+		this.number = number;
 		this.name = name;
 		this.description = description;
 	}
@@ -17,16 +20,16 @@ public abstract class GameObject {
 		return name;
 	}
 
-	public String getSingularName() {
-		return gender.getSingular() + " " + name;
+	public String getNormalName() {
+		return gender.getNormal(number) + " " + name;
 	}
 
 	public String getOnlyName() {
-		return gender.getOnly() + " " + name;
+		return gender.getOnly(number) + " " + name;
 	}
 
 	public String getTermination() {
-		return gender.getTermination();
+		return gender.getTermination(number);
 	}
 
 	public String getLocationPrefix() {
@@ -36,7 +39,7 @@ public abstract class GameObject {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public Gender getGender() {
 		return gender;
 	}
@@ -44,7 +47,7 @@ public abstract class GameObject {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	
+
 	@Override
 	public String toString() {
 		return description;

@@ -2,6 +2,7 @@ package manager;
 
 import java.util.HashMap;
 
+import entities.Entity;
 import entities.NPC;
 import entities.Player;
 import events.Event;
@@ -51,7 +52,7 @@ public class Game {
 		character.setGender(gender);
 
 		this.character.linkToManager(gameManager);
-		
+
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		locations.get(character.getInitialLocation()).addEntity(character);
 		this.entities = npcList;
@@ -74,6 +75,21 @@ public class Game {
 		for (Event event : events.values()) {
 			event.linkManager(gameManager);
 		}
+	}
+
+	public Event pullTrigger(String name, Entity entity) {
+		if (entity instanceof NPC) {
+			name = entity.getName().toLowerCase() + name;
+		} else {
+			name = entity.getClass().getName().toLowerCase() + name;
+		}
+		Event event = events.get(name);
+		if (event != null) {
+			event.execute();
+			events.remove(name);
+			return event;
+		}
+		return null;
 	}
 
 	public Event pullTrigger(String name) {

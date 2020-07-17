@@ -10,15 +10,16 @@ import items.properties.Dispenser;
 import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
+import tools.Namber;
 
 public class Box extends Item implements Dispenser, Attackable {
 	protected boolean locked;
 	protected List<Item> content;
 	protected DamageType weakness;
 
-	public Box(Gender gender, String name, String description, int price, boolean locked, String idKey,
+	public Box(Gender gender, Namber number, String name, String description, int price, boolean locked, String idKey,
 			List<Item> items) {
-		super(gender, name, description, price);
+		super(gender, number, name, description, price);
 		this.locked = locked;
 		this.content = items;
 	}
@@ -26,10 +27,10 @@ public class Box extends Item implements Dispenser, Attackable {
 	@Override
 	public String inspect() {
 		if (!locked) {
-			String message = "Contenido de " + this.getSingularName() + "\n";
+			String message = "Contenido de " + this.getNormalName() + "\n";
 			String contentMessage = "";
 			if (contentMessage.isEmpty()) {
-				return this.getSingularName() + "esta vaci" + this.getTermination();
+				return this.getNormalName() + "esta vaci" + this.getTermination();
 			}
 			for (Item item : content) {
 				contentMessage += item.getName() + ", ";
@@ -40,7 +41,7 @@ public class Box extends Item implements Dispenser, Attackable {
 			}
 			return message + contentMessage;
 		}
-		return ("No se puede ver lo que está dentro de " + this.getSingularName() + ", esta bloquead"
+		return ("No se puede ver lo que está dentro de " + this.getNormalName() + ", esta bloquead"
 				+ this.getTermination());
 	}
 

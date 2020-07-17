@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 import items.Item;
 import tools.Gender;
+import tools.Namber;
 
 public class Area extends GameObject {
-	public Area(Gender gender, String name, String description, HashMap<String, Item> items) {
-		super(gender, name, description);
+
+	public Area(Gender gender, Namber number, String name, String description, HashMap<String, Item> items) {
+		super(gender, number, name, description);
 		this.items = items;
 	}
 
@@ -22,16 +24,20 @@ public class Area extends GameObject {
 	}
 
 	public String getContentString() {
-		String message = description + ":\n";
+		String message = "En " + this.getNormalName() + " hay ";
 		String content = "";
 		for (Item item : items.values()) {
-			content += item.getDescription() + ", ";
+			content += item.getOnlyName() + ", ";
 		}
 		if (content.isEmpty()) {
-			content = "No hay nada aqui";
-		} else
+			content = "no hay nada";
+		} else {
 			content = content.substring(0, content.length() - 2);
-		return message + content;
+			if (content.chars().filter(ch -> ch == ',').count() > 1)
+				content = content.substring(0, content.lastIndexOf(",")) + " y"
+						+ content.substring(content.lastIndexOf(",") + 1);
+		}
+		return message + content + ".";
 	}
 
 	public HashMap<String, Item> getItems() {

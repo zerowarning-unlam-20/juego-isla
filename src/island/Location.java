@@ -16,6 +16,7 @@ import items.Item;
 import states.Dead;
 import tools.Gender;
 import tools.NPCType;
+import tools.Namber;
 
 public class Location extends GameObject {
 	private boolean visible;
@@ -29,9 +30,9 @@ public class Location extends GameObject {
 
 	private HashMap<String, Entity> entities;
 
-	public Location(Gender gender, String name, String description, boolean visible, boolean canDrop,
+	public Location(Gender gender, Namber number, String name, String description, boolean visible, boolean canDrop,
 			HashMap<String, Area> areas, HashMap<String, Access> accesses) {
-		super(gender, name, description);
+		super(gender, number, name, description);
 		this.areas = areas;
 		this.visible = visible;
 		this.entities = new HashMap<String, Entity>();
@@ -137,7 +138,9 @@ public class Location extends GameObject {
 
 	public void addEntity(Entity entity) {
 		entities.put(entity.name.toLowerCase(), entity);
-
+		if (entity.getGameManager().getGame() != null) {
+			entity.getGameManager().getGame().pullTrigger("_goto_" + name, entity);
+		}
 		// Exclusivo para NPCs, comportamiento
 		if (entity instanceof NPC && !entity.getState().getClass().equals(Dead.class)) {
 			NPC npc = (NPC) entity;

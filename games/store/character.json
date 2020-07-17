@@ -2,6 +2,7 @@
   "baseHealth": 100,
   "description": "tipazo",
   "gender": "M",
+  "number": "S",
   "health": 100,
   "initialLocation": "tienda",
   "inventory": {
@@ -11,12 +12,14 @@
         "damageType": "B",
         "description": "La mano",
         "gender": "F",
+        "number": "S",
         "name": "mano",
         "type": "weapon"
       },
       "dinero": {
         "description": "dinero, gastalo que se devalua",
         "gender": "M",
+        "number": "S",
         "name": "dinero",
         "quantity": 200,
         "resourceType": "currency",

@@ -20,6 +20,7 @@ import states.Dead;
 import tools.DamageType;
 import tools.Gender;
 import tools.NPCType;
+import tools.Namber;
 import tools.ResourceType;
 
 class NPCTest {
@@ -31,10 +32,11 @@ class NPCTest {
 	void load() {
 		gameManager = new GameManager(true);
 		// Load locations
-		s1 = new Location(Gender.M, "s1", "Inicio", true, true, new HashMap<>(), new HashMap<>());
-		Location s2 = new Location(Gender.M, "s2", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		s1 = new Location(Gender.M, Namber.S, "s1", "Inicio", true, true, new HashMap<>(), new HashMap<>());
+		Location s2 = new Location(Gender.M, Namber.S, "s2", "Inicio", true, true, new HashMap<>(), new HashMap<>());
 		// Load accesses
-		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
+		s1.addAccess(
+				new Access(Gender.F, Namber.S, "Puerta", "Puerta", 0, false, true, null, "s2", null, DamageType.BLUNT));
 		HashMap<String, Location> locations = new HashMap<>();
 		locations.put(s1.getName().toLowerCase(), s1);
 		locations.put(s2.getName().toLowerCase(), s2);
@@ -49,10 +51,10 @@ class NPCTest {
 
 	@Test
 	void NPCAttackTest1() { // Checks lowered health
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		player.addItem(axe);
-		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new Inventory(), "s1", NPCType.INANIMATED,
-				null);
+		NPC tree = new NPC(gameManager, Gender.F, Namber.S, "Palmera", "test", s1, new Inventory(), "s1",
+				NPCType.INANIMATED, null);
 		s1.addEntity(tree);
 
 		player.attack("hacha", "palmera");
@@ -61,10 +63,10 @@ class NPCTest {
 
 	@Test
 	void NPCAttackTest2() { // Checks null damage
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		player.addItem(axe);
-		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new Inventory(), "s1", NPCType.INANIMATED,
-				null);
+		NPC tree = new NPC(gameManager, Gender.F, Namber.S, "Palmera", "test", s1, new Inventory(), "s1",
+				NPCType.INANIMATED, null);
 
 		tree.addWeakOrRes(DamageType.HACK, 0d);
 		s1.addEntity(tree);
@@ -75,10 +77,10 @@ class NPCTest {
 
 	@Test
 	void NPCAttackTest3() { // Checks full damage and dead NPC
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		player.addItem(axe);
-		NPC tree = new NPC(gameManager, Gender.F, "Palmera", "test", s1, new Inventory(), "s1", NPCType.INANIMATED,
-				new HashMap<>());
+		NPC tree = new NPC(gameManager, Gender.F, Namber.S, "Palmera", "test", s1, new Inventory(), "s1",
+				NPCType.INANIMATED, new HashMap<>());
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
 		s1.addEntity(tree);
@@ -91,11 +93,11 @@ class NPCTest {
 
 	@Test
 	void NPCDropTest1() { // NPC drop test - fullDrop
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		player.addItem(axe);
-		Resource wood1 = new Resource(Gender.F, "Madera", "Madera_test_1", 0, ResourceType.WOOD, 2);
+		Resource wood1 = new Resource(Gender.F, Namber.S, "Madera", "Madera_test_1", 0, ResourceType.WOOD, 2);
 
-		Food coconut = new Food(Gender.M, "Coco", "Coco_test", 0, null);
+		Food coconut = new Food(Gender.M, Namber.S, "Coco", "Coco_test", 0, null);
 
 		Inventory inventory = new Inventory();
 		inventory.addItem(wood1);
@@ -106,7 +108,7 @@ class NPCTest {
 		expected.addItem(wood1);
 		expected.addItem(coconut);
 
-		NPC tree = new NPC(gameManager, Gender.M, "Palmera", "test", s1, inventory, "s1", NPCType.INANIMATED,
+		NPC tree = new NPC(gameManager, Gender.M, Namber.S, "Palmera", "test", s1, inventory, "s1", NPCType.INANIMATED,
 				new HashMap<>());
 
 		tree.addWeakOrRes(DamageType.HACK, 10d);
@@ -120,10 +122,10 @@ class NPCTest {
 	@Test
 	void NPCAccessTest() { // Access opened when NPC dies
 		Player player = new Player(gameManager, s1);
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		player.addItem(axe);
 
-		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", s1, new Inventory(), "s1",
+		NPC parkingMeter = new NPC(gameManager, Gender.M, Namber.S, "Parquimetro", "test", s1, new Inventory(), "s1",
 				NPCType.INANIMATED, new HashMap<>());
 		parkingMeter.addWeakOrRes(DamageType.HACK, 10d);
 		s1.addEntity(parkingMeter);
@@ -138,7 +140,7 @@ class NPCTest {
 		chat.put("escapar", "Arma una canoa o algo y escapa");
 		chat.put("recursos", "Busca algo que sirva como arma");
 		chat.put("ddefaultt", "Perdon, no te entendi");
-		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", s1, new Inventory(), "s1",
+		NPC parkingMeter = new NPC(gameManager, Gender.M, Namber.S, "Parquimetro", "test", s1, new Inventory(), "s1",
 				NPCType.PASSIVE, chat);
 		s1.addEntity(parkingMeter);
 		Assert.assertTrue(player.talk("parquimetro", "escapar"));
@@ -149,7 +151,7 @@ class NPCTest {
 	public void talkTest2() { // Talk to an NPC, this wont understand
 		HashMap<String, String> chat = new HashMap<>();
 		chat.put("ddefaultt", "Perdon, no te entendi");
-		NPC parkingMeter = new NPC(gameManager, Gender.M, "Parquimetro", "test", s1, new Inventory(), "s1",
+		NPC parkingMeter = new NPC(gameManager, Gender.M, Namber.S, "Parquimetro", "test", s1, new Inventory(), "s1",
 				NPCType.INANIMATED, new HashMap<>());
 		s1.addEntity(parkingMeter);
 		Assert.assertFalse(player.talk("parquimetro", "escapar"));

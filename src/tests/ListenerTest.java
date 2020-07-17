@@ -17,6 +17,7 @@ import tools.DamageType;
 import tools.Gender;
 import tools.MessageType;
 import tools.NPCType;
+import tools.Namber;
 
 class ListenerTest {
 	private GameManager gameManager;
@@ -27,12 +28,14 @@ class ListenerTest {
 	void setUp() throws Exception {
 		gameManager = new GameManager(true);
 		// Load locations
-		Location s1 = new Location(Gender.M, "s1", "Inicio", true, true, new HashMap<String, Area>(),
+		Location s1 = new Location(Gender.M, Namber.S, "s1", "Inicio", true, true, new HashMap<String, Area>(),
 				new HashMap<String, Access>());
-		s1.addAccess(new Access(Gender.F, "Puerta", "Puerta azul", 0, false, true, null, "s2", null, DamageType.HACK));
-		Location s2 = new Location(Gender.M, "s2", "Segundo lugar", true, true, new HashMap<String, Area>(),
+		s1.addAccess(new Access(Gender.F, Namber.S, "Puerta", "Puerta azul", 0, false, true, null, "s2", null,
+				DamageType.HACK));
+		Location s2 = new Location(Gender.M, Namber.S, "s2", "Segundo lugar", true, true, new HashMap<String, Area>(),
 				new HashMap<String, Access>());
-		s2.addAccess(new Access(Gender.F, "Puerta", "Puerta azul", 0, false, true, null, "s1", null, DamageType.HACK));
+		s2.addAccess(new Access(Gender.F, Namber.S, "Puerta", "Puerta azul", 0, false, true, null, "s1", null,
+				DamageType.HACK));
 
 		HashMap<String, Location> locations = new HashMap<String, Location>();
 		locations.put(s1.getName().toLowerCase(), s1);
@@ -44,12 +47,13 @@ class ListenerTest {
 		// Inventory
 		Inventory inventory = new Inventory();
 
-		player = new Player(gameManager, Gender.M, "Test", "Test_desc", inventory, "s1");
+		player = new Player(gameManager, Gender.M, Namber.S, "Test", "Test_desc", inventory, "s1");
 		HashMap<String, String> chat = new HashMap<>();
 		chat.put("ddefaultt", "Enemigo a la vista");
 
-		npc = new NPC(gameManager, Gender.F, "Enemigo", "test", s2, new Inventory(), "s2", NPCType.AGGRESSIVE, null);
-		Weapon axe = new Weapon(Gender.M, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
+		npc = new NPC(gameManager, Gender.F, Namber.S, "Enemigo", "test", s2, new Inventory(), "s2", NPCType.AGGRESSIVE,
+				null);
+		Weapon axe = new Weapon(Gender.M, Namber.S, "Hacha", "Hacha de hierro", 0, DamageType.HACK, 20d);
 		npc.addItem(axe);
 		s2.addEntity(npc);
 
