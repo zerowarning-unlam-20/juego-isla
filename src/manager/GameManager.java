@@ -46,10 +46,9 @@ public class GameManager {
 	private String currentCommand;
 	private boolean gameOver;
 	private Sound soundManager;
-	
+
 	private DefaultListModel<String> mensajes = new DefaultListModel<String>();
 	private String msgInterface = "";
-
 
 	public GameManager(boolean consoleMode, boolean testMode) {
 		try {
@@ -83,14 +82,6 @@ public class GameManager {
 	}
 
 	public void consoleRun() {
-		try {
-			Sound.filePath = "sounds/back.wav";
-			soundManager = new Sound();
-			soundManager.play();
-		} catch (Exception ex) {
-			System.out.println("Error sonido :" + ex.getMessage());
-		}
-
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
 
@@ -155,7 +146,7 @@ public class GameManager {
 					System.out.println("//" + content + "//");
 				else {
 //					mensajes.addElement("//" + content + "//");
-					setMsgInterface("//" + content + "//");//					
+					setMsgInterface("//" + content + "//");//
 				}
 				break;
 			case ("C"):
@@ -163,9 +154,8 @@ public class GameManager {
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
 				else {
-						
 //					mensajes.addElement(otherName + ": " + content);
-					setMsgInterface(otherName + ": " + content);//					
+					setMsgInterface(otherName + ": " + content);//
 				}
 				break;
 			case ("S"):
@@ -174,7 +164,7 @@ public class GameManager {
 					System.out.println(content);
 				else {
 //					mensajes.addElement(content);
-					setMsgInterface(content);//				
+					setMsgInterface(content);//
 				}
 				break;
 			}
@@ -183,7 +173,7 @@ public class GameManager {
 //		System.out.println(mensajes);
 //		System.out.println((messageHistory.get(messageHistory.size()-1).getContent()));
 //		System.out.println("ASMDÑLASD");
-		
+
 //		if(messageHistory.get(messageHistory.size()-1).getMessageType().getValue().equals("E"))
 //			setMsgInterface("//" + messageHistory.get(messageHistory.size()-1).getContent() + "//");//
 //		else if(messageHistory.get(messageHistory.size()-1).getMessageType().getValue().equals("C"))
@@ -192,9 +182,8 @@ public class GameManager {
 //			setMsgInterface(messageHistory.get(messageHistory.size()-1).getContent());//				
 //		else
 //			setMsgInterface(otherName + ": " + messageHistory.get(messageHistory.size()-1).getContent());//	
-			
-	}
 
+	}
 
 	public List<Message> getMessageHistory() {
 		return messageHistory;
@@ -218,30 +207,22 @@ public class GameManager {
 		WorldLoader worldLoader = new WorldLoader(folder);
 		try {
 			reset();
-			
-			  game = new Game(this, name, gender, worldLoader.loadCharacter(),
-			  worldLoader.loadLocations(), worldLoader.loadEntities(),
-			  worldLoader.loadEvents());
-				
+
+			game = new Game(this, name, gender, worldLoader.loadCharacter(), worldLoader.loadLocations(),
+					worldLoader.loadEntities(), worldLoader.loadEvents());
 			loadCommands();
 			sendMessage(MessageType.STORY, "game", worldLoader.loadInitialMessage());
-			mensajes.addElement(" ");;
+			mensajes.addElement(" ");
 			game.getCharacter().lookAround();
-			
+
 			try {
-				if(folder.equals("Blue Hawaii"))
-					Sound.filePath = "sounds/back.wav";
-				else if(folder.equals("Piratas"))
-					Sound.filePath = "sounds/piratas.wav";
-				else
-					Sound.filePath = "sounds/store.wav";
-					
+				Sound.filePath = "sounds/" + folder + ".wav";
 				soundManager = new Sound();
 				soundManager.play();
 			} catch (Exception ex) {
-				System.out.println("Error sonido :" + ex.getMessage());
+				System.out.println("Error sonido: " + ex.getMessage());
 				ex.printStackTrace();
-			}			
+			}
 		} catch (IOException e) {
 			System.out.println("Error al cargar el juego" + e.getMessage());
 			System.exit(-1);
@@ -336,6 +317,5 @@ public class GameManager {
 	public DefaultListModel<String> getMensajes() {
 		return mensajes;
 	}
-	
 
 }
