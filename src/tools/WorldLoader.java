@@ -189,4 +189,12 @@ public class WorldLoader {
 		return folders;
 	}
 
+	public static List<String> listFiles(final File folder) {
+		ArrayList<String> files = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+                files.add(fileEntry.getName());
+		}
+		return files;
+	}
+	
 }

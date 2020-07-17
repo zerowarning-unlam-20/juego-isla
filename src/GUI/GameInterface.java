@@ -23,9 +23,13 @@ import javax.swing.event.*; //Para trabajar con eventos
 import manager.GameManager;
 import manager.Message;
 import tools.Gender;
+import tools.WorldLoader;
 
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.Image;
@@ -48,6 +52,10 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 	private JList<String> mensajes;
 	private String name;
 	private String gender;
+	private String currentAdventure;
+	private HashMap<String,ArrayList<String>> adventureImagen = new HashMap<String,ArrayList<String>>();
+	ArrayList<String> adventures = (ArrayList<String>) WorldLoader.listFolders(new File("games"));
+	ArrayList<String> imagenes = (ArrayList<String>) WorldLoader.listFiles(new File("imagenes"));
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +63,7 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GameInterface frame = new GameInterface("Matias","M","Piratas");
+					GameInterface frame = new GameInterface("Matias","M","Blue Hawaii");
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
@@ -72,6 +80,8 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		
 		this.name = name;
 		this.gender = gender;
+		this.currentAdventure = adventure;
+		cargarImg();
 		setTitle("ZeroWarning - Zork");
 		setForeground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,20 +110,65 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 		//mensajes.setModel(game.getMensajes());
 		
 	}
+	
 
+	private void cargarImg() {
+		for(String s : adventures) {
+			adventureImagen.put(s, new ArrayList<String>());
+		}
+		
+		for(String img:imagenes ) {
+			for(String adv : adventures) {
+				if((img.substring(0,adv.length()).equals(adv))) {
+					adventureImagen.get(adv).add(img);
+				}
+			}
+		}
+		
+		
+	}
+	
+	private void mostrarImg(String mensaje , String aventura) {
+		ArrayList<String> imagenes = adventureImagen.get(aventura);
+		ImageIcon image = null;
+		String m;
+		String s2;
+		
+		for(String s: imagenes) {
+			m=mensaje.toLowerCase();
+			s2=s.toLowerCase();
+			if(m.contains(s2.substring(aventura.length(),s2.length()-4))) {
+				image = new ImageIcon(".\\\\imagenes\\\\"+ s2);
+			}
+				
+		}
+		if(image == null)
+			image = new ImageIcon(".\\imagenes\\" + aventura + "Inicial.gif");
+		Icon iconoIsla = new ImageIcon(image.getImage().getScaledInstance(gif.getWidth()+10, gif.getHeight(), Image.SCALE_DEFAULT));
+		
+		gif.setIcon(iconoIsla);
+		contentPane.add(gif);
+		
+		
+	}
+	
+	
 	@Override
 	  public void actionPerformed(ActionEvent e){
 	    //Si clic en boton  => hacer...
-		 String ingresoUsuario = textField.getText();		 		// Obtener el texto desde la textFiel
+		 String ingresoUsuario = textField.getText();
+		 String mensaje;// Obtener el texto desde la textFiel
 		 
 		 if(ingresoUsuario != null && !ingresoUsuario.isEmpty()){
  				 
 			textArea.append("\n" + "> " + ingresoUsuario +  "\n"); 	//Mostrar el mensaje enviado en la pantalla
 			game.interfaceRun(ingresoUsuario);  //le envio el comando a game manager
-			textArea.append(game.getMsgInterface()+ "\n");
+			mensaje = game.getMsgInterface();
+			textArea.append(mensaje + "\n");
+			mostrarImg(mensaje,this.currentAdventure);
 			
-			if(ingresoUsuario.split(" ")[0].equals("golpear"))
-				textArea.append(game.getMsgInterface()+ "\n");
+			//if(ingresoUsuario.split(" ")[0].equals("golpear"))
+				//textArea.append(game.getMsgInterface()+ "\n");
 			this.textField.setText("");
 			this.textField.requestFocus();
 			
@@ -146,11 +201,11 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 			ImageIcon islaGif;
 			
 			if(adventure.equals("Blue Hawaii"))
-				islaGif = new ImageIcon(".\\imagenes\\fondo.gif");
+				islaGif = new ImageIcon(".\\imagenes\\Blue HawaiiInicial.gif");
 			else if(adventure.equals("Piratas"))
-				islaGif = new ImageIcon(".\\imagenes\\fondoPiratas.gif");
+				islaGif = new ImageIcon(".\\imagenes\\PiratasInicial.gif");
 			else
-				islaGif = new ImageIcon(".\\imagenes\\fondoStore.gif");
+				islaGif = new ImageIcon(".\\imagenes\\storeInicial.gif");
 			
 			Icon iconoIsla = new ImageIcon(islaGif.getImage().getScaledInstance(gif.getWidth()+10, gif.getHeight(), Image.SCALE_DEFAULT));
 			
@@ -158,13 +213,14 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 			contentPane.add(gif);
 	  }
 	  
+
 	  private void buttons() {
 		  //enviar
 			btnEnviar = new JButton();
 			btnEnviar.setBounds(323, 223, 110, 40);
 			btnEnviar.addActionListener(this);// Accion a tomar <==> se presiona el botòn OK ==> INGRESAR TETXO
 		
-			ImageIcon enviar = new ImageIcon(".\\imagenes\\boton.png");
+			ImageIcon enviar = new ImageIcon(".\\imagenes\\BlueHawaiiboton.png");
 			Icon iconEnviar = new ImageIcon(enviar.getImage().getScaledInstance(btnEnviar.getWidth()+12,btnEnviar.getHeight(), Image.SCALE_FAST));
 			btnEnviar.setIcon(iconEnviar);
 			contentPane.add(btnEnviar);
@@ -180,7 +236,7 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 				   System.exit(0);
 			});
 			
-			ImageIcon salir = new ImageIcon(".\\imagenes\\salir.png");
+			ImageIcon salir = new ImageIcon(".\\imagenes\\BlueHawaiisalir.png");
 			Icon iconSalir = new ImageIcon(salir.getImage().getScaledInstance(btnSalir.getWidth()+12,btnSalir.getHeight(), Image.SCALE_FAST));
 			btnSalir.setIcon(iconSalir);
 			contentPane.add(btnSalir);
@@ -204,7 +260,7 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 			        this.dispose();
 			});
 			
-			ImageIcon atras = new ImageIcon(".\\imagenes\\atras.png");
+			ImageIcon atras = new ImageIcon(".\\imagenes\\BlueHawaiiatras.png");
 			Icon iconAtras = new ImageIcon(atras.getImage().getScaledInstance(btnAtras.getWidth()+12,btnAtras.getHeight(), Image.SCALE_FAST));
 			btnAtras.setIcon(iconAtras);
 			contentPane.add(btnAtras);
