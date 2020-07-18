@@ -16,6 +16,7 @@
       "suelo": {
         "description": "suelo de concreto",
         "gender": "M",
+        "number": "S",
         "items": {
           "barreta": {
             "damage": 30.0,
