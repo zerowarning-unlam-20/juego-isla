@@ -39,17 +39,20 @@ public class Blueprint extends Item implements Usable, Readablel, Holdable {
 
 	@Override
 	public boolean use(Entity entity) {
-		Item result = this.produce(entity.getInventory());
-		if (result != null) {
-			entity.addItem(result);
-			entity.removeItem(this);
-			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
-					"Ahora tenes: " + result.getDescription());
-			entity.getGameManager().getGame().pullTrigger("_use_" + this.name, entity);
-		} else {
-			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
-					"No tenes los elementos necesarios");
-		}
+		if (entity.getLocation().isVisible()) {
+			Item result = this.produce(entity.getInventory());
+			if (result != null) {
+				entity.addItem(result);
+				entity.removeItem(this);
+				entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
+						"Ahora tenes: " + result.getDescription());
+				entity.getGameManager().getGame().pullTrigger("_use_" + this.name, entity);
+			} else {
+				entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(),
+						"No tenes los elementos necesarios");
+			}
+		} else
+			entity.getGameManager().sendMessage(MessageType.EVENT, entity.getName(), "No se ve nada");
 		return result != null;
 	}
 

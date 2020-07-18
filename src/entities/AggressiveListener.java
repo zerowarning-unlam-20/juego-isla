@@ -37,6 +37,7 @@ public class AggressiveListener implements EntityListener, Runnable {
 				int newTurn = npc.getGameManager().getTurn();
 				if (turn != newTurn) {
 					if (playerAppeared && turn != newTurn) {
+						npc.getGameManager();
 						npc.attack(npc.getBestWeapon(), player.getName().toLowerCase());
 					}
 					playerAppeared = true;
