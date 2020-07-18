@@ -484,9 +484,11 @@ public class Lost implements State {
 		boolean result = false;
 		Item resultItem = character.getInventory().getItem(item);
 		if (resultItem != null) {
-			character.getInventory().removeItem(resultItem.getName());
 			message += "tirando " + resultItem.getName();
 			result = character.getLocation().addItem(resultItem);
+			if (result)
+				character.getInventory().removeItem(resultItem.getName());
+
 		} else
 			message += "no hay nada para tirar";
 		if (!result && !character.getLocation().isDropZone()) {
