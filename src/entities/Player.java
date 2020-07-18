@@ -49,4 +49,6 @@ public class Player extends Entity {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
+	
+	
 }

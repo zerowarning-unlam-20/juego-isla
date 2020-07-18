@@ -47,6 +47,10 @@ public abstract class GameObject {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
+	
+	public void setNamber(Namber number) {
+		this.number = number;
+	}
 
 	@Override
 	public String toString() {

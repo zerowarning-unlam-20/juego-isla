@@ -9,6 +9,7 @@ import events.Event;
 import island.Location;
 import items.Access;
 import tools.Gender;
+import tools.Namber;
 
 public class Game {
 	private HashMap<String, NPC> entities;
@@ -26,6 +27,7 @@ public class Game {
 		this.locations = locations;
 		this.character = character;
 		this.character.linkToManager(gameManager);
+		this.character.setNamber(Namber.S);
 
 		this.character.setLocation(locations.get(character.getInitialLocation()));
 		locations.get(character.getInitialLocation()).addEntity(character);
@@ -50,6 +52,8 @@ public class Game {
 		this.character = character;
 		character.setName(name);
 		character.setGender(gender);
+		character.setNamber(Namber.S);
+		
 
 		this.character.linkToManager(gameManager);
 

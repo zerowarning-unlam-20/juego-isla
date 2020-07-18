@@ -16,5 +16,9 @@ public enum Namber {
 	public String getValue() {
 		return value;
 	}
+	
+	public void setNamber(String valor) {
+		this.value = valor;
+	}
 
 }

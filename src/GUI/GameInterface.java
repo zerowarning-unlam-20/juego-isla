@@ -203,11 +203,11 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 			
 			if(adventure.equals("Blue Hawaii"))
 				islaGif = new ImageIcon(".\\imagenes\\Blue HawaiiInicial.gif");
-			else if(adventure.equals("Piratas"))
+			else if(adventure.equals("Piratas")) 
 				islaGif = new ImageIcon(".\\imagenes\\PiratasInicial.gif");
 			else
 				islaGif = new ImageIcon(".\\imagenes\\storeInicial.gif");
-			
+			previousImg = islaGif;
 			Icon iconoIsla = new ImageIcon(islaGif.getImage().getScaledInstance(gif.getWidth()+10, gif.getHeight(), Image.SCALE_DEFAULT));
 			
 			gif.setIcon(iconoIsla);

@@ -38,6 +38,7 @@ public enum Gender {
 	}
 
 	public String getNormal(Namber number) {
+		if(number == null) number = Namber.S;
 		switch (number) {
 		case S:
 			return singular;
