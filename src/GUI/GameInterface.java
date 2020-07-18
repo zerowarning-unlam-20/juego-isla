@@ -56,9 +56,10 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 	private HashMap<String,ArrayList<String>> adventureImagen = new HashMap<String,ArrayList<String>>();
 	ArrayList<String> adventures = (ArrayList<String>) WorldLoader.listFolders(new File("games"));
 	ArrayList<String> imagenes = (ArrayList<String>) WorldLoader.listFiles(new File("imagenes"));
+	private ImageIcon previousImg;
 	/**
-	 * Launch the application.
-	 */
+	 ** Launch the application.
+	 **/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -139,16 +140,16 @@ public class GameInterface extends JFrame implements ActionListener{ //implement
 			s2=s.toLowerCase();
 			if(m.contains(s2.substring(aventura.length(),s2.length()-4))) {
 				image = new ImageIcon(".\\\\imagenes\\\\"+ s2);
+				previousImg = image;
 			}
 				
 		}
 		if(image == null)
-			image = new ImageIcon(".\\imagenes\\" + aventura + "Inicial.gif");
+			image = previousImg;
 		Icon iconoIsla = new ImageIcon(image.getImage().getScaledInstance(gif.getWidth()+10, gif.getHeight(), Image.SCALE_DEFAULT));
 		
 		gif.setIcon(iconoIsla);
 		contentPane.add(gif);
-		
 		
 	}
 	
