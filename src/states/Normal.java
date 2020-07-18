@@ -133,7 +133,6 @@ public class Normal implements State {
 			if (destinationAccess.isOpened()) {
 				character.getLocation().removeEntity(character);
 				character.setLocation(destinationAccess.getDestination());
-				character.getLocation().addEntity(character);
 				message = "Me fui a" + character.getLocation().getLocationPrefix() + " "
 						+ character.getLocation().getName();
 				result = true;
@@ -144,6 +143,7 @@ public class Normal implements State {
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		if (result) {
 			lookAround();
+			character.getLocation().addEntity(character);
 		}
 		return result;
 	}

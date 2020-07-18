@@ -84,7 +84,7 @@ public class GameManager {
 	public void consoleRun() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		currentCommand = "";
-
+		consoleMode = true;
 		while (currentCommand != "salir del juego") {
 			try {
 				currentCommand = reader.readLine().toLowerCase();
@@ -145,8 +145,7 @@ public class GameManager {
 				if (consoleMode)
 					System.out.println("//" + content + "//");
 				else {
-//					mensajes.addElement("//" + content + "//");
-					setMsgInterface("//" + content + "//");//
+					setMsgInterface("//" + content + "//");
 				}
 				break;
 			case ("C"):
@@ -154,8 +153,7 @@ public class GameManager {
 				if (consoleMode)
 					System.out.println(otherName + ": " + content);
 				else {
-//					mensajes.addElement(otherName + ": " + content);
-					setMsgInterface(otherName + ": " + content);//
+					setMsgInterface(otherName + ": " + content);
 				}
 				break;
 			case ("S"):
@@ -163,8 +161,7 @@ public class GameManager {
 				if (consoleMode)
 					System.out.println(content);
 				else {
-//					mensajes.addElement(content);
-					setMsgInterface(content);//
+					setMsgInterface(content);
 				}
 				break;
 			}

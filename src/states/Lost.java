@@ -159,12 +159,12 @@ public class Lost implements State {
 			message = "Ir donde?";
 		} else {
 			if (destinationAccess.isOpened()) {
-				character.getLocation().removeEntity(character);
-				character.setLocation(destinationAccess.getDestination());
-				character.getLocation().addEntity(character);
 				message = "Me fui a" + character.getLocation().getLocationPrefix() + " "
 						+ character.getLocation().getName();
 				result = true;
+				character.getLocation().removeEntity(character);
+				character.setLocation(destinationAccess.getDestination());
+
 			} else {
 				message = "No se puede ir";
 			}
@@ -172,6 +172,7 @@ public class Lost implements State {
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
 		if (result) {
 			lookAround();
+			character.getLocation().addEntity(character);
 		}
 		return result;
 	}
