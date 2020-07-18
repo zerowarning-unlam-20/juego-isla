@@ -253,7 +253,7 @@
       }
     },
     "areas": {},
-    "canDrop": true,
+    "canDrop": false,
     "description": "Sur de la isla",
     "entities": {},
     "gender": "M",
@@ -351,6 +351,7 @@
     "description": "Mar abierto",
     "entities": {},
     "gender": "M",
+    "canDrop": false,
     "name": "mar",
     "number": "S",
     "type": "location",

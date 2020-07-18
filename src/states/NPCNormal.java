@@ -8,10 +8,7 @@ import items.Access;
 import items.Item;
 import items.properties.Attackable;
 import items.properties.Dispenser;
-import items.properties.Holdable;
-import items.properties.Readablel;
 import items.properties.Unlockable;
-import items.properties.Usable;
 import items.types.Bottle;
 import items.types.Key;
 import items.types.Liquid;
@@ -133,87 +130,22 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean grab(String name) {
-		Item item = character.getLocation().getItemFromAreas(name);
-
-		boolean result = false;
-		String message = "No agarre nada";
-		if (item == null || !(item instanceof Holdable)) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
-			return result;
-		}
-
-		character.addItem(item);
-		character.getLocation().getLastArea().removeItem(item.getName().toLowerCase());
-		character.getLocation().clearLastArea();
-
-		message = "Se agarro " + item.getNormalName();
-		result = true;
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
-		return result;
+		return false;
 	}
 
 	@Override
 	public boolean grab(String sourceName, String itemName) {
-		Item src = character.getLocation().getItemFromAreas(sourceName);
-
-		String message = "No hay nada para agarrar.";
-		boolean result = false;
-		if (!(src instanceof Holdable)) {
-			Source source = (Source) src;
-			if (!(source.getContent() instanceof Liquid)) {
-				result = source.giveItems(character);
-			} else
-				message = "Necesito un recipiente o algo para agarrarlo.";
-		}
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-		return result;
+		return false;
 	}
 
 	@Override
 	public boolean grab(String itemName, String sourceName, String containerName) {
-		Item src = character.getLocation().getItemFromAreas(sourceName);
-		Item container = character.getInventory().getItem(containerName);
-		Item content = null;
-		String message = "No hay nada para agarrar.";
-		boolean result = false;
-		if (!(container instanceof Bottle)) {
-			message = "Esto no sirve para poner algo";
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-			return false;
-		} else if (!((Bottle) container).isEmpty()) {
-			message = "Este recipiente esta lleno";
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-			return false;
-		}
-		Bottle cont = (Bottle) container;
-
-		if (!(src instanceof Source)) {
-			message = "No puedo sacar nada de aca";
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-			return false;
-		}
-		Source source = (Source) src;
-
-		if (source.getContent() instanceof Liquid) {
-			content = source.getContent();
-			message = "se lleno " + container.getNormalName() + " con " + content.getName();
-		} else {
-			message = "No necesito algo para agarrarlo.";
-		}
-		cont.setContent(source.getContent());
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-		return result;
+		return false;
 	}
 
 	@Override
 	public boolean lookAround() {
-		boolean result = true;
-		String message = character.getLocation().getDescription() + "\n";
-		message += character.getLocation().lookAround();
-		message += character.getLocation().lookAccesses();
-		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), message);
-		result = true;
-		return result;
+		return false;
 	}
 
 	@Override
@@ -255,7 +187,7 @@ public class NPCNormal implements State {
 		if (tgt instanceof Attackable) {
 			Attackable target = (Attackable) tgt;
 			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
-					character.getName() + " Le pego a " + tgt.getNormalName() + " con " + weapon.getNormalName());
+					character.getName() + " Le pego a " + tgt.getName() + " con " + weapon.getNormalName());
 			Attack attack = new Attack(weapon.getDamage(), character, weapon.getDamageType());
 			target.recieveAttack(attack);
 			return true;
@@ -311,56 +243,17 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean use(String itemName) {
-		Item item = character.getInventory().getItem(itemName);
-
-		if (item == null) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para usar");
-			return false;
-		}
-		if (item instanceof Usable) {
-			Usable usable = (Usable) item;
-			usable.use(character);
-		}
-
 		return false;
 	}
 
 	@Override
 	public boolean read(String itemName) {
-		Item item = character.getInventory().getItem(itemName);
-		boolean result = true;
-		String message = "Esto no se puede leer, no hay nada para leer";
-
-		if (item == null) {
-			message = "No hay nada para leer";
-		}
-		if (item instanceof Readablel) {
-			Readablel text = (Readablel) item;
-			message = text.read(character.getLocation().isVisible());
-		}
-		character.getGameManager().sendMessage(MessageType.STORY, character.getName(), message);
-		return result;
+		return false;
 	}
 
 	@Override
 	public boolean inspect(String itemName) {
-		boolean result = false;
-		Item item = null;
-		item = character.getInventory().getItem(itemName);
-		if (item == null) {
-			item = character.getLocation().getItemFromAreas(itemName);
-		}
-		if (item == null) {
-			character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), "No hay nada para revisar");
-		} else if (item instanceof Readablel) {
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-					((Readablel) item).read(character.getLocation().isVisible()));
-			return true;
-		} else if (item instanceof Dispenser) {
-			result = ((Dispenser) item).giveItems(character);
-		} else
-			character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(), item.getDescription());
-		return result;
+		return false;
 	}
 
 	@Override
@@ -410,20 +303,7 @@ public class NPCNormal implements State {
 
 	@Override
 	public boolean drop(String item) {
-		String message = "";
-		boolean result = false;
-		Item resultItem = character.getInventory().getItem(item);
-		if (resultItem != null) {
-			character.getInventory().removeItem(resultItem.getName());
-			message += "tirando " + resultItem.getName();
-			result = character.getLocation().addItem(resultItem);
-		} else
-			message += "no hay nada para tirar";
-		if (!result && !character.getLocation().isDropZone()) {
-			message += "no se puede tirar nada aca";
-		}
-		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(), message);
-		return result;
+		return false;
 	}
 
 	@Override

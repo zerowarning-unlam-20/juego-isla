@@ -404,7 +404,7 @@ public class Normal implements State {
 	@Override
 	public void lookState() {
 		character.getGameManager().sendMessage(MessageType.CHARACTER, character.getName(),
-				"Estoy un poco perdid" + character.getTermination());
+				"Estoy bien" + character.getTermination());
 		character.getGameManager().sendMessage(MessageType.EVENT, character.getName(),
 				"Vida: " + character.getHealth());
 	}
@@ -452,9 +452,11 @@ public class Normal implements State {
 		boolean result = false;
 		Item resultItem = character.getInventory().getItem(item);
 		if (resultItem != null) {
-			character.getInventory().removeItem(resultItem.getName());
 			message += "tirando " + resultItem.getName();
 			result = character.getLocation().addItem(resultItem);
+			if (result)
+				character.getInventory().removeItem(resultItem.getName());
+
 		} else
 			message += "no hay nada para tirar";
 		if (!result && !character.getLocation().isDropZone()) {

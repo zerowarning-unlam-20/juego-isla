@@ -10,7 +10,9 @@ Ver: "ver [ítem]"
 Usar: "usar [ítem]"
 Ir:"ir [ubicación]"
 Atacar: "golpear [objeto del juego] con [ítem]"
-Hablar: "hablar [nombre] , [mensaje]"
+Hablar: "hablar [nombre], [mensaje]"
+Tirar: "tirar [nombre]"
+
 
 Comandos especiales
 -----------------------------------------------
