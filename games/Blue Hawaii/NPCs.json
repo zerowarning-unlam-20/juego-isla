@@ -99,12 +99,12 @@
     "initialLocation": "mar",
     "inventory": {
       "items": {
-        "colmillo afilado de tiburon": {
+        "colmillo": {
           "damage": 40.0,
           "damageType": "S",
           "description": "Colmillo afilado de tiburon",
           "gender": "M",
-          "name": "Colmillo de tiburon",
+          "name": "Colmillo",
           "type": "weapon"
         }
       },

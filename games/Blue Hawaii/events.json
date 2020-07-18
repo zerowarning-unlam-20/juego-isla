@@ -19,7 +19,7 @@
   {
     "allowNormalAction": false,
     "message": "Maté al tiburon, ahora puedo navegar!\nSe viene la segunda parte, creo.",
-    "name": "entities.NPC_tiburon_dead",
+    "name": "tiburon_dead",
     "nextEvent": "end_game",
     "type": "story_event"
   },
